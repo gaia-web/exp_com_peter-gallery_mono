@@ -10,14 +10,26 @@ export class AppHomePage extends LitElement {
     return html`
       <div>
         <a href="https://vitejs.dev" target="_blank">
-          <img src=${viteLogo} class="logo" alt="Vite logo" />
+          <img
+            src=${viteLogo}
+            class="h-24 p-6 text-center transition-filter duration-300 hover:drop-shadow-[0_0_2em_#646cffaa]"
+            alt="Vite logo"
+          />
         </a>
         <a href="https://lit.dev" target="_blank">
-          <img src=${litLogo} class="logo lit" alt="Lit logo" />
+          <img
+            src=${litLogo}
+            class="h-24 p-6 text-center transition-filter duration-300 hover:drop-shadow-[0_0_2em_#325cffaa]"
+            alt="Lit logo"
+          />
         </a>
-        <h1>Vite + Lit</h1>
-        <a href="/other">Other page</a>
-        <my-map id="map"></my-map>
+        <h1 class="m-auto ">Vite + Lit</h1>
+        <a
+          href="/other"
+          class="font-medium no-underline text-[#646cff] hover:text-[#535bf2] dark:hover:text-[#747bff]"
+          >Other page</a
+        >
+        <my-map id="map" class="mt-24 h-[600px] w-full"></my-map>
       </div>
     `;
   }
@@ -30,40 +42,7 @@ export class AppHomePage extends LitElement {
       text-align: center;
     }
 
-    .logo {
-      height: 6em;
-      padding: 1.5em;
-      will-change: filter;
-      transition: filter 300ms;
-
-      &:hover {
-        filter: drop-shadow(0 0 2em #646cffaa);
-      }
-
-      &.lit:hover {
-        filter: drop-shadow(0 0 2em #325cffaa);
-      }
-    }
-
-    a {
-      font-weight: 500;
-      color: #646cff;
-      text-decoration: inherit;
-
-      &:hover {
-        color: #535bf2;
-
-        @media (prefers-color-scheme: light) {
-          color: #747bff;
-        }
-      }
-    }
-
-    #map {
-      margin-top: 100px;
-      height: 600px;
-      width: 100%;
-    }
+    @unocss-placeholder;
   `;
 }
 
