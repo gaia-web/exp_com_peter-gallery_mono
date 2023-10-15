@@ -124,7 +124,7 @@ export class MyMap extends LitElement {
 
   // TODO refator
   generateCountriesGeoJSONLayer() {
-    return L.geoJSON(countriesGeoJSON, {
+    return L.geoJSON(countriesGeoJSON as GeoJsonObject, {
       style: () => ({
         color: HIGHLIGHT_COLOR,
         fillColor: DIM_COLOR,
