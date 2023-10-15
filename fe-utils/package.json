@@ -1,6 +1,6 @@
 {
-  "name": "@awesome-elements/template",
-  "description": "Awesome-Elements Template",
+  "name": "fe-utils",
+  "description": "fe-utils",
   "private": true,
   "version": "0.0.0",
   "type": "module",
