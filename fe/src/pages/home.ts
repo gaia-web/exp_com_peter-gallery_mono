@@ -23,7 +23,7 @@ export class AppHomePage extends LitElement {
             alt="Lit logo"
           />
         </a>
-        <h1 class="m-auto ">Vite + Lit</h1>
+        <h1 class="m-auto">Vite + Lit</h1>
         <a
           href="/other"
           class="font-medium no-underline text-[#646cff] hover:text-[#535bf2] dark:hover:text-[#747bff]"
