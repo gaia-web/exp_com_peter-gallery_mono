@@ -5,7 +5,17 @@ import { MyTab } from "./tab";
 const HTML_TAG_NAME = "my-tabs";
 
 /**
- * Tabs.
+ * Tabs.It should use with `my-tab` elements.
+ *
+ * @csspart base - the main part of the element.
+ *
+ * @cssprop --border-radius - Controls the border radius
+ * @cssprop --base-background - Controls the background of the base part
+ * @cssprop --item-highlight-background - Controls the background of the selected item
+ * @cssprop --item-color - Controls the items' text color
+ *
+ * @fires tabChange - Occurs when the tab selection is changed. The event `detail` prop gives the new `value` that is selected.
+ *
  */
 @customElement(HTML_TAG_NAME)
 export class MyTabs extends LitElement {
@@ -45,6 +55,11 @@ export class MyTabs extends LitElement {
   }
 
   #value?: string;
+  /**
+   * Determine which child would be selected.
+   * If the child tab has `value` attribute set, it matches the `value` attrubute.
+   * Otherwise, it matches the child's `innerText`.
+   */
   get value() {
     return this.#value;
   }
