@@ -5,7 +5,7 @@ import viteLogo from "/vite.svg";
 import "fe-utils";
 
 @customElement("page-home")
-export class AppHomePage extends LitElement {
+export class HomePage extends LitElement {
   render() {
     return html`
       <div>
@@ -48,6 +48,6 @@ export class AppHomePage extends LitElement {
 
 declare global {
   interface HTMLElementTagNameMap {
-    "page-home": AppHomePage;
+    "page-home": HomePage;
   }
 }
