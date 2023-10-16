@@ -44,14 +44,23 @@ export class MyTabs extends LitElement {
    * @internal
    */
   #childTabs: MyTab[] = [];
+  /**
+   * @internal
+   */
   get childTabs() {
     return this.#childTabs;
   }
+  /**
+   * @internal
+   */
   set childTabs(value: MyTab[]) {
     this.#childTabs = value;
     this.#updateSelection();
   }
 
+  /**
+   * @internal
+   */
   #value?: string;
   /**
    * Determine which child would be selected.

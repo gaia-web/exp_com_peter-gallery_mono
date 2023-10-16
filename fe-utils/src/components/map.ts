@@ -34,11 +34,28 @@ const DIM_COLOR = "hsl(0, 0%, 50%)";
 
 @customElement("my-map")
 export class MyMap extends LitElement {
+  /**
+   * @internal
+   */
   #mapInstance?: L.Map;
+  /**
+   * @internal
+   */
   #continentsGeoJSONLayer?: L.GeoJSON;
+  /**
+   * @internal
+   */
   #countriesGeoJSONLayer?: L.GeoJSON;
+  /**
+   * @internal
+   */
   #mapContainerRef: Ref<HTMLDivElement> = createRef();
 
+  /**
+   * Determine the detail level of the map content. 
+   * Available values are `"continents"` and `"countries"`. 
+   * Default to `"continents"`.
+   */
   @property({ attribute: "detail-level", reflect: true })
   detailLevel: "continents" | "countries" = "continents";
 
