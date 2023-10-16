@@ -1,9 +1,9 @@
 import { LitElement, css, html } from "lit";
 import { customElement, property } from "lit/decorators.js";
-import { MyTab } from "./tab";
+import { UtilTabElement } from "./tab";
 
 /**
- * Tabs.It should use with `my-tab` elements.
+ * Tabs. It should use with `util-tab` elements.
  *
  * @csspart base - the main part of the element.
  *
@@ -15,8 +15,8 @@ import { MyTab } from "./tab";
  * @fires tabChange - Occurs when the tab selection is changed. The event `detail` prop gives the new `value` that is selected.
  *
  */
-@customElement("my-tabs")
-export class MyTabs extends LitElement {
+@customElement("util-tabs")
+export class UtilTabsElement extends LitElement {
   static styles = css`
     :host {
       --border-radius: 10px;
@@ -38,12 +38,12 @@ export class MyTabs extends LitElement {
   /**
    * @internal
    */
-  readonly #CHILD_TAB_TAG_NAME = "my-tab";
+  readonly #CHILD_TAB_TAG_NAME = "util-tab";
 
   /**
    * @internal
    */
-  #childTabs: MyTab[] = [];
+  #childTabs: UtilTabElement[] = [];
   /**
    * @internal
    */
@@ -53,7 +53,7 @@ export class MyTabs extends LitElement {
   /**
    * @internal
    */
-  set childTabs(value: MyTab[]) {
+  set childTabs(value: UtilTabElement[]) {
     this.#childTabs = value;
     this.#updateSelection();
   }
@@ -84,7 +84,7 @@ export class MyTabs extends LitElement {
   updateChildTabs() {
     this.childTabs = [...this.children].filter(
       (child) => child.tagName === this.#CHILD_TAB_TAG_NAME.toLocaleUpperCase()
-    ) as MyTab[];
+    ) as UtilTabElement[];
   }
 
   render() {
@@ -104,6 +104,6 @@ export class MyTabs extends LitElement {
 
 declare global {
   interface HTMLElementTagNameMap {
-    "my-tabs": MyTabs;
+    "util-tabs": UtilTabsElement;
   }
 }

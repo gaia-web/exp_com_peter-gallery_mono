@@ -1,9 +1,9 @@
 import { LitElement, css, html } from "lit";
 import { customElement, property } from "lit/decorators.js";
-import { MyTabs } from "./tabs";
+import { UtilTabsElement } from "./tabs";
 
-@customElement("my-tab")
-export class MyTab extends LitElement {
+@customElement("util-tab")
+export class UtilTabElement extends LitElement {
   static styles = css`
     :host {
       display: block;
@@ -19,9 +19,9 @@ export class MyTab extends LitElement {
     }
   `;
 
-  readonly #PARENT_TABS_ELEMENT_TAG_NAME = "my-tabs";
+  readonly #PARENT_TABS_ELEMENT_TAG_NAME = "util-tabs";
 
-  #parentTabsElement?: MyTabs;
+  #parentTabsElement?: UtilTabsElement;
 
   /**
    * Value of the tab.
@@ -68,7 +68,7 @@ export class MyTab extends LitElement {
       if (
         walker?.tagName === this.#PARENT_TABS_ELEMENT_TAG_NAME.toUpperCase()
       ) {
-        return walker as MyTabs;
+        return walker as UtilTabsElement;
       }
       walker = walker.parentElement;
     }
@@ -77,6 +77,6 @@ export class MyTab extends LitElement {
 
 declare global {
   interface HTMLElementTagNameMap {
-    "my-tab": MyTab;
+    "util-tab": UtilTabElement;
   }
 }

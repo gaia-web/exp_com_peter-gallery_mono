@@ -12,7 +12,7 @@ type MyArgs = {
 
 export default {
   title: "Components/Tabs",
-  component: "my-tabs",
+  component: "util-tabs",
   tags: ["autodocs"],
   parameters: {
     layout: "centered",
@@ -21,11 +21,11 @@ export default {
     onTabChange: { action: "tabChange" },
   },
   render: (args) => html`
-    <my-tabs value=${args.value} @tabChange=${args.onTabChange}>
-      <my-tab value="one">One</my-tab>
-      <my-tab value="two">Two</my-tab>
-      <my-tab value="three">Three</my-tab>
-    </my-tabs>
+    <util-tabs value=${args.value} @tabChange=${args.onTabChange}>
+      <util-tab value="one">One</util-tab>
+      <util-tab value="two">Two</util-tab>
+      <util-tab value="three">Three</util-tab>
+    </util-tabs>
   `,
 } satisfies Meta<MyArgs>;
 

@@ -32,8 +32,8 @@ const SPECIAL_BOUNDS: Record<string, L.LatLngBounds> = {
 const HIGHLIGHT_COLOR = "hsl(0, 0%, 100%)";
 const DIM_COLOR = "hsl(0, 0%, 50%)";
 
-@customElement("my-map")
-export class MyMap extends LitElement {
+@customElement("util-map")
+export class UtilMapElement extends LitElement {
   /**
    * @internal
    */
@@ -251,6 +251,6 @@ export class MyMap extends LitElement {
 
 declare global {
   interface HTMLElementTagNameMap {
-    "my-map": MyMap;
+    "util-map": UtilMapElement;
   }
 }
