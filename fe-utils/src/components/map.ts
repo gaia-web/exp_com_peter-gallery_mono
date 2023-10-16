@@ -8,8 +8,6 @@ import leafletCSS from "leaflet/dist/leaflet.css?inline";
 import continentsGeoJSON from "../assets/continents.geo.json";
 import countriesGeoJSON from "../assets/countries.geo.json";
 
-const HTML_TAG_NAME = "my-map";
-
 const SPECIAL_BOUNDS: Record<string, L.LatLngBounds> = {
   Asia: L.polygon([
     ...([
@@ -34,13 +32,30 @@ const SPECIAL_BOUNDS: Record<string, L.LatLngBounds> = {
 const HIGHLIGHT_COLOR = "hsl(0, 0%, 100%)";
 const DIM_COLOR = "hsl(0, 0%, 50%)";
 
-@customElement(HTML_TAG_NAME)
-export class MyMap extends LitElement {
+@customElement("util-map")
+export class UtilMapElement extends LitElement {
+  /**
+   * @internal
+   */
   #mapInstance?: L.Map;
+  /**
+   * @internal
+   */
   #continentsGeoJSONLayer?: L.GeoJSON;
+  /**
+   * @internal
+   */
   #countriesGeoJSONLayer?: L.GeoJSON;
+  /**
+   * @internal
+   */
   #mapContainerRef: Ref<HTMLDivElement> = createRef();
 
+  /**
+   * Determine the detail level of the map content. 
+   * Available values are `"continents"` and `"countries"`. 
+   * Default to `"continents"`.
+   */
   @property({ attribute: "detail-level", reflect: true })
   detailLevel: "continents" | "countries" = "continents";
 
@@ -236,6 +251,6 @@ export class MyMap extends LitElement {
 
 declare global {
   interface HTMLElementTagNameMap {
-    [HTML_TAG_NAME]: MyMap;
+    "util-map": UtilMapElement;
   }
 }

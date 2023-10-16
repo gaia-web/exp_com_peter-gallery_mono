@@ -8,7 +8,7 @@ type MyArgs = {};
 
 export default {
   title: "Components/Map",
-  component: "my-map",
+  component: "util-map",
   tags: ["autodocs"],
   parameters: {
     layout: "fullscreen",
@@ -23,7 +23,7 @@ export default {
         width: 100vw;
       }
     </style>
-    <my-map id="map"></my-map>
+    <util-map id="map"></util-map>
   `,
 } satisfies Meta<MyArgs>;
 

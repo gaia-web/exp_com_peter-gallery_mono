@@ -1,14 +1,22 @@
 import { LitElement, css, html } from "lit";
 import { customElement, property } from "lit/decorators.js";
-import { MyTab } from "./tab";
-
-const HTML_TAG_NAME = "my-tabs";
+import { UtilTabElement } from "./tab";
 
 /**
- * Tabs.
+ * Tabs. It should use with `util-tab` elements.
+ *
+ * @csspart base - the main part of the element.
+ *
+ * @cssprop --border-radius - Controls the border radius
+ * @cssprop --base-background - Controls the background of the base part
+ * @cssprop --item-highlight-background - Controls the background of the selected item
+ * @cssprop --item-color - Controls the items' text color
+ *
+ * @fires tabChange - Occurs when the tab selection is changed. The event `detail` prop gives the new `value` that is selected.
+ *
  */
-@customElement(HTML_TAG_NAME)
-export class MyTabs extends LitElement {
+@customElement("util-tabs")
+export class UtilTabsElement extends LitElement {
   static styles = css`
     :host {
       --border-radius: 10px;
@@ -31,21 +39,35 @@ export class MyTabs extends LitElement {
   /**
    * @internal
    */
-  readonly #CHILD_TAB_TAG_NAME = "my-tab";
+  readonly #CHILD_TAB_TAG_NAME = "util-tab";
 
   /**
    * @internal
    */
-  #childTabs: MyTab[] = [];
+  #childTabs: UtilTabElement[] = [];
+  /**
+   * @internal
+   */
   get childTabs() {
     return this.#childTabs;
   }
-  set childTabs(value: MyTab[]) {
+  /**
+   * @internal
+   */
+  set childTabs(value: UtilTabElement[]) {
     this.#childTabs = value;
     this.#updateSelection();
   }
 
+  /**
+   * @internal
+   */
   #value?: string;
+  /**
+   * Determine which child would be selected.
+   * If the child tab has `value` attribute set, it matches the `value` attrubute.
+   * Otherwise, it matches the child's `innerText`.
+   */
   get value() {
     return this.#value;
   }
@@ -63,7 +85,7 @@ export class MyTabs extends LitElement {
   updateChildTabs() {
     this.childTabs = [...this.children].filter(
       (child) => child.tagName === this.#CHILD_TAB_TAG_NAME.toLocaleUpperCase()
-    ) as MyTab[];
+    ) as UtilTabElement[];
   }
 
   render() {
@@ -83,6 +105,6 @@ export class MyTabs extends LitElement {
 
 declare global {
   interface HTMLElementTagNameMap {
-    [HTML_TAG_NAME]: MyTabs;
+    "util-tabs": UtilTabsElement;
   }
 }

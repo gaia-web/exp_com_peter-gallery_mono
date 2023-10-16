@@ -5,27 +5,33 @@ import "../components/tab";
 import "../components/tabs";
 
 // eslint-disable-next-line @typescript-eslint/ban-types
-type MyArgs = {};
+type MyArgs = {
+  value: string;
+  onTabChange: (event: CustomEvent<string>) => void;
+};
 
 export default {
   title: "Components/Tabs",
-  component: "my-tabs",
+  component: "util-tabs",
   tags: ["autodocs"],
   parameters: {
     layout: "centered",
   },
-  argTypes: {},
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  argTypes: {
+    onTabChange: { action: "tabChange" },
+  },
   render: (args) => html`
-    <my-tabs value="1" @tabChange=${({ detail }) => alert(detail)}>
-      <my-tab value="1">One</my-tab>
-      <my-tab value="2">Two</my-tab>
-      <my-tab value="3">Three</my-tab>
-    </my-tabs>
+    <util-tabs value=${args.value} @tabChange=${args.onTabChange}>
+      <util-tab value="one">One</util-tab>
+      <util-tab value="two">Two</util-tab>
+      <util-tab value="three">Three</util-tab>
+    </util-tabs>
   `,
 } satisfies Meta<MyArgs>;
 
 export const Demo: StoryObj<MyArgs> = {
   name: "Default",
-  args: {},
+  args: {
+    value: "one",
+  },
 };
