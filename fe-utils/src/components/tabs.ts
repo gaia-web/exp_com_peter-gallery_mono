@@ -2,8 +2,6 @@ import { LitElement, css, html } from "lit";
 import { customElement, property } from "lit/decorators.js";
 import { MyTab } from "./tab";
 
-const HTML_TAG_NAME = "my-tabs";
-
 /**
  * Tabs.It should use with `my-tab` elements.
  *
@@ -17,7 +15,7 @@ const HTML_TAG_NAME = "my-tabs";
  * @fires tabChange - Occurs when the tab selection is changed. The event `detail` prop gives the new `value` that is selected.
  *
  */
-@customElement(HTML_TAG_NAME)
+@customElement("my-tabs")
 export class MyTabs extends LitElement {
   static styles = css`
     :host {
@@ -97,6 +95,6 @@ export class MyTabs extends LitElement {
 
 declare global {
   interface HTMLElementTagNameMap {
-    [HTML_TAG_NAME]: MyTabs;
+    "my-tabs": MyTabs;
   }
 }

@@ -2,9 +2,7 @@ import { LitElement, css, html } from "lit";
 import { customElement, property } from "lit/decorators.js";
 import { MyTabs } from "./tabs";
 
-const HTML_TAG_NAME = "my-tab";
-
-@customElement(HTML_TAG_NAME)
+@customElement("my-tab")
 export class MyTab extends LitElement {
   static styles = css`
     :host {
@@ -79,6 +77,6 @@ export class MyTab extends LitElement {
 
 declare global {
   interface HTMLElementTagNameMap {
-    [HTML_TAG_NAME]: MyTab;
+    "my-tab": MyTab;
   }
 }

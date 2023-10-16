@@ -8,8 +8,6 @@ import leafletCSS from "leaflet/dist/leaflet.css?inline";
 import continentsGeoJSON from "../assets/continents.geo.json";
 import countriesGeoJSON from "../assets/countries.geo.json";
 
-const HTML_TAG_NAME = "my-map";
-
 const SPECIAL_BOUNDS: Record<string, L.LatLngBounds> = {
   Asia: L.polygon([
     ...([
@@ -34,7 +32,7 @@ const SPECIAL_BOUNDS: Record<string, L.LatLngBounds> = {
 const HIGHLIGHT_COLOR = "hsl(0, 0%, 100%)";
 const DIM_COLOR = "hsl(0, 0%, 50%)";
 
-@customElement(HTML_TAG_NAME)
+@customElement("my-map")
 export class MyMap extends LitElement {
   #mapInstance?: L.Map;
   #continentsGeoJSONLayer?: L.GeoJSON;
@@ -236,6 +234,6 @@ export class MyMap extends LitElement {
 
 declare global {
   interface HTMLElementTagNameMap {
-    [HTML_TAG_NAME]: MyMap;
+    "my-map": MyMap;
   }
 }
