@@ -21,7 +21,8 @@ export class MyTabs extends LitElement {
     }
 
     [part~="base"] {
-      display: flex;
+      display: grid;
+      grid-auto-columns: 1fr;
       border-radius: var(--border-radius);
       background: var(--base-background);
     }

@@ -9,6 +9,8 @@ export class MyTab extends LitElement {
   static styles = css`
     :host {
       display: block;
+      grid-row: 1;
+      text-align: center;
       padding: 10px;
       user-select: none;
       cursor: pointer;
