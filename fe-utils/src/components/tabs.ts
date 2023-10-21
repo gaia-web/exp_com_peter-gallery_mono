@@ -72,10 +72,8 @@ export class UtilTabsElement extends LitElement {
     return this.#value;
   }
   @property({ reflect: true }) set value(value: string | undefined) {
-    const oldValue = this.value;
     this.#value = value;
     this.#updateSelection();
-    this.requestUpdate("value", oldValue);
     this.dispatchEvent(new CustomEvent("tabChange", { detail: value }));
   }
 
