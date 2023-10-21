@@ -28,12 +28,14 @@ export class UtilTabElement extends LitElement {
   /**
    * Value of the tab.
    */
-  @property({ reflect: true }) value?: string;
+  @property({ reflect: true })
+  accessor value: string | undefined;
 
   /**
    * @internal
    */
-  @property({ type: Boolean, reflect: true }) selected?: boolean;
+  @property({ type: Boolean, reflect: true })
+  accessor selected: boolean | undefined;
 
   get actualValue() {
     return this.value ?? this.innerText;

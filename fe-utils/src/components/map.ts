@@ -52,12 +52,12 @@ export class UtilMapElement extends LitElement {
   #mapContainerRef: Ref<HTMLDivElement> = createRef();
 
   /**
-   * Determine the detail level of the map content. 
-   * Available values are `"continents"` and `"countries"`. 
+   * Determine the detail level of the map content.
+   * Available values are `"continents"` and `"countries"`.
    * Default to `"continents"`.
    */
   @property({ attribute: "detail-level", reflect: true })
-  detailLevel: "continents" | "countries" = "continents";
+  accessor detailLevel: "continents" | "countries" = "continents";
 
   firstUpdated() {
     this.#mapInstance = this.generateMapInstance();
