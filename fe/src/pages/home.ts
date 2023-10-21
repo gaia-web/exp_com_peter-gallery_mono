@@ -29,7 +29,7 @@ export class HomePage extends LitElement {
           class="font-medium no-underline text-[#646cff] hover:text-[#535bf2] dark:hover:text-[#747bff]"
           >Other page</a
         >
-        <my-map id="map" class="mt-24 h-[600px] w-full"></my-map>
+        <util-map id="map" class="mt-24 h-[600px] w-full"></util-map>
       </div>
     `;
   }
