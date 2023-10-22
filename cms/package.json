@@ -10,7 +10,7 @@
     "strapi": "strapi",
     "postinstall": "npm run sql:recover",
     "sql:dump":"sqlite3 ./data.db .dump > ./database/strapi-dump.sql",
-    "sql:recover":"sqlite3 ./data.db < ./database/strapi-dump.sql"
+    "sql:recover":"rm -f ./data.db && sqlite3 ./data.db < ./database/strapi-dump.sql"
   },
   "devDependencies": {},
   "dependencies": {
