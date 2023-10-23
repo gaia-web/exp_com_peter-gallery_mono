@@ -6,8 +6,11 @@
   "scripts": {
     "develop": "strapi develop",
     "start": "strapi start",
-    "build": "strapi build",
-    "strapi": "strapi"
+    "build": "strapi build & npm run sql:dump",
+    "strapi": "strapi",
+    "postinstall": "npm run sql:recover",
+    "sql:dump":"sqlite3 ./data.db .dump > ./database/strapi-dump.sql",
+    "sql:recover":"rm -f ./data.db && sqlite3 ./data.db < ./database/strapi-dump.sql"
   },
   "devDependencies": {},
   "dependencies": {
