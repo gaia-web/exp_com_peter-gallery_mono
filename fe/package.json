@@ -11,7 +11,7 @@
   "dependencies": {
     "@thepassle/app-tools": "^0.9.9",
     "fe-utils": "file:../fe-utils",
-    "lit": "^2.7.6",
+    "lit": "^3.0.0",
     "navigo": "^8.11.1",
     "urlpattern-polyfill": "^9.0.0"
   },
