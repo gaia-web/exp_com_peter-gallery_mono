@@ -31,7 +31,7 @@ export class AppRoot extends LitElement {
 
   render() {
     return html`
-      <header>Header Placeholder</header>
+      <fe-header></fe-header>
       <main id="page-main">${this.router?.render()}</main>
       <footer>Footer Placeholder</footer>
     `;
