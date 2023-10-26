@@ -1,7 +1,5 @@
 import { LitElement, css, html } from "lit";
 import { customElement } from "lit/decorators.js";
-import litLogo from "../assets/lit.svg";
-import viteLogo from "/vite.svg";
 import "fe-utils";
 
 @customElement("page-home")
@@ -9,21 +7,6 @@ export class HomePage extends LitElement {
   render() {
     return html`
       <div>
-        <a href="https://vitejs.dev" target="_blank">
-          <img
-            src=${viteLogo}
-            class="h-24 p-6 text-center transition-filter duration-300 hover:drop-shadow-[0_0_2em_#646cffaa]"
-            alt="Vite logo"
-          />
-        </a>
-        <a href="https://lit.dev" target="_blank">
-          <img
-            src=${litLogo}
-            class="h-24 p-6 text-center transition-filter duration-300 hover:drop-shadow-[0_0_2em_#325cffaa]"
-            alt="Lit logo"
-          />
-        </a>
-        <h1 class="m-auto">Vite + Lit</h1>
         <a
           href="/other"
           class="font-medium no-underline text-[#646cff] hover:text-[#535bf2] dark:hover:text-[#747bff]"
