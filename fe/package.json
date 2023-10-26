@@ -9,11 +9,18 @@
     "preview": "vite preview"
   },
   "dependencies": {
-    "preact": "^10.16.0"
+    "@awesome-elements/markdown": "^0.2.0",
+    "@gaia/garage": "github:gaia-web/exp_garage#ecdb1b45b6878140ba3a599c7a6a3957408e95b1",
+    "@lit/react": "^1.0.0",
+    "@preact/signals": "^1.2.1",
+    "fe-utils": "file:../fe-utils",
+    "preact": "^10.16.0",
+    "preact-router": "^4.1.2"
   },
   "devDependencies": {
     "@preact/preset-vite": "^2.5.0",
     "typescript": "^5.0.2",
+    "unocss": "^0.57.1",
     "vite": "^4.4.5"
   }
 }
