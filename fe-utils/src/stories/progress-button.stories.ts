@@ -13,9 +13,38 @@ export default {
   component: "util-progress-button",
   tags: ["autodocs"],
   parameters: {
-    layout: "fullscreen",
+    layout: "centered",
   },
   argTypes: {},
+} satisfies Meta<MyArgs>;
+
+export const Default: StoryObj<{
+  progress?: number;
+}> = {
+  args: {
+    progress: 0,
+  },
+  argTypes: {
+    progress: { control: { type: "range", min: 0, max: 1, step: 0.01 } },
+  },
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  render: (args) => html`
+    <util-progress-button
+      style="--progress: ${args.progress}; --background: hsl(0, 0%, 96%);"
+      title="Click to jump back to the top"
+      @click=${() =>
+        document.querySelector("#main-scroll")?.scrollTo({ top: 0 })}
+    >
+      Progress Button
+    </util-progress-button>
+  `,
+};
+
+export const Scroll: StoryObj<MyArgs> = {
+  parameters: {
+    layout: "fullscreen",
+  },
+  args: {},
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   render: (_args) => html`
     <gaia-dynamic-scroll
@@ -56,8 +85,4 @@ export default {
       </gaia-dynamic-scroll-item>
     </gaia-dynamic-scroll>
   `,
-} satisfies Meta<MyArgs>;
-
-export const Default: StoryObj<MyArgs> = {
-  args: {},
 };
