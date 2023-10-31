@@ -22,9 +22,10 @@ import { customElement, property } from "lit/decorators.js";
  * @csspart number-button - the number button.
  * @csspart jump-buttom - the button that is not a number button.
  *
- * @cssprop --background - background for the buttons.
- * @cssprop --border - border for the buttons.
- * @cssprop --border-radius - border radius for the buttons.
+ * @cssprop --button-background - background for the buttons.
+ * @cssprop --button-border - border for the buttons.
+ * @cssprop --button-border-radius - border radius for the buttons.
+ * @cssprop --button-color - the content color for the buttons.
  *
  * @fires pageChange - Occurs when the page number is changed. The event `detail` prop gives the new page number.
  */
@@ -32,9 +33,10 @@ import { customElement, property } from "lit/decorators.js";
 export class UtilPaginationElement extends LitElement {
   static styles = css`
     :host {
-      --background: hsl(0, 0%, 90%);
-      --border: none;
-      --border-radius: 10px;
+      --button-background: hsl(0, 0%, 90%);
+      --button-border: none;
+      --button-border-radius: none;
+      --button-color: "";
 
       display: block;
       height: fit-content;
@@ -55,12 +57,14 @@ export class UtilPaginationElement extends LitElement {
       padding: 0.5rem;
       cursor: pointer;
       user-select: none;
-      background: var(--background);
-      border: var(--border);
-      border-radius: var(--border-radius);
+      background: var(--button-background);
+      border: var(--button-border);
+      border-radius: var(--button-border-radius);
+      color: var(--button-color);
 
       &[disabled] {
         cursor: not-allowed;
+        filter: brightness(0.8);
 
         &[part~="number-button"] {
           filter: brightness(1.08);
@@ -168,7 +172,7 @@ export class UtilPaginationElement extends LitElement {
         ${renderedPageNumbers.map(
           (pageNumber) =>
             html`<button
-              part=${`button number-button ${pageNumber}`}
+              part=${`button number-button page-${pageNumber}`}
               @click=${() => (this.pageNumber = pageNumber)}
               ?disabled=${this.pageNumber === pageNumber}
             >

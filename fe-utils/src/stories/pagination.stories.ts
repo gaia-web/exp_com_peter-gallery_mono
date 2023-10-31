@@ -40,6 +40,24 @@ export const Default: StoryObj<MyArgs> = {
   },
 };
 
+export const Styled: StoryObj<MyArgs> = {
+  args: {
+    pageIndex: 1,
+    pageCount: 10,
+    maxNumberButtonCount: 5,
+  },
+  render: (args) =>
+    html`
+      <util-pagination
+        page-index=${args.pageIndex}
+        page-count=${args.pageCount}
+        max-number-button-count=${args.maxNumberButtonCount}
+        @pageChange=${args.onPageChange}
+        style="--button-border: 1px solid bisque; --button-border-radius: 10px; --button-background: azure; --button-color: orange;"
+      ></util-pagination>
+    `,
+};
+
 export const CustomTexts: StoryObj<MyArgs> = {
   args: {
     pageIndex: 1,
