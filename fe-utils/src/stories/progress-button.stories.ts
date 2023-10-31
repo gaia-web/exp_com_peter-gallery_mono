@@ -22,7 +22,7 @@ export const Default: StoryObj<{
   progress?: number;
 }> = {
   args: {
-    progress: 0,
+    progress: 0.5,
   },
   argTypes: {
     progress: { control: { type: "range", min: 0, max: 1, step: 0.01 } },
@@ -31,9 +31,7 @@ export const Default: StoryObj<{
   render: (args) => html`
     <util-progress-button
       style="--progress: ${args.progress}; --background: hsl(0, 0%, 96%);"
-      title="Click to jump back to the top"
-      @click=${() =>
-        document.querySelector("#main-scroll")?.scrollTo({ top: 0 })}
+      @click=${() => alert("Button clicked.")}
     >
       Progress Button
     </util-progress-button>
