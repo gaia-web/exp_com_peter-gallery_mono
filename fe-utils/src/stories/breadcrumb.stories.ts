@@ -3,7 +3,6 @@ import { html } from "lit";
 
 import "../components/breadcrumb";
 
-// eslint-disable-next-line @typescript-eslint/ban-types
 type MyArgs = {
   onItemSelect: (event: CustomEvent<(string | number)[]>) => void;
 };

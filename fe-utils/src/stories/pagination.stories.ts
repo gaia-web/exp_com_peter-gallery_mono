@@ -3,7 +3,6 @@ import { html } from "lit";
 
 import "../components/pagination";
 
-// eslint-disable-next-line @typescript-eslint/ban-types
 type MyArgs = {
   pageIndex: number;
   pageCount: number;

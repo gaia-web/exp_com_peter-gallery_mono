@@ -13,8 +13,7 @@ export default {
   parameters: {
     layout: "fullscreen",
   },
-  argTypes: {
-  },
+  argTypes: {},
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   render: (args) => html`
     <style>
@@ -27,7 +26,6 @@ export default {
   `,
 } satisfies Meta<MyArgs>;
 
-export const Demo: StoryObj<MyArgs> = {
-  name: "Default",
+export const Default: StoryObj<MyArgs> = {
   args: {},
 };

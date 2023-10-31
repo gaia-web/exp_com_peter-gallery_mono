@@ -2,11 +2,10 @@ import { Meta, StoryObj } from "@storybook/web-components";
 import { html } from "lit";
 import { ifDefined } from "lit/directives/if-defined.js";
 import { styleMap } from "lit/directives/style-map.js";
-
-import "../components/item";
 import { unsafeHTML } from "lit/directives/unsafe-html.js";
 
-// eslint-disable-next-line @typescript-eslint/ban-types
+import "../components/item";
+
 type MyArgs = {
   orientation: "horizontal" | "vertical";
   overriddenStartSlotItemSize: string;

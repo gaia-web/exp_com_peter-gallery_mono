@@ -4,7 +4,6 @@ import { html } from "lit";
 import "../components/tab";
 import "../components/tabs";
 
-// eslint-disable-next-line @typescript-eslint/ban-types
 type MyArgs = {
   value: string;
   onTabChange: (event: CustomEvent<string>) => void;
@@ -29,8 +28,7 @@ export default {
   `,
 } satisfies Meta<MyArgs>;
 
-export const Demo: StoryObj<MyArgs> = {
-  name: "Default",
+export const Default: StoryObj<MyArgs> = {
   args: {
     value: "one",
   },
