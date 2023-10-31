@@ -10,7 +10,7 @@ import { customElement, property } from "lit/decorators.js";
  * @slot last - the content of button pointing to the last page.
  * @slot any - the content of button pointing to any page.
  * @slot page-(page_number) - the content of button pointing to the indexed page.
- * 
+ *
  * @csspart base - the main part of the element.
  * @csspart first - the button pointing to the first page.
  * @csspart previous - the button pointing to the previous page.
@@ -25,6 +25,8 @@ import { customElement, property } from "lit/decorators.js";
  * @cssprop --background - background for the buttons.
  * @cssprop --border - border for the buttons.
  * @cssprop --border-radius - border radius for the buttons.
+ *
+ * @fires pageChange - Occurs when the page number is changed. The event `detail` prop gives the new page number.
  */
 @customElement("util-pagination")
 export class UtilPaginationElement extends LitElement {
