@@ -19,6 +19,14 @@ export class UtilBreadcrumbElement extends LitElement {
     [part~="item"] {
       margin: 0 10px;
       cursor: pointer;
+
+      &:last-of-type {
+        font-weight: bold;
+      }
+
+      &:hover {
+        transform: scale(1.1);
+      }
     }
 
     [part~="delimiter"] {
