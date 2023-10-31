@@ -4,7 +4,7 @@ import { LanguageOptions, activeLanguage } from "../utils/language";
 import markdownStyleSheet from "../assets/markdown.css?inline";
 import { useSignal } from "@preact/signals";
 
-export function ArticlePage() {
+export function PeoplePage() {
   const markdown = useSignal("");
 
   useEffect(() => {
