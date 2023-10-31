@@ -1,3 +1,4 @@
+export * from "./components/item";
 export * from "./components/map";
 export * from "./components/pagination";
 export * from "./components/tab";
