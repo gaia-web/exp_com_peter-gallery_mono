@@ -15,11 +15,12 @@ export default {
   },
   argTypes: {},
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  render: (args) => html`
+  render: (_args) => html`
     <style>
       #map {
         height: 100vh;
-        width: 100vw;
+        width: 100%;
+        max-height: 500px;
       }
     </style>
     <util-map id="map"></util-map>
