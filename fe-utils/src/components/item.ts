@@ -6,6 +6,7 @@ export class UtilItemElement extends LitElement {
   static styles = css`
     :host {
       display: flex;
+      overflow: hidden;
     }
 
     :host([orientation="vertical"]) {

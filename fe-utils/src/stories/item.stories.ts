@@ -24,6 +24,9 @@ export default {
   parameters: {
     layout: "centered",
   },
+} satisfies Meta<MyArgs>;
+
+export const Default: StoryObj<MyArgs> = {
   argTypes: {
     orientation: {
       options: ["horizontal", "vertical"],
@@ -48,7 +51,12 @@ export default {
       control: { type: "text" },
     },
   },
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  args: {
+    overriddenDefaultSlotItemSize: "100px",
+    startSlotContent: "start",
+    defaultSlotContent: "<b>Default</b>",
+    endSlotContent: "End",
+  },
   render: (args) => html`
     <util-item
       orientation=${ifDefined(args.orientation)}
@@ -82,13 +90,45 @@ export default {
       </div>
     </util-item>
   `,
-} satisfies Meta<MyArgs>;
+};
 
-export const Default: StoryObj<MyArgs> = {
-  args: {
-    overriddenDefaultSlotItemSize: "100px",
-    startSlotContent: "start",
-    defaultSlotContent: "<b>Default</b>",
-    endSlotContent: "End",
-  },
+export const Example1: StoryObj<MyArgs> = {
+  args: {},
+  render: () => html`
+    <util-item style="border: 1px solid black; gap: 10px; height: 200px;">
+      <img
+        slot="start"
+        src="https://picsum.photos/200"
+        style="display: block; height: 100%; aspect-ratio: 1;"
+      />
+      <div>
+        <h1>Blah</h1>
+        <p>
+          Blah blah blah blah blah blah blah blah blah blah blah blah blah blah
+          blah blah blah blah blah blah blah blah blah blah blah
+        </p>
+      </div>
+      <h2 slot="end">Blah</h2>
+    </util-item>
+  `,
+};
+
+export const Example2: StoryObj<MyArgs> = {
+  args: {},
+  render: () => html`
+    <util-item
+      orientation="vertical"
+      style="border: 1px solid black; gap: 10px; width: 200px;"
+    >
+      <img
+        slot="start"
+        src="https://picsum.photos/200"
+        style="display: block; width: 100%; aspect-ratio: 16 / 9;"
+      />
+      <div>
+        <b>Blah blah</b>
+      </div>
+      <i>Blah blah</i>
+    </util-item>
+  `,
 };
