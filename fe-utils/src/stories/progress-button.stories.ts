@@ -17,7 +17,7 @@ export default {
   },
   argTypes: {},
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  render: (args) => html`
+  render: (_args) => html`
     <gaia-dynamic-scroll
       id="main-scroll"
       style="height: 100vh; width: 100%; max-height: 500px;"
