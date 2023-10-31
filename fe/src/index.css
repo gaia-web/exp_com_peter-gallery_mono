@@ -1,5 +1,9 @@
 :root {
   font-family: Arial, Helvetica, sans-serif;
+
+  @media (prefers-color-scheme: dark) {
+    color-scheme: dark;
+  }
 }
 
 body {
@@ -7,6 +11,8 @@ body {
   min-height: 100vh;
   background-color: black;
   color: white;
+
+  --gaia-background: black;
 }
 
 * {
@@ -15,22 +21,24 @@ body {
 
 @keyframes page-out {
   to {
-    transform: scale(5);
+    transform-origin: top;
+    transform: scale(0) skew(90deg);
     opacity: 0;
   }
 }
 
 @keyframes page-in {
   from {
-    transform: scale(5);
+    transform-origin: top;
+    transform: scale(5) skew(90deg);
     opacity: 0;
   }
 }
 
-::view-transition-old(page-main) {
+::view-transition-old(page) {
   animation: 0.3s ease-in page-out;
 }
 
-::view-transition-new(page-main) {
+::view-transition-new(page) {
   animation: 0.3s ease-in page-in;
 }

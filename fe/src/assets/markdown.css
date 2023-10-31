@@ -1,0 +1,18 @@
+* {
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+[part~="container"] {
+  padding: 1rem;
+}
+
+h1::before {
+  content: "👉";
+}
+h1::after {
+  content: "👈";
+}
+
+p {
+  color: grey;
+}
