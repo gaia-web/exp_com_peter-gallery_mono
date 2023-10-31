@@ -7,11 +7,6 @@ import { UtilTabElement } from "./tab";
  *
  * @csspart base - the main part of the element.
  *
- * @cssprop --border-radius - Controls the border radius
- * @cssprop --base-background - Controls the background of the base part
- * @cssprop --item-highlight-background - Controls the background of the selected item
- * @cssprop --item-color - Controls the items' text color
- *
  * @fires tabChange - Occurs when the tab selection is changed. The event `detail` prop gives the new `value` that is selected.
  *
  */
@@ -19,11 +14,6 @@ import { UtilTabElement } from "./tab";
 export class UtilTabsElement extends LitElement {
   static styles = css`
     :host {
-      --border-radius: 10px;
-      --base-background: hsl(0, 0%, 0%, 0.3);
-      --item-highlight-background: hsl(240, 100%, 50%);
-      --item-color: hsl(0, 0%, 100%);
-
       display: block;
       position: relative;
     }
@@ -31,8 +21,6 @@ export class UtilTabsElement extends LitElement {
     [part~="base"] {
       display: grid;
       grid-auto-columns: 1fr;
-      border-radius: var(--border-radius);
-      background: var(--base-background);
     }
   `;
 

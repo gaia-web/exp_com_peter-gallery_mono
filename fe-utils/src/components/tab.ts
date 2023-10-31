@@ -12,12 +12,10 @@ export class UtilTabElement extends LitElement {
       padding: 10px;
       user-select: none;
       cursor: pointer;
-      border-radius: var(--border-radius);
-      color: var(--item-color);
     }
 
     :host([selected]) {
-      background: var(--item-highlight-background);
+      font-weight: bold;
     }
   `;
 
