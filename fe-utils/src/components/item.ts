@@ -1,6 +1,9 @@
 import { LitElement, css, html } from "lit";
 import { customElement, property } from "lit/decorators.js";
 
+/**
+ * A common item.
+ */
 @customElement("util-item")
 export class UtilItemElement extends LitElement {
   static styles = css`
