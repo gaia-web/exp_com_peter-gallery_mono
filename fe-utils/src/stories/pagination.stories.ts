@@ -66,3 +66,27 @@ export const CustomTexts: StoryObj<MyArgs> = {
       </util-pagination>
     `,
 };
+
+export const HideSpecificButton: StoryObj<MyArgs> = {
+  args: {
+    pageIndex: 1,
+    pageCount: 10,
+    maxNumberButtonCount: 5,
+  },
+  render: (args) =>
+    html`
+      <style>
+        #pagination::part(any) {
+          display: none;
+        }
+      </style>
+      <util-pagination
+        id="pagination"
+        page-index=${args.pageIndex}
+        page-count=${args.pageCount}
+        max-number-button-count=${args.maxNumberButtonCount}
+        @pageChange=${args.onPageChange}
+      >
+      </util-pagination>
+    `,
+};

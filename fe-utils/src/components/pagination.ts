@@ -4,13 +4,20 @@ import { customElement, property } from "lit/decorators.js";
 /**
  * A set of buttons to jump through pages.
  *
+ * @slot first - the content of button pointing to the first page.
+ * @slot previous - the content of button pointing to the previous page.
+ * @slot next - the content of button pointing to the next page.
+ * @slot last - the content of button pointing to the last page.
+ * @slot any - the content of button pointing to any page.
+ * @slot page-(page_number) - the content of button pointing to the indexed page.
+ * 
  * @csspart base - the main part of the element.
- * @csspart first - the content of button pointing to the first page.
- * @csspart previous - the content of button pointing to the previous page.
- * @csspart next - the content of button pointing to the next page.
- * @csspart last - the content of button pointing to the last page.
- * @csspart any - the content of button pointing to any page.
- * @csspart (page_number) - the content of button pointing to the indexed page.
+ * @csspart first - the button pointing to the first page.
+ * @csspart previous - the button pointing to the previous page.
+ * @csspart next - the button pointing to the next page.
+ * @csspart last - the button pointing to the last page.
+ * @csspart any - the button pointing to any page.
+ * @csspart page-(page_number) - the button pointing to the indexed page.
  * @csspart button - the button.
  * @csspart number-button - the number button.
  * @csspart jump-buttom - the button that is not a number button.
@@ -143,14 +150,14 @@ export class UtilPaginationElement extends LitElement {
     return html`
       <div part="base">
         <button
-          part="button jump-button"
+          part="button jump-button first"
           @click=${() => (this.pageNumber = 1)}
           ?disabled=${this.pageNumber <= 1}
         >
           <slot name="first">${"<<"}</slot>
         </button>
         <button
-          part="button jump-button"
+          part="button jump-button previous"
           @click=${() => (this.pageNumber -= 1)}
           .disabled=${this.pageNumber <= 1}
         >
@@ -159,31 +166,31 @@ export class UtilPaginationElement extends LitElement {
         ${renderedPageNumbers.map(
           (pageNumber) =>
             html`<button
-              part="button number-button"
+              part=${`button number-button ${pageNumber}`}
               @click=${() => (this.pageNumber = pageNumber)}
               ?disabled=${this.pageNumber === pageNumber}
             >
-              <slot name=${pageNumber}
+              <slot name=${`page-${pageNumber}`}
                 >${this.#pageNumberToLabel?.(pageNumber) ?? pageNumber}</slot
               >
             </button>`
         )}
         <button
-          part="button"
+          part="button jump-button next"
           @click=${() => (this.pageNumber += 1)}
           ?disabled=${this.pageNumber >= this.pageCount}
         >
           <slot name="next jump-button">${">"}</slot>
         </button>
         <button
-          part="button"
+          part="button jump-button last"
           @click=${() => (this.pageNumber = this.pageCount)}
           ?disabled=${this.pageNumber >= this.pageCount}
         >
           <slot name="last jump-button">${">>"}</slot>
         </button>
         <button
-          part="button jump-button"
+          part="button jump-button any"
           @click=${() => this.#selectPageNumberAndJumpToThatPage()}
         >
           <slot name="any">...</slot>
