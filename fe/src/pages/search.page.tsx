@@ -1,10 +1,10 @@
-export function HomePage() {
+export function SearchPage() {
 
   return (
     <>
       <div>
         <p>
-          Home page
+          Search page
         </p>
       </div>
     </>

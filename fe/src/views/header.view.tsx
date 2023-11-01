@@ -20,10 +20,22 @@ export function HeaderView() {
             <div slot="ZH">主页</div>
           </If>
         </NavItem>
-        <NavItem onClick={() => startViewTransition(() => route("/article"))}>
+        <NavItem onClick={() => startViewTransition(() => route("/world"))}>
           <If condition={LanguageOptions[activeLanguage.value]}>
-            <div slot="EN">Article</div>
-            <div slot="ZH">文章</div>
+            <div slot="EN">World</div>
+            <div slot="ZH">世界</div>
+          </If>
+        </NavItem>
+        <NavItem onClick={() => startViewTransition(() => route("/people"))}>
+          <If condition={LanguageOptions[activeLanguage.value]}>
+            <div slot="EN">People</div>
+            <div slot="ZH">众生</div>
+          </If>
+        </NavItem>
+        <NavItem onClick={() => startViewTransition(() => route("/selves"))}>
+          <If condition={LanguageOptions[activeLanguage.value]}>
+            <div slot="EN">Selves</div>
+            <div slot="ZH">我们</div>
           </If>
         </NavItem>
         <NavItem onClick={() => startViewTransition(() => route("/other"))}>
