@@ -32,6 +32,9 @@ const SPECIAL_BOUNDS: Record<string, L.LatLngBounds> = {
 const HIGHLIGHT_COLOR = "hsl(0, 0%, 100%)";
 const DIM_COLOR = "hsl(0, 0%, 50%)";
 
+/**
+ * The customized map.
+ */
 @customElement("util-map")
 export class UtilMapElement extends LitElement {
   /**

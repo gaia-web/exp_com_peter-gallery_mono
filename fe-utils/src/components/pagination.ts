@@ -4,28 +4,39 @@ import { customElement, property } from "lit/decorators.js";
 /**
  * A set of buttons to jump through pages.
  *
+ * @slot first - the content of button pointing to the first page.
+ * @slot previous - the content of button pointing to the previous page.
+ * @slot next - the content of button pointing to the next page.
+ * @slot last - the content of button pointing to the last page.
+ * @slot any - the content of button pointing to any page.
+ * @slot page-(page_number) - the content of button pointing to the indexed page.
+ *
  * @csspart base - the main part of the element.
- * @csspart first - the content of button pointing to the first page.
- * @csspart previous - the content of button pointing to the previous page.
- * @csspart next - the content of button pointing to the next page.
- * @csspart last - the content of button pointing to the last page.
- * @csspart any - the content of button pointing to any page.
- * @csspart (page_number) - the content of button pointing to the indexed page.
+ * @csspart first - the button pointing to the first page.
+ * @csspart previous - the button pointing to the previous page.
+ * @csspart next - the button pointing to the next page.
+ * @csspart last - the button pointing to the last page.
+ * @csspart any - the button pointing to any page.
+ * @csspart page-(page_number) - the button pointing to the indexed page.
  * @csspart button - the button.
  * @csspart number-button - the number button.
  * @csspart jump-buttom - the button that is not a number button.
  *
- * @cssprop --background - background for the buttons.
- * @cssprop --border - border for the buttons.
- * @cssprop --border-radius - border radius for the buttons.
+ * @cssprop --button-background - background for the buttons.
+ * @cssprop --button-border - border for the buttons.
+ * @cssprop --button-border-radius - border radius for the buttons.
+ * @cssprop --button-color - the content color for the buttons.
+ *
+ * @fires pageChange - Occurs when the page number is changed. The event `detail` prop gives the new page number.
  */
 @customElement("util-pagination")
 export class UtilPaginationElement extends LitElement {
   static styles = css`
     :host {
-      --background: hsl(0, 0%, 90%);
-      --border: none;
-      --border-radius: 10px;
+      --button-background: hsl(0, 0%, 90%);
+      --button-border: none;
+      --button-border-radius: none;
+      --button-color: "";
 
       display: block;
       height: fit-content;
@@ -46,12 +57,14 @@ export class UtilPaginationElement extends LitElement {
       padding: 0.5rem;
       cursor: pointer;
       user-select: none;
-      background: var(--background);
-      border: var(--border);
-      border-radius: var(--border-radius);
+      background: var(--button-background);
+      border: var(--button-border);
+      border-radius: var(--button-border-radius);
+      color: var(--button-color);
 
       &[disabled] {
         cursor: not-allowed;
+        filter: brightness(0.8);
 
         &[part~="number-button"] {
           filter: brightness(1.08);
@@ -143,14 +156,14 @@ export class UtilPaginationElement extends LitElement {
     return html`
       <div part="base">
         <button
-          part="button jump-button"
+          part="button jump-button first"
           @click=${() => (this.pageNumber = 1)}
           ?disabled=${this.pageNumber <= 1}
         >
           <slot name="first">${"<<"}</slot>
         </button>
         <button
-          part="button jump-button"
+          part="button jump-button previous"
           @click=${() => (this.pageNumber -= 1)}
           .disabled=${this.pageNumber <= 1}
         >
@@ -159,31 +172,31 @@ export class UtilPaginationElement extends LitElement {
         ${renderedPageNumbers.map(
           (pageNumber) =>
             html`<button
-              part="button number-button"
+              part=${`button number-button page-${pageNumber}`}
               @click=${() => (this.pageNumber = pageNumber)}
               ?disabled=${this.pageNumber === pageNumber}
             >
-              <slot name=${pageNumber}
+              <slot name=${`page-${pageNumber}`}
                 >${this.#pageNumberToLabel?.(pageNumber) ?? pageNumber}</slot
               >
             </button>`
         )}
         <button
-          part="button"
+          part="button jump-button next"
           @click=${() => (this.pageNumber += 1)}
           ?disabled=${this.pageNumber >= this.pageCount}
         >
           <slot name="next jump-button">${">"}</slot>
         </button>
         <button
-          part="button"
+          part="button jump-button last"
           @click=${() => (this.pageNumber = this.pageCount)}
           ?disabled=${this.pageNumber >= this.pageCount}
         >
           <slot name="last jump-button">${">>"}</slot>
         </button>
         <button
-          part="button jump-button"
+          part="button jump-button any"
           @click=${() => this.#selectPageNumberAndJumpToThatPage()}
         >
           <slot name="any">...</slot>

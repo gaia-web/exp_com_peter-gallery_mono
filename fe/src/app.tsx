@@ -4,7 +4,10 @@ import { FallbackPage } from "./pages/fallback.page";
 import Match from "preact-router/match";
 import "fe-utils";
 import { HeaderView } from "./views/header.view";
-import { ArticlePage } from "./pages/article.page";
+import { PeoplePage } from "./pages/people.page";
+import { WorldPage } from "./pages/world.page";
+import { SelvesPage } from "./pages/selves.page";
+import { SearchPage } from "./pages/search.page";
 
 export function App() {
   return (
@@ -13,7 +16,10 @@ export function App() {
       <div style={{ viewTransitionName: "page" }}>
         <Router>
           <Match path="/">{() => <HomePage />}</Match>
-          <Match path="/article">{() => <ArticlePage />}</Match>
+          <Match path="/people">{() => <PeoplePage />}</Match>
+          <Match path="/world">{() => <WorldPage />}</Match>
+          <Match path="/about-us">{() => <SelvesPage />}</Match>
+          <Match path="/search">{() => <SearchPage />}</Match>
           <Match default>
             {({ url }: RouterOnChangeArgs) => (
               <FallbackPage>{url}</FallbackPage>
