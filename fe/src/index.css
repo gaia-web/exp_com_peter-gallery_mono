@@ -21,16 +21,16 @@ body {
 
 @keyframes page-out {
   to {
-    transform-origin: top;
-    transform: scale(0) skew(90deg);
+    transform-origin: top left;
+    transform: scale(0) rotate(90deg);
     opacity: 0;
   }
 }
 
 @keyframes page-in {
   from {
-    transform-origin: top;
-    transform: scale(5) skew(90deg);
+    transform-origin: top left;
+    transform: scale(5) rotate(90deg);
     opacity: 0;
   }
 }
