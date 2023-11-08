@@ -1,5 +1,8 @@
-import { AwesomeMarkdownElement } from "@awesome-elements/markdown";
-import { createComponent } from "@lit/react";
+import {
+  AwesomeMarkdownElement,
+  MarkdownParsedEventDetail,
+} from "@awesome-elements/markdown";
+import { EventName, createComponent } from "@lit/react";
 import React from "react";
 
 export const Markdown = createComponent({
@@ -7,6 +10,8 @@ export const Markdown = createComponent({
   elementClass: AwesomeMarkdownElement,
   react: React,
   events: {
-    onMarkdownParsed: "markdownParsed",
+    onMarkdownParsed: "markdownParsed" as EventName<
+      CustomEvent<MarkdownParsedEventDetail>
+    >,
   },
 });
