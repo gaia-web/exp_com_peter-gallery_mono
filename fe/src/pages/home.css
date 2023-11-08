@@ -1,3 +1,67 @@
+@keyframes fadeIn-1 {
+    0% {
+        opacity: 0;
+    }
+
+    60% {
+        opacity: 1;
+    }
+}
+
+.fade-in-5s {
+    animation-name: fadeIn-1;
+    animation-duration: 5s;
+    animation-timing-function: cubic-bezier(0, 0, 0.12, 0.95);
+    animation-fill-mode: forwards;
+}
+
+@keyframes fadeIn-2 {
+    0% {
+        opacity: 0;
+    }
+
+    20% {
+        opacity: 0;
+    }
+
+
+    80% {
+        opacity: 1;
+    }
+}
+
+.fade-in-6s {
+    animation-name: fadeIn-2;
+    animation-duration: 6s;
+    animation-timing-function: cubic-bezier(0, 0, 0.12, 0.95);
+    animation-fill-mode: forwards;
+}
+
+@keyframes slideDown {
+    0% {
+        transform: translateY(-2rem);
+    }
+
+    40% {
+        opacity: 0;
+        transform: translateY(-2rem);
+    }
+
+    100% {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.slideDown {
+    opacity: 0;
+    animation-name: slideDown;
+    animation-duration: 5s;
+    animation-delay: 2s;
+    animation-timing-function: cubic-bezier(0, 0, 0.12, 0.95);
+    animation-fill-mode: forwards;
+}
+
 @keyframes slogan {
     to {
         transform: translate(0.5vw, calc(85vh - 33%)) scale(0.7);
@@ -12,24 +76,42 @@
     text-align: center;
     animation-name: slogan;
     animation-duration: 2s;
+    animation-delay: 5s;
     animation-timing-function: cubic-bezier(0, 0, 0.12, 0.95);
-    animation-delay: var(--animation-delay, 5s);
     animation-fill-mode: forwards;
 }
 
 @keyframes line {
+    0% {
+        transform: translateY(-2rem);
+    }
+
+    40% {
+        opacity: 0;
+        transform: translateY(-2rem);
+    }
+
+    80% {
+        opacity: 1;
+        transform: translateY(0);
+    }
+
+    100% {
+        opacity: 1;
+        transform: translateY(0);
+    }
+
     to {
         margin: unset;
-        width: 21rem;
     }
 }
 
 .line {
+    opacity: 0;
     width: 21rem;
     animation-name: line;
-    animation-duration: 2s;
+    animation-duration: 5s;
     animation-timing-function: cubic-bezier(0, 0, 0.12, 0.95);
-    animation-delay: var(--animation-delay, 5s);
     animation-fill-mode: forwards;
 }
 
@@ -87,12 +169,14 @@
 }
 
 .threePics {
+    max-width: 80vw;
+    max-height: 80vh;
+
     position: absolute;
 
     display: flex;
     justify-content: space-between;
 
-    transform: opacity(100%);
     animation-name: threePics;
     animation-duration: 2s;
     animation-timing-function: cubic-bezier(0, 0, 0.12, 0.95);
