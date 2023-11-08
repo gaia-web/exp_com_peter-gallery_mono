@@ -94,7 +94,7 @@
 }
 
 .slogan {
-  --animation-duration: 2s;
+  --animation-duration: 3s;
   --animation-timing-function: cubic-bezier(0.5, 0, 0, 1);
 
   animation: slogan-slide-down var(--animation-duration)
@@ -115,7 +115,7 @@
 }
 
 .later {
-  --animation-duration: 2s;
+  --animation-duration: 3s;
   --animation-timing-function: ease-in;
 
   animation: fade-in var(--animation-duration) var(--animation-timing-function)
