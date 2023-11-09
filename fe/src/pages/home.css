@@ -1,0 +1,123 @@
+.parent {
+  --transition-time: 2s;
+  --up-scale: 1.2;
+
+  position: relative;
+  overflow: hidden;
+  margin: 1rem;
+
+  opacity: 33%;
+  transition: var(--transition-time);
+
+  &:hover {
+    opacity: 100%;
+    transition: var(--transition-time);
+
+    & > img {
+      transition: var(--transition-time);
+      scale: var(--up-scale);
+    }
+
+    & > div {
+      transition: var(--transition-time);
+      scale: var(--up-scale);
+    }
+  }
+
+  & > img {
+    transition: var(--transition-time);
+  }
+
+  & > div {
+    rotate: 90deg;
+    transform-origin: top left;
+
+    top: 5%;
+    left: 25%;
+
+    position: absolute;
+    transition: var(--transition-time);
+  }
+}
+
+.threePics {
+  opacity: 0;
+  transition: 2s;
+}
+
+.threePics {
+  max-width: 80vw;
+  max-height: 80vh;
+
+  position: absolute;
+
+  display: flex;
+  justify-content: space-between;
+
+  animation-name: threePics;
+  animation-duration: 2s;
+  animation-timing-function: cubic-bezier(0, 0, 0.12, 0.95);
+  animation-delay: var(--animation-delay, 6s);
+  animation-fill-mode: forwards;
+}
+
+@keyframes fade-in {
+  from {
+    opacity: 0;
+    filter: blur(50px);
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes slogan-text-slide-in {
+  from {
+    transform: translateX(50%) translateY(50%);
+  }
+}
+
+@keyframes slogan-slide-down {
+  from {
+    text-align: center;
+    transform: translateX(var(--initial-translate-x))
+      translateY(var(--initial-translate-y)) scale(var(--initial-scale));
+  }
+  99% {
+    text-align: center;
+  }
+  to {
+    text-align: left;
+    transform: translateX(var(--left-offset))
+      translateY(calc(-1 * var(--bottom-offset)));
+  }
+}
+
+.slogan {
+  --animation-duration: 3s;
+  --animation-timing-function: cubic-bezier(0.5, 0, 0, 1);
+
+  animation: slogan-slide-down var(--animation-duration)
+    var(--animation-timing-function) var(--animation-delay) forwards;
+}
+
+.slogan-text {
+  --animation-duration: 1s;
+  --animation-timing-function: cubic-bezier(0, 0, 0.12, 0.95);
+  --animation-delay: calc(
+    var(--inital-animation-delay) + var(--animation-duration) * var(--index)
+  );
+
+  animation: fade-in var(--animation-duration) var(--animation-timing-function)
+      var(--animation-delay) forwards,
+    slogan-text-slide-in var(--animation-duration)
+      var(--animation-timing-function) var(--animation-delay) forwards;
+}
+
+.later {
+  --animation-duration: 3s;
+  --animation-timing-function: ease-in;
+
+  animation: fade-in var(--animation-duration) var(--animation-timing-function)
+    var(--animation-delay) forwards;
+}
