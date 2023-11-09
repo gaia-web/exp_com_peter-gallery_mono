@@ -5,15 +5,15 @@ export function HomePage() {
     <div>
       <div class="threePics bottom-10 right-10 later" style="--animation-delay: 6s;">
         <div class="parent text-5xl">
-          <img src="/public/world.png"></img>
+          <img src="//picsum.photos/1200/800"></img>
           <div>WORLD 世界</div>
         </div>
         <div class="parent text-5xl">
-          <img src="/public/people.png"></img>
+          <img src="//picsum.photos/1200/800"></img>
           <div>PEOPLE 众生</div>
         </div>
         <div class="parent text-5xl">
-          <img src="/public/selves.png"></img>
+          <img src="//picsum.photos/1200/800"></img>
           <div>SELVES 我们</div>
         </div>
       </div>
