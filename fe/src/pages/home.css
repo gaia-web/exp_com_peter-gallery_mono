@@ -1,185 +1,123 @@
-@keyframes fadeIn-1 {
-    0% {
-        opacity: 0;
+.parent {
+  --transition-time: 2s;
+  --up-scale: 1.2;
+
+  position: relative;
+  overflow: hidden;
+  margin: 1rem;
+
+  opacity: 33%;
+  transition: var(--transition-time);
+
+  &:hover {
+    opacity: 100%;
+    transition: var(--transition-time);
+
+    & > img {
+      transition: var(--transition-time);
+      scale: var(--up-scale);
     }
 
-    60% {
-        opacity: 1;
+    & > div {
+      transition: var(--transition-time);
+      scale: var(--up-scale);
     }
+  }
+
+  & > img {
+    transition: var(--transition-time);
+  }
+
+  & > div {
+    rotate: 90deg;
+    transform-origin: top left;
+
+    top: 5%;
+    left: 25%;
+
+    position: absolute;
+    transition: var(--transition-time);
+  }
 }
 
-.fade-in-5s {
-    animation-name: fadeIn-1;
-    animation-duration: 5s;
-    animation-timing-function: cubic-bezier(0, 0, 0.12, 0.95);
-    animation-fill-mode: forwards;
+.threePics {
+  opacity: 0;
+  transition: 2s;
 }
 
-@keyframes fadeIn-2 {
-    0% {
-        opacity: 0;
-    }
+.threePics {
+  max-width: 80vw;
+  max-height: 80vh;
 
-    20% {
-        opacity: 0;
-    }
+  position: absolute;
 
+  display: flex;
+  justify-content: space-between;
 
-    80% {
-        opacity: 1;
-    }
+  animation-name: threePics;
+  animation-duration: 2s;
+  animation-timing-function: cubic-bezier(0, 0, 0.12, 0.95);
+  animation-delay: var(--animation-delay, 6s);
+  animation-fill-mode: forwards;
 }
 
-.fade-in-6s {
-    animation-name: fadeIn-2;
-    animation-duration: 6s;
-    animation-timing-function: cubic-bezier(0, 0, 0.12, 0.95);
-    animation-fill-mode: forwards;
-}
-
-@keyframes slideDown {
-    0% {
-        transform: translateY(-2rem);
-    }
-
-    40% {
-        opacity: 0;
-        transform: translateY(-2rem);
-    }
-
-    100% {
-        opacity: 1;
-        transform: translateY(0);
-    }
-}
-
-.slideDown {
+@keyframes fade-in {
+  from {
     opacity: 0;
-    animation-name: slideDown;
-    animation-duration: 5s;
-    animation-delay: 2s;
-    animation-timing-function: cubic-bezier(0, 0, 0.12, 0.95);
-    animation-fill-mode: forwards;
+    filter: blur(50px);
+  }
+  to {
+    opacity: 1;
+  }
 }
 
-@keyframes slogan {
-    to {
-        transform: translate(0.5vw, calc(85vh - 33%)) scale(0.7);
-        text-align: left;
-    }
+@keyframes slogan-text-slide-in {
+  from {
+    transform: translateX(50%) translateY(50%);
+  }
+}
+
+@keyframes slogan-slide-down {
+  from {
+    text-align: center;
+    transform: translateX(var(--initial-translate-x))
+      translateY(var(--initial-translate-y)) scale(var(--initial-scale));
+  }
+  99% {
+    text-align: center;
+  }
+  to {
+    text-align: left;
+    transform: translateX(var(--left-offset))
+      translateY(calc(-1 * var(--bottom-offset)));
+  }
 }
 
 .slogan {
-    position: fixed;
-    display: block;
-    transform: translate(calc(50vw - 50%), calc(66vh - 50%)) scale(1);
-    text-align: center;
-    animation-name: slogan;
-    animation-duration: 2s;
-    animation-delay: 5s;
-    animation-timing-function: cubic-bezier(0, 0, 0.12, 0.95);
-    animation-fill-mode: forwards;
+  --animation-duration: 3s;
+  --animation-timing-function: cubic-bezier(0.5, 0, 0, 1);
+
+  animation: slogan-slide-down var(--animation-duration)
+    var(--animation-timing-function) var(--animation-delay) forwards;
 }
 
-@keyframes line {
-    0% {
-        transform: translateY(-2rem);
-    }
+.slogan-text {
+  --animation-duration: 1s;
+  --animation-timing-function: cubic-bezier(0, 0, 0.12, 0.95);
+  --animation-delay: calc(
+    var(--inital-animation-delay) + var(--animation-duration) * var(--index)
+  );
 
-    40% {
-        opacity: 0;
-        transform: translateY(-2rem);
-    }
-
-    80% {
-        opacity: 1;
-        transform: translateY(0);
-    }
-
-    100% {
-        opacity: 1;
-        transform: translateY(0);
-    }
-
-    to {
-        margin: unset;
-    }
+  animation: fade-in var(--animation-duration) var(--animation-timing-function)
+      var(--animation-delay) forwards,
+    slogan-text-slide-in var(--animation-duration)
+      var(--animation-timing-function) var(--animation-delay) forwards;
 }
 
-.line {
-    opacity: 0;
-    width: 21rem;
-    animation-name: line;
-    animation-duration: 5s;
-    animation-timing-function: cubic-bezier(0, 0, 0.12, 0.95);
-    animation-fill-mode: forwards;
-}
+.later {
+  --animation-duration: 3s;
+  --animation-timing-function: ease-in;
 
-.parent {
-    --transition-time: 2s;
-    --up-scale: 1.2;
-
-    position: relative;
-    overflow: hidden;
-    margin: 1rem;
-
-    opacity: 33%;
-    transition: var(--transition-time);
-
-    &:hover {
-        opacity: 100%;
-        transition: var(--transition-time);
-
-        &>img {
-            transition: var(--transition-time);
-            scale: var(--up-scale);
-        }
-
-        &>div {
-            transition: var(--transition-time);
-            scale: var(--up-scale);
-        }
-    }
-
-    &>img {
-        transition: var(--transition-time);
-    }
-
-    &>div {
-        rotate: 90deg;
-        transform-origin: top left;
-
-        top: 5%;
-        left: 25%;
-
-        position: absolute;
-        transition: var(--transition-time);
-    }
-}
-
-.threePics {
-    opacity: 0;
-    transition: 2s;
-}
-
-@keyframes threePics {
-    to {
-        opacity: 100%;
-    }
-}
-
-.threePics {
-    max-width: 80vw;
-    max-height: 80vh;
-
-    position: absolute;
-
-    display: flex;
-    justify-content: space-between;
-
-    animation-name: threePics;
-    animation-duration: 2s;
-    animation-timing-function: cubic-bezier(0, 0, 0.12, 0.95);
-    animation-delay: var(--animation-delay, 6s);
-    animation-fill-mode: forwards;
+  animation: fade-in var(--animation-duration) var(--animation-timing-function)
+    var(--animation-delay) forwards;
 }

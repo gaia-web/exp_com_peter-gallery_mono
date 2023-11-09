@@ -1,0 +1,8 @@
+{
+    "name": "mono",
+    "workspaces": [
+        "cms",
+        "fe",
+        "fe-utils"
+    ]
+}

@@ -1,4 +1,4 @@
-import { createComponent } from "@lit/react";
+import { EventName, createComponent } from "@lit/react";
 import {
   UtilMapElement,
   UtilPaginationElement,
@@ -18,7 +18,7 @@ export const Pagination = createComponent({
   elementClass: UtilPaginationElement,
   react: React,
   events: {
-    onPageChange: "pageChange",
+    onPageChange: "pageChange" as EventName<CustomEvent<number>>,
   },
 });
 
@@ -33,6 +33,6 @@ export const Tabs = createComponent({
   elementClass: UtilTabsElement,
   react: React,
   events: {
-    onTabChange: "tabChange",
+    onTabChange: "tabChange" as EventName<CustomEvent<string>>,
   },
 });
