@@ -12,7 +12,8 @@ import { SearchPage } from "./pages/search.page";
 export function App() {
   return (
     <>
-      <HeaderView />
+      
+      {window.location.pathname !== "/" && <HeaderView />}
       <div style={{ viewTransitionName: "page" }}>
         <Router>
           <Match path="/">{() => <HomePage />}</Match>

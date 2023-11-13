@@ -1,11 +1,16 @@
 import { If } from "../utils/garage";
 import { LanguageOptions, activeLanguage } from "../utils/language";
+import { LanguageToggleView } from "../views/language-toggle.view";
 
 import "./home.css";
 
 export function HomePage() {
   return (
     <div>
+        <div class="leading-3rem p-10px text-2xl text-center">PETER’S PORTFOLIO.</div>
+        <div class="absolute leading-3rem top-0 right-0">
+          <LanguageToggleView />
+        </div>
       <div
         class="threePics bottom-10 right-10 later"
         style="--animation-delay: 6s;"
