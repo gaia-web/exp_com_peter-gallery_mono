@@ -1,53 +1,71 @@
-import { Header, If, Nav, NavItem } from "../utils/garage";
+import { Header, If } from "../utils/garage";
 import { LanguageOptions, activeLanguage } from "../utils/language";
 import { LanguageToggleView } from "./language-toggle.view";
 import { route } from "preact-router";
-import { startViewTransition } from "../utils/start-view-transition";
+import { Tab, Tabs } from "../utils/fe-utils";
+import { useState } from "preact/hooks";
+
+const selectClass = (input: string): { class: string; selected: boolean } => {
+  const baseClass = `rounded-xl p-1rem`;
+
+  if (window.location.pathname.includes(input)) {
+    return { class: `bg-#0046FF font-normal ${baseClass}`, selected: true };
+  } else {
+    return { class: baseClass, selected: false };
+  }
+};
+
+const getRoute = (input: string) => {
+  if (input === "世界") return "world";
+  if (input === "众生") return "people";
+  if (input === "我们") return "selves";
+
+  return input;
+};
 
 export function HeaderView() {
-  return (
-    <Header sticky>
-      <span>
+  const [_, setPath] = useState(window.location.pathname);
+
+  const Options = (props: { en: string; zh: string }) => {
+    const { en, zh } = props;
+    return (
+      <Tab class={selectClass(en).class} selected={selectClass(en).selected}>
         <If condition={LanguageOptions[activeLanguage.value]}>
-          <h3 slot="EN">Peter's Gallery</h3>
-          <h3 slot="ZH">皮特的美术馆</h3>
+          <div slot="EN">{en.toUpperCase()}</div>
+          <div slot="ZH">{zh}</div>
         </If>
-      </span>
-      <Nav slot="collapsible" data-native>
-        <NavItem onClick={() => startViewTransition(() => route("/"))}>
-          <If condition={LanguageOptions[activeLanguage.value]}>
-            <div slot="EN">Home</div>
-            <div slot="ZH">主页</div>
-          </If>
-        </NavItem>
-        <NavItem onClick={() => startViewTransition(() => route("/world"))}>
-          <If condition={LanguageOptions[activeLanguage.value]}>
-            <div slot="EN">World</div>
-            <div slot="ZH">世界</div>
-          </If>
-        </NavItem>
-        <NavItem onClick={() => startViewTransition(() => route("/people"))}>
-          <If condition={LanguageOptions[activeLanguage.value]}>
-            <div slot="EN">People</div>
-            <div slot="ZH">众生</div>
-          </If>
-        </NavItem>
-        <NavItem onClick={() => startViewTransition(() => route("/selves"))}>
-          <If condition={LanguageOptions[activeLanguage.value]}>
-            <div slot="EN">Selves</div>
-            <div slot="ZH">我们</div>
-          </If>
-        </NavItem>
-        <NavItem onClick={() => startViewTransition(() => route("/other"))}>
-          <If condition={LanguageOptions[activeLanguage.value]}>
-            <div slot="EN">Other</div>
-            <div slot="ZH">其它</div>
-          </If>
-        </NavItem>
-      </Nav>
-      <div slot="extra">
-        <LanguageToggleView />
-      </div>
-    </Header>
+      </Tab>
+    );
+  };
+
+  return (
+    <div>
+      <Header sticky>
+        <span>PETER'S PORTFOLIO</span>
+
+        <div slot="extra">
+          <LanguageToggleView />
+        </div>
+      </Header>
+
+      <Header sticky>
+        <span>Search Bar Place holder</span>
+
+        <div slot="extra">
+          <Tabs
+            class="bg-#3F434C rounded-xl "
+            onTabChange={(e) => {
+              const newRoute = `/${getRoute(e.detail.toLowerCase())}`;
+              route(newRoute);
+              setPath(newRoute);
+            }}
+          >
+            <Options en="world" zh="世界" />
+            <Options en="people" zh="众生" />
+            <Options en="selves" zh="我们" />
+          </Tabs>
+        </div>
+      </Header>
+    </div>
   );
 }
