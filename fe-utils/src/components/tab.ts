@@ -1,6 +1,7 @@
 import { LitElement, css, html } from "lit";
+import { consume } from "@lit/context";
 import { customElement, property } from "lit/decorators.js";
-import { UtilTabsElement } from "./tabs";
+import { UtilTabsElement, tabsContext } from "./tabs";
 
 @customElement("util-tab")
 export class UtilTabElement extends LitElement {
@@ -19,9 +20,11 @@ export class UtilTabElement extends LitElement {
     }
   `;
 
-  readonly #PARENT_TABS_ELEMENT_TAG_NAME = "util-tabs";
-
-  #parentTabsElement?: UtilTabsElement;
+  /**
+   * @internal
+   */
+  @consume({ context: tabsContext })
+  private tabsElement?: UtilTabsElement;
 
   /**
    * Value of the tab.
@@ -43,37 +46,30 @@ export class UtilTabElement extends LitElement {
     super();
     this.addEventListener(
       "click",
-      () =>
-        this.#parentTabsElement &&
-        (this.#parentTabsElement.value = this.actualValue)
+      () => this.tabsElement && (this.tabsElement.value = this.actualValue)
     );
   }
 
   connectedCallback() {
     super.connectedCallback();
-    this.#parentTabsElement = this.#findParentTabsElement();
-    this.#parentTabsElement?.updateChildTabs();
+    if (!this.tabsElement) {
+      return;
+    }
+    this.tabsElement.childTabSet.add(this);
+    this.tabsElement.childTabSet = this.tabsElement.childTabSet;
   }
 
   disconnectedCallback() {
     super.disconnectedCallback();
-    this.#parentTabsElement?.updateChildTabs();
+    if (!this.tabsElement) {
+      return;
+    }
+    this.tabsElement.childTabSet.delete(this);
+    this.tabsElement.childTabSet = this.tabsElement.childTabSet;
   }
 
   render() {
     return html` <slot></slot> `;
-  }
-
-  #findParentTabsElement() {
-    let walker = this.parentElement;
-    while (walker) {
-      if (
-        walker?.tagName === this.#PARENT_TABS_ELEMENT_TAG_NAME.toUpperCase()
-      ) {
-        return walker as UtilTabsElement;
-      }
-      walker = walker.parentElement;
-    }
   }
 }
 

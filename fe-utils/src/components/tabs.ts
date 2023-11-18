@@ -1,6 +1,11 @@
 import { LitElement, css, html } from "lit";
+import { createContext, provide } from "@lit/context";
 import { customElement, property } from "lit/decorators.js";
 import { UtilTabElement } from "./tab";
+
+export const tabsContext = createContext<UtilTabsElement>(
+  Symbol("tabs-context")
+);
 
 /**
  * Tabs. It should use with `util-tab` elements.
@@ -27,23 +32,24 @@ export class UtilTabsElement extends LitElement {
   /**
    * @internal
    */
-  readonly #CHILD_TAB_TAG_NAME = "util-tab";
+  @provide({ context: tabsContext })
+  self = this;
 
   /**
    * @internal
    */
-  #childTabs: UtilTabElement[] = [];
+  #childTabSet = new Set<UtilTabElement>();
   /**
    * @internal
    */
-  get childTabs() {
-    return this.#childTabs;
+  get childTabSet() {
+    return this.#childTabSet;
   }
   /**
    * @internal
    */
-  set childTabs(value: UtilTabElement[]) {
-    this.#childTabs = value;
+  set childTabSet(value: Set<UtilTabElement>) {
+    this.#childTabSet = value;
     this.#updateSelection();
   }
 
@@ -65,26 +71,16 @@ export class UtilTabsElement extends LitElement {
     this.dispatchEvent(new CustomEvent("tabChange", { detail: value }));
   }
 
-  /**
-   * @internal
-   */
-  updateChildTabs() {
-    this.childTabs = [...this.children].filter(
-      (child) => child.tagName === this.#CHILD_TAB_TAG_NAME.toLocaleUpperCase()
-    ) as UtilTabElement[];
-  }
-
   render() {
     return html` <slot part="base"></slot> `;
   }
 
   #updateSelection() {
-    let selectedIndex = this.childTabs.findIndex(
+    let selectedTab = [...this.childTabSet].find(
       (tab) => tab.actualValue === this.value
     );
-    selectedIndex = selectedIndex >= 0 ? selectedIndex : 0;
-    this.childTabs.forEach((tab, i) => {
-      tab.selected = i === selectedIndex ? true : false;
+    this.childTabSet.forEach((tab) => {
+      tab.selected = tab === selectedTab ? true : false;
     });
   }
 }
