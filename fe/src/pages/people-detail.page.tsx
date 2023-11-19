@@ -3,9 +3,14 @@ import { Markdown } from "../utils/markdown";
 import { LanguageOptions, activeLanguage } from "../utils/language";
 import markdownStyleSheet from "../assets/markdown.css?inline";
 import { useSignal } from "@preact/signals";
-import { If } from "../utils/garage";
+import { Carousel, If } from "../utils/garage";
+import { route } from "preact-router";
 
 export function PeopleDetailPage() {
+  const toPage = (nextPage: string) => {
+    return route(`/people/${nextPage}`, true);
+  };
+
   const markdown = useSignal("");
   const imgs = useSignal([]);
 
@@ -33,7 +38,7 @@ export function PeopleDetailPage() {
 
   return (
     <>
-      <div class="m-auto max-w-80%">
+      <div class="m-x-10%">
         <div class="flex h-3rem leading-3rem mb-2rem">
           <div class="absolute">
             <BackButton en="BACK" zh="返回" />
@@ -46,11 +51,47 @@ export function PeopleDetailPage() {
             ))}
           </div>
         </div>
-        <ImageDisplayer imageQueue={imgs.value} />
+        <Carousel>
+          {imgs.value.map((img, index) => (
+            <img src={img} alt={`${index}`} style="object-fit: contain" />
+          ))}
+        </Carousel>
         <Markdown
+          class="p-y-0"
           markdown={markdown.value}
           styleSheets={[markdownStyleSheet]}
         />
+        <div class="m-1rem h-1px bg-#FFFFFF" />
+        <div class="flex m-1rem">
+          <div
+            class="flex hover:bg-#FFFFFF hover:cursor-pointer"
+            onClick={() => {
+              // TODO: change it to last index
+              toPage("last");
+            }}
+          >
+            <div>{"<-"}</div>
+            <If condition={LanguageOptions[activeLanguage.value]}>
+              <div slot="EN">LAST</div>
+              <div slot="ZH">上一篇</div>
+            </If>
+          </div>
+          <div class="flex-1">
+            <div
+              class="float-right flex hover:bg-#FFFFFF hover:cursor-pointer"
+              onClick={() => {
+                // TODO: change it to next index
+                toPage("next");
+              }}
+            >
+              <If condition={LanguageOptions[activeLanguage.value]}>
+                <div slot="EN">NEXT</div>
+                <div slot="ZH">下一篇</div>
+              </If>
+              <div>{"->"}</div>
+            </div>
+          </div>
+        </div>
       </div>
     </>
   );
@@ -70,33 +111,5 @@ function BackButton(props: { en: string; zh: string }) {
         {zh}
       </div>
     </If>
-  );
-}
-
-function ImageDisplayer(props: { imageQueue: string[]; height?: number }) {
-  const { imageQueue, height } = props;
-  const selectedIndex = useSignal(0);
-
-  const maxHeight = height ?? "30vw";
-
-  return (
-    <div class={`grid grid-cols-5 gap-5`} style={{ height: maxHeight }}>
-      <div class="m-auto  col-span-4">
-        <img
-          class={`max-w-100% max-h-${maxHeight}`}
-          style={{ maxHeight: maxHeight }}
-          src={imageQueue[selectedIndex.value]}
-        ></img>
-      </div>
-      <div class=" col-span-1 overflow-y-auto">
-        {imageQueue.map((image, index) => (
-          <img
-            class="mb-5% max-w-100%"
-            src={image}
-            onClick={() => (selectedIndex.value = index)}
-          ></img>
-        ))}
-      </div>
-    </div>
   );
 }
