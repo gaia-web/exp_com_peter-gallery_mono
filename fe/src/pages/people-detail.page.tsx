@@ -70,6 +70,7 @@ export function PeopleDetailPage() {
               toPage("last");
             }}
           >
+            {/* // TODO: replace with left arrow SVG */}
             <div>{"<-"}</div>
             <If condition={LanguageOptions[activeLanguage.value]}>
               <div slot="EN">LAST</div>
@@ -88,6 +89,7 @@ export function PeopleDetailPage() {
                 <div slot="EN">NEXT</div>
                 <div slot="ZH">下一篇</div>
               </If>
+              {/* // TODO: replace with right arrow SVG */}
               <div>{"->"}</div>
             </div>
           </div>
