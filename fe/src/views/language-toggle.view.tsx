@@ -6,7 +6,7 @@ export function LanguageToggleView() {
     <Tabs
       className="w-fit"
       value={`${activeLanguage.value}`}
-      onTabChange={(e: any) => {
+      onTabChange={(e: CustomEvent<unknown>) => {
         const value = (e as CustomEvent<LanguageOptions>).detail;
         activeLanguage.value = value;
       }}
