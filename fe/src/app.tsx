@@ -8,7 +8,7 @@ import { PeoplePage } from "./pages/people.page";
 import { WorldPage } from "./pages/world.page";
 import { SelvesPage } from "./pages/selves.page";
 import { SearchPage } from "./pages/search.page";
-import { PeopleDetailPage } from "./pages/peopleDetail.page";
+import { PeopleDetailPage } from "./pages/people-detail.page";
 
 export function App() {
   return (
