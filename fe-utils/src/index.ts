@@ -1,5 +1,6 @@
 export * from "./components/breadcrumb";
 export * from "./components/item";
+export * from "./components/location-explorer";
 export * from "./components/map";
 export * from "./components/pagination";
 export * from "./components/progress-button";

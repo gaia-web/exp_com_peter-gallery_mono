@@ -1,14 +1,14 @@
 import { Meta, StoryObj } from "@storybook/web-components";
 import { html } from "lit";
 
-import "../../src/components/map";
+import "../../src/components/location-explorer";
 
 // eslint-disable-next-line @typescript-eslint/ban-types
 type MyArgs = {};
 
 export default {
   title: "Components/Map",
-  component: "util-map",
+  component: "util-location-explorer",
   tags: ["autodocs"],
   parameters: {
     layout: "fullscreen",
@@ -23,7 +23,11 @@ export default {
         max-height: 500px;
       }
     </style>
-    <util-map id="map"></util-map>
+    <util-location-explorer
+      id="map"
+      continents="https://gaia-web.github.io/lib_world-map-utils/continents/continents.simplified.geojson"
+      countries="https://gaia-web.github.io/lib_world-map-utils/countries/countries.simplified.geojson"
+    ></util-location-explorer>
   `,
 } satisfies Meta<MyArgs>;
 
