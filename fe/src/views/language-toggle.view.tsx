@@ -7,8 +7,8 @@ export function LanguageToggleView() {
       className="w-fit"
       value={`${activeLanguage.value}`}
       onTabChange={(e) => {
-        const value = +e.detail;
-        activeLanguage.value = value satisfies LanguageOptions;
+        const value = +e.detail satisfies LanguageOptions;
+        activeLanguage.value = value;
       }}
     >
       <Tab value={`${LanguageOptions.EN}`}>English</Tab>
