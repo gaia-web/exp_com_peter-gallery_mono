@@ -2,35 +2,8 @@ import { LitElement, css, html, unsafeCSS } from "lit";
 import { customElement, property } from "lit/decorators.js";
 import { createRef, ref, Ref } from "lit/directives/ref.js";
 import L from "leaflet";
-import { GeoJsonObject } from "geojson";
 
 import leafletCSS from "leaflet/dist/leaflet.css?inline";
-import continentsGeoJSON from "../assets/continents.geo.json";
-import countriesGeoJSON from "../assets/countries.geo.json";
-
-const SPECIAL_BOUNDS: Record<string, L.LatLngBounds> = {
-  Asia: L.polygon([
-    ...([
-      [179.46274569119493, 82.2110709480568],
-      [25.493925205828447, 82.2110709480568],
-      [25.493925205828447, -12.087325005120078],
-      [179.46274569119493, -12.087325005120078],
-      [179.46274569119493, 82.2110709480568],
-    ].map((item) => item.reverse()) as [][]),
-  ]).getBounds(),
-  Oceania: L.polygon([
-    ...([
-      [206.24720078906353, 20.467703267962534],
-      [165.1729148980914, 20.467703267962534],
-      [165.1729148980914, -47.0426837919749],
-      [206.24720078906353, -47.0426837919749],
-      [206.24720078906353, 20.467703267962534],
-    ].map((item) => item.reverse()) as [][]),
-  ]).getBounds(),
-};
-
-const HIGHLIGHT_COLOR = "hsl(0, 0%, 100%)";
-const DIM_COLOR = "hsl(0, 0%, 50%)";
 
 /**
  * The customized map.
@@ -44,29 +17,127 @@ export class UtilMapElement extends LitElement {
   /**
    * @internal
    */
-  #continentsGeoJSONLayer?: L.GeoJSON;
+  #areasGeoJSON?: GeoJSON.FeatureCollection;
   /**
    * @internal
    */
-  #countriesGeoJSONLayer?: L.GeoJSON;
+  #countriesGeoJSON?: GeoJSON.FeatureCollection;
+  /**
+   * @internal
+   */
+  #areasLayer?: L.Layer;
+  /**
+   * @internal
+   */
+  #countriesLayer?: L.Layer;
   /**
    * @internal
    */
   #mapContainerRef: Ref<HTMLDivElement> = createRef();
 
   /**
-   * Determine the detail level of the map content.
-   * Available values are `"continents"` and `"countries"`.
-   * Default to `"continents"`.
+   * The default center.
    */
-  @property({ attribute: "detail-level", reflect: true })
-  accessor detailLevel: "continents" | "countries" = "continents";
+  @property({ reflect: true })
+  defaultCenter: [number, number] = [0, 0];
 
-  firstUpdated() {
+  /**
+   * The default zoom.
+   */
+  @property({ reflect: true })
+  defaultZoom: number = 2;
+
+  /**
+   * The source of areas geojson.
+   */
+  @property({ reflect: true })
+  areas: string = "";
+
+  /**
+   * The source of countries geojson.
+   */
+  @property({ reflect: true })
+  countries: string = "";
+
+  /**
+   * @internal
+   */
+  #area?: string;
+  /**
+   * The selected area name. If `undefined`, no area is selected.
+   */
+  @property({ reflect: true })
+  set area(value: string | undefined) {
+    this.#area = value;
+    this.#updateArea();
+  }
+  get area() {
+    return this.#area;
+  }
+
+  /**
+   * Callback of getting the label position of an area.
+   */
+  @property()
+  obtainAreaLabelPositionCallback: (
+    feature?: GeoJSON.Feature
+  ) => [number, number] | undefined = () => undefined;
+
+  /**
+   * Callback of getting the label position of a country.
+   */
+  @property()
+  obtainCountryLabelPositionCallback: (
+    feature?: GeoJSON.Feature
+  ) => [number, number] | undefined = () => undefined;
+
+  /**
+   * Callback of getting the displayed label of an area.
+   */
+  @property()
+  obtainAreaDisplayedLabelCallback: (feature?: GeoJSON.Feature) => string = (
+    feature
+  ) => feature?.id?.toString() ?? "";
+
+  /**
+   * Callback of getting the displayed label of a country.
+   */
+  @property()
+  obtainCountryDisplayedLabelCallback: (feature?: GeoJSON.Feature) => string = (
+    feature
+  ) => feature?.id?.toString() ?? "";
+
+  /**
+   * Callback of getting the preview image of a country.
+   */
+  @property()
+  obtainCountryImageCallback: (feature?: GeoJSON.Feature) => string = () =>
+    "https://picsum.photos/300";
+
+  /**
+   * Callback of an area's validity.
+   */
+  @property()
+  validateAreaCallback: (feature?: GeoJSON.Feature) => boolean = () => true;
+
+  /**
+   * Callback of a country's validity.
+   */
+  @property()
+  validateCountryCallback: (feature?: GeoJSON.Feature) => boolean = () => true;
+
+  async firstUpdated() {
     this.#mapInstance = this.generateMapInstance();
-    this.#continentsGeoJSONLayer = this.generateCoutinentsGeoJSONLayer();
-    this.#countriesGeoJSONLayer = this.generateCountriesGeoJSONLayer();
-    this.#updateDetailLevel(this.detailLevel);
+    this.#disableUserZoom();
+    this.#areasGeoJSON = await fetch(this.areas).then((response) =>
+      response.json()
+    );
+    this.#countriesGeoJSON = await fetch(this.countries).then((response) =>
+      response.json()
+    );
+    this.#areasLayer = this.generateCoutinentsGeoJSONLayer();
+    this.#countriesLayer = this.generateCountriesGeoJSONLayer();
+    this.#updateArea();
   }
 
   render() {
@@ -82,148 +153,217 @@ export class UtilMapElement extends LitElement {
       new L.LatLng(90, 180)
     );
     return L.map(mapContainer, {
+      zoomControl: false,
       maxBounds: mapBounds,
       maxBoundsViscosity: 1.0,
       minZoom: 2,
-    }).setView([0, 0], 2);
+    }).setView(this.defaultCenter, this.defaultZoom);
   }
 
   generateCoutinentsGeoJSONLayer() {
-    return L.geoJSON(continentsGeoJSON as GeoJsonObject, {
-      style: () => ({
-        color: HIGHLIGHT_COLOR,
-        fillColor: DIM_COLOR,
+    const layerGroup = L.layerGroup();
+    L.geoJSON(this.#areasGeoJSON, {
+      style: (feature) => ({
+        color: "var(--color)",
+        fillColor: this.validateAreaCallback(feature)
+          ? "var(--polygon-fill-color)"
+          : "var(--polygon-dim-fill-color)",
         fillOpacity: 0.9,
         weight: 2,
       }),
       onEachFeature: (feature, layer) => {
         if (!this.#mapInstance) return;
+        const displayedLabel = this.obtainAreaDisplayedLabelCallback(feature);
         const divIcon = L.divIcon({
-          html: feature.properties.CONTINENT,
-          className: "location-label continent",
+          html: displayedLabel,
+          className: "location-label",
         });
 
         const divIconInvert = L.divIcon({
-          html: feature.properties.CONTINENT,
-          className: "location-label continent invert",
+          html: displayedLabel,
+          className: "location-label invert",
         });
 
         // TODO in case the layer is not a polygon
-        const bounds =
-          SPECIAL_BOUNDS[feature.properties.CONTINENT] ??
-          (layer as L.Polygon).getBounds();
-        const center = bounds?.getCenter();
-        const marker = L.marker(center, {
+        const specicalBoundsCoordinates = feature.properties.zoomInBounds?.map(
+          (item: [][]) => item.map((coords) => coords.reverse())
+        );
+        const specicalBounds = specicalBoundsCoordinates
+          ? L.polygon([...specicalBoundsCoordinates]).getBounds()
+          : undefined;
+        const bounds = specicalBounds ?? (layer as L.Polygon).getBounds();
+        const specialLabelPosition = this.obtainAreaLabelPositionCallback(
+          feature
+        )?.reverse() as [number, number] | undefined;
+        const labelPosition = specialLabelPosition ?? bounds?.getCenter();
+        const marker = L.marker(labelPosition, {
           icon: divIcon,
         });
-        marker.addTo(this.#mapInstance);
+        marker.addTo(layerGroup);
 
-        layer
-          .on("mouseover", (event) => {
-            event.target.setStyle({ fillColor: HIGHLIGHT_COLOR });
-            marker.setIcon(divIconInvert);
-          })
-          .on("mouseout", (event) => {
-            event.target.setStyle({ fillColor: DIM_COLOR });
+        if (this.validateAreaCallback(feature)) {
+          layer
+            .on("mouseover", (event) => {
+              event.target.setStyle({
+                fillColor: "var(--polygon-highlight-fill-color)",
+              });
+              marker.setIcon(divIconInvert);
+            })
+            .on("mouseout", (event) => {
+              event.target.setStyle({ fillColor: "var(--polygon-fill-color)" });
+              marker.setIcon(divIcon);
+            })
+            .on("click", () => {
+              this.area = feature.properties.name;
+            });
+          layerGroup.on("remove", () => {
+            (layer as L.GeoJSON).setStyle({
+              fillColor: "var(--polygon-fill-color)",
+            });
             marker.setIcon(divIcon);
-          })
-          .on("click", () => {
-            // TODO in case the layer is not a polygon
-            const bounds =
-              SPECIAL_BOUNDS[feature.properties.CONTINENT] ??
-              (layer as L.Polygon).getBounds();
-            if (!bounds) return;
-            this.#mapInstance?.fitBounds(bounds);
-            this.#updateDetailLevel("countries");
           });
+        }
       },
-    });
+    }).addTo(layerGroup);
+    return layerGroup;
   }
 
   // TODO refator
   generateCountriesGeoJSONLayer() {
-    return L.geoJSON(countriesGeoJSON as GeoJsonObject, {
-      style: () => ({
-        color: HIGHLIGHT_COLOR,
-        fillColor: DIM_COLOR,
+    const layerGroup = L.layerGroup();
+    L.geoJSON(this.#countriesGeoJSON, {
+      style: (feature) => ({
+        color: "var(--color)",
+        fillColor: this.validateCountryCallback(feature)
+          ? "var(--polygon-fill-color)"
+          : "var(--polygon-dim-fill-color)",
         fillOpacity: 0.9,
         weight: 2,
       }),
       onEachFeature: (feature, layer) => {
         if (!this.#mapInstance) return;
+        const displayedLabel =
+          this.obtainCountryDisplayedLabelCallback(feature);
         const divIcon = L.divIcon({
-          html: feature.properties.ADMIN,
-          className: "location-label country",
+          html: displayedLabel,
+          className: "location-label",
         });
 
         const divIconInvert = L.divIcon({
-          html: feature.properties.ADMIN,
-          className: "location-label country invert",
+          html: displayedLabel,
+          className: "location-label invert",
         });
 
         // TODO in case the layer is not a polygon
-        const bounds =
-          SPECIAL_BOUNDS[feature.properties.ADMIN] ??
-          (layer as L.Polygon).getBounds();
-        const center = bounds?.getCenter();
-        const marker = L.marker(center, {
+        const specicalBoundsCoordinates = feature.properties.zoomInBounds?.map(
+          (item: [][]) => item.map((coords) => coords.reverse())
+        );
+        const specicalBounds = specicalBoundsCoordinates
+          ? L.polygon([...specicalBoundsCoordinates]).getBounds()
+          : undefined;
+        const bounds = specicalBounds ?? (layer as L.Polygon).getBounds();
+        const specialLabelPosition = this.obtainCountryLabelPositionCallback(
+          feature
+        )?.reverse() as [number, number] | undefined;
+        const labelPosition = specialLabelPosition ?? bounds?.getCenter();
+        const marker = L.marker(labelPosition, {
           icon: divIcon,
         });
-        marker.addTo(this.#mapInstance);
+        marker.addTo(layerGroup);
 
-        layer
-          .on("mouseover", (event) => {
-            event.target.setStyle({ fillColor: HIGHLIGHT_COLOR });
-            marker.setIcon(divIconInvert);
-          })
-          .on("mouseout", (event) => {
-            event.target.setStyle({ fillColor: DIM_COLOR });
+        if (this.validateCountryCallback(feature)) {
+          layer
+            .on("mouseover", (event) => {
+              event.target.setStyle({
+                fillColor: "var(--polygon-highlight-fill-color)",
+              });
+              marker.setIcon(divIconInvert);
+            })
+            .on("mouseout", (event) => {
+              event.target.setStyle({ fillColor: "var(--polygon-fill-color)" });
+              marker.setIcon(divIcon);
+            })
+            .on("click", () => {
+              this.dispatchEvent(
+                new CustomEvent("countrySelect", { detail: feature })
+              );
+            })
+            .bindTooltip(
+              /* html */ `<img src="${this.obtainCountryImageCallback(
+                feature
+              )}" alt="${this.obtainCountryDisplayedLabelCallback(
+                feature
+              )}" height="100" width="100"/>`,
+              {
+                direction: "top",
+                sticky: true,
+                offset: [0, -10],
+              }
+            );
+          layerGroup.on("remove", () => {
+            (layer as L.GeoJSON).setStyle({
+              fillColor: "var(--polygon-fill-color)",
+            });
             marker.setIcon(divIcon);
-          })
-          .on("click", () => {
-            // TODO in case the layer is not a polygon
-            const bounds =
-              SPECIAL_BOUNDS[feature.properties.CONTINENT] ??
-              (layer as L.Polygon).getBounds();
-            if (!bounds) return;
-            this.#mapInstance?.setZoom(2);
-            this.#updateDetailLevel("continents");
           });
+        }
       },
-    }).bindTooltip(
-      '<img src="https://avatars.githubusercontent.com/u/26160377?v=4" height="100" width="100"/>',
-      {
-        direction: "top",
-        sticky: true,
-        offset: [0, -10],
-      }
-    );
+    }).addTo(layerGroup);
+    return layerGroup;
   }
 
-  #updateDetailLevel(detailLevel: "continents" | "countries") {
-    this.detailLevel = detailLevel;
+  #updateArea() {
     if (!this.#mapInstance) return;
-    switch (detailLevel) {
-      case "continents":
-        this.#countriesGeoJSONLayer?.remove();
-        this.#continentsGeoJSONLayer?.addTo(this.#mapInstance);
+    switch (typeof this.area) {
+      case "string": {
+        this.#areasLayer?.remove();
+        this.#countriesLayer?.addTo(this.#mapInstance);
+        const areaFeature = this.#areasGeoJSON?.features?.find(
+          ({ properties }) => properties?.name === this.area
+        );
+        const areaZoomInBoundsCoordinates =
+          areaFeature?.properties?.zoomInBounds ??
+          (areaFeature?.geometry as { coordinates?: [][][] })?.coordinates?.map(
+            (item: [][]) => item.map((coords) => coords.reverse())
+          );
+        const areaZoomInBounds = L.polygon([
+          ...areaZoomInBoundsCoordinates,
+        ]).getBounds();
+        this.#mapInstance.fitBounds(areaZoomInBounds);
         break;
-      case "countries":
-        this.#continentsGeoJSONLayer?.remove();
-        this.#countriesGeoJSONLayer?.addTo(this.#mapInstance);
+      }
+      default: {
+        this.#countriesLayer?.remove();
+        this.#areasLayer?.addTo(this.#mapInstance);
+        this.#mapInstance.setView(this.defaultCenter, this.defaultZoom);
         break;
+      }
     }
+  }
+
+  #disableUserZoom() {
+    this.#mapInstance?.touchZoom.disable();
+    this.#mapInstance?.doubleClickZoom.disable();
+    this.#mapInstance?.scrollWheelZoom.disable();
+    this.#mapInstance?.boxZoom.disable();
   }
 
   static styles = [
     unsafeCSS(leafletCSS),
     css`
       :host {
+        --base-background: hsl(0, 0%, 0%);
+        --polygon-highlight-fill-color: hsl(0, 0%, 100%);
+        --polygon-dim-fill-color: hsl(0, 0%, 20%);
+        --polygon-fill-color: hsl(0, 0%, 50%);
+        --color: hsl(0, 0%, 100%);
+        --contrast-color: hsl(0, 0%, 20%);
+
         display: block;
       }
 
       #map {
-        background: hsl(0, 0%, 0%);
+        background: var(--base-background);
         height: 100%;
         width: 100%;
 
@@ -233,19 +373,11 @@ export class UtilMapElement extends LitElement {
       }
 
       .location-label {
-        color: white;
+        color: var(--color);
         pointer-events: none !important;
 
         &.invert {
-          filter: invert(1);
-        }
-
-        :host([detail-level="countries"]) &.continent {
-          display: none;
-        }
-
-        :host([detail-level="continents"]) &.country {
-          display: none;
+          color: var(--contrast-color);
         }
       }
     `,
