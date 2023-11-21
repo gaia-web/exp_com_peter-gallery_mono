@@ -1,8 +1,8 @@
 import { Meta, StoryObj } from "@storybook/web-components";
 import { html } from "lit";
 
-import "../../src/components/map";
-import { UtilMapElement } from "../../src/components/map";
+import "../components/geo-explorer";
+import { UtilGeoExplorerElement } from "../components/geo-explorer";
 
 const areaNameDict = (await fetch(
   "https://gaia-web.github.io/lib_world-map-utils/continents/continents-name-dict.en.json"
@@ -62,7 +62,8 @@ export default {
     ></util-map>
     <button
       @click=${() =>
-        ((document.querySelector("#map") as UtilMapElement).area = undefined)}
+        ((document.querySelector("#map") as UtilGeoExplorerElement).area =
+          undefined)}
       style="position: absolute; top: 10px; left: 10px; cursor: pointer; z-index: 999;"
     >
       Reset view

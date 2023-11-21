@@ -6,7 +6,7 @@ import L from "leaflet";
 import leafletCSS from "leaflet/dist/leaflet.css?inline";
 
 /**
- * The customized map.
+ * A map based geo-location explorer.
  *
  * @cssprop --base-background - base background of the map.
  * @cssprop --polygon-highlight-fill-color - highlight fill color of polygons.
@@ -17,8 +17,8 @@ import leafletCSS from "leaflet/dist/leaflet.css?inline";
  *
  * @fires countrySelect - Occurs when a country is selected. The event `detail` prop gives the GeoJSON feature of the country.
  */
-@customElement("util-map")
-export class UtilMapElement extends LitElement {
+@customElement("util-geo-explorer")
+export class UtilGeoExplorerElement extends LitElement {
   /**
    * @internal
    */
@@ -395,6 +395,6 @@ export class UtilMapElement extends LitElement {
 
 declare global {
   interface HTMLElementTagNameMap {
-    "util-map": UtilMapElement;
+    "util-geo-explorer": UtilGeoExplorerElement;
   }
 }
