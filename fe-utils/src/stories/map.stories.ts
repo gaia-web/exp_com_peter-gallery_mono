@@ -14,7 +14,9 @@ const validAreas = ["AS", "EU", "AF", "OC"];
 const validCountries = ["CHN", "JPN", "KOR", "FRA", "ESP", "AUS", "TZA"];
 
 // eslint-disable-next-line @typescript-eslint/ban-types
-type MyArgs = {};
+type MyArgs = {
+  onCountrySelect: (event: CustomEvent<GeoJSON.Feature>) => void;
+};
 
 export default {
   title: "Components/Map",
@@ -23,9 +25,11 @@ export default {
   parameters: {
     layout: "fullscreen",
   },
-  argTypes: {},
+  argTypes: {
+    onCountrySelect: { action: "countrySelect" },
+  },
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  render: (_args) => html`
+  render: (args) => html`
     <style>
       #map {
         height: 100vh;
@@ -54,9 +58,7 @@ export default {
         validAreas.includes(feature.properties?.name)}
       .validateCountryCallback=${(feature: GeoJSON.Feature) =>
         validCountries.includes(feature.properties?.ISO_A3)}
-      @countrySelect=${({ detail }: CustomEvent<GeoJSON.Feature>) => {
-        alert(`You clicked ${countryNameDict[detail.properties?.ISO_A3]}.`);
-      }}
+      @countrySelect=${args.onCountrySelect}
     ></util-map>
     <button
       @click=${() =>

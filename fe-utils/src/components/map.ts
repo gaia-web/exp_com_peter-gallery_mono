@@ -7,6 +7,15 @@ import leafletCSS from "leaflet/dist/leaflet.css?inline";
 
 /**
  * The customized map.
+ *
+ * @cssprop --base-background - base background of the map.
+ * @cssprop --polygon-highlight-fill-color - highlight fill color of polygons.
+ * @cssprop --polygon-dim-fill-color - dim fill color of polygons.
+ * @cssprop --polygon-fill-color - default fill color of polygons.
+ * @cssprop --color - default text color.
+ * @cssprop --contrast-color - contrast text color.
+ *
+ * @fires countrySelect - Occurs when a country is selected. The event `detail` prop gives the GeoJSON feature of the country.
  */
 @customElement("util-map")
 export class UtilMapElement extends LitElement {
