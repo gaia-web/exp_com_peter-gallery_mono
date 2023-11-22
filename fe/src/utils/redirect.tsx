@@ -3,18 +3,16 @@ import { FunctionComponent } from "preact";
 import { useEffect } from "preact/hooks";
 
 interface RedirectProps {
-    path: string;
-    to: string;
+  path: string;
+  to: string;
 }
 
 const Redirect: FunctionComponent<RedirectProps> = ({ path, to }) => {
-    useEffect(() => {
-        if (window.location.pathname === path) {
-            route(to, true);
-        }
-    }, [path, to]);
+  useEffect(() => {
+    route(to, true);
+  }, [path, to]);
 
-    return null;
+  return null;
 };
 
 export default Redirect;
