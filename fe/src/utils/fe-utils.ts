@@ -1,15 +1,15 @@
 import { EventName, createComponent } from "@lit/react";
 import {
-  UtilMapElement,
+  UtilGeoExplorerElement,
   UtilPaginationElement,
   UtilTabElement,
   UtilTabsElement,
 } from "fe-utils";
 import React from "react";
 
-export const Map = createComponent({
-  tagName: "util-map",
-  elementClass: UtilMapElement,
+export const GeoExplorer = createComponent({
+  tagName: "util-geo-explorer",
+  elementClass: UtilGeoExplorerElement,
   react: React,
 });
 
