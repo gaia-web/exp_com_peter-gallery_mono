@@ -19,8 +19,8 @@ type MyArgs = {
 };
 
 export default {
-  title: "Components/Map",
-  component: "util-map",
+  title: "Components/Geo Explorer",
+  component: "util-geo-explorer",
   tags: ["autodocs"],
   parameters: {
     layout: "fullscreen",
@@ -40,7 +40,7 @@ export default {
         --contrast-color: pink;
       }
     </style>
-    <util-map
+    <util-geo-explorer
       id="map"
       areas="https://gaia-web.github.io/lib_world-map-utils/continents/continents.simplified.geojson"
       countries="https://gaia-web.github.io/lib_world-map-utils/countries/countries.simplified.geojson"
@@ -59,7 +59,7 @@ export default {
       .validateCountryCallback=${(feature: GeoJSON.Feature) =>
         validCountries.includes(feature.properties?.ISO_A3)}
       @countrySelect=${args.onCountrySelect}
-    ></util-map>
+    ></util-geo-explorer>
     <button
       @click=${() =>
         ((document.querySelector("#map") as UtilGeoExplorerElement).area =
