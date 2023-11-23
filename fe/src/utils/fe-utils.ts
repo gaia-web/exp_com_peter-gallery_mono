@@ -12,6 +12,7 @@ export const GeoExplorer = createComponent({
   elementClass: UtilGeoExplorerElement,
   react: React,
   events: {
+    onAreaSelect: "areaSelect" as EventName<CustomEvent<GeoJSON.Feature>>,
     onCountrySelect: "countrySelect" as EventName<CustomEvent<GeoJSON.Feature>>,
   },
 });

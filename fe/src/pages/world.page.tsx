@@ -68,8 +68,18 @@ export function WorldPage({ routerInfo }: PageProps) {
         validateCountryCallback={(feature) =>
           validCountries.value.includes(feature?.properties?.ISO_A3)
         }
+        onAreaSelect={({ detail: feature }) => {
+          const areaId = feature?.properties?.name;
+          setTimeout(() => {
+            route(
+              `/${languageLabel?.toLowerCase()}/world/${encodeURIComponent(
+                areaId
+              )}`
+            );
+          });
+        }}
         onCountrySelect={({ detail: feature }) => {
-          const countryId = countryNameDict.value[feature?.properties?.ISO_A3];
+          const countryId = feature?.properties?.ISO_A3;
           route(
             `/${languageLabel?.toLowerCase()}/article?locationId=${encodeURIComponent(
               countryId
@@ -80,6 +90,9 @@ export function WorldPage({ routerInfo }: PageProps) {
       <button
         onClick={() => {
           geoExplorerRef.current && (geoExplorerRef.current.area = undefined);
+          setTimeout(() => {
+            route(`/${languageLabel?.toLowerCase()}/world`);
+          });
         }}
         class="absolute bottom-[10px] right-[10px] cursor-pointer z-[999] font-size-[2em]"
       >
