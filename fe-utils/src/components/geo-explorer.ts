@@ -15,6 +15,7 @@ import leafletCSS from "leaflet/dist/leaflet.css?inline";
  * @cssprop --color - default text color.
  * @cssprop --contrast-color - contrast text color.
  *
+ * @fires areaSelect - Occurs when an area is selected. The event `detail` prop gives the GeoJSON feature of the area.
  * @fires countrySelect - Occurs when a country is selected. The event `detail` prop gives the GeoJSON feature of the country.
  */
 @customElement("util-geo-explorer")
@@ -224,6 +225,9 @@ export class UtilGeoExplorerElement extends LitElement {
             })
             .on("click", () => {
               this.area = feature.properties.name;
+              this.dispatchEvent(
+                new CustomEvent("areaSelect", { detail: feature })
+              );
             });
           layerGroup.on("remove", () => {
             (layer as L.GeoJSON).setStyle({
