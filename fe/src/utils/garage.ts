@@ -3,6 +3,7 @@ import {
   GaiaIfElement,
   GaiaNavElement,
   GaiaNavItemElement,
+  GaiaCarouselElement
 } from "@gaia/garage";
 import { createComponent } from "@lit/react";
 import React from "react";
@@ -28,5 +29,11 @@ export const Nav = createComponent({
 export const NavItem = createComponent({
   tagName: "gaia-nav-item",
   elementClass: GaiaNavItemElement,
+  react: React,
+})
+;
+export const Carousel = createComponent({
+  tagName: "gaia-carousel",
+  elementClass: GaiaCarouselElement,
   react: React,
 });
