@@ -1,4 +1,4 @@
-import { Link, useRouter } from "preact-router";
+import { Link } from "preact-router";
 import { If } from "../utils/garage";
 import { PageProps } from "../utils/page-wrapper";
 import { LanguageToggleView } from "../views/language-toggle.view";
@@ -6,8 +6,7 @@ import { LanguageToggleView } from "../views/language-toggle.view";
 import "./home.page.css";
 
 export function HomePage({ routerInfo }: PageProps) {
-  const [router] = useRouter();
-  const languageLabel = router.matches?.lang?.toUpperCase();
+  const languageLabel = routerInfo.lang?.toUpperCase();
 
   return (
     <>

@@ -1,8 +1,8 @@
 import { Header, If } from "../utils/garage";
 import { LanguageToggleView } from "./language-toggle.view";
-import { route, useRouter } from "preact-router";
+import { route } from "preact-router";
 import { Tab, Tabs } from "../utils/fe-utils";
-import { useState } from "preact/hooks";
+import { PageProps } from "../utils/page-wrapper";
 
 const selectClass = (input: string): { class: string; selected: boolean } => {
   const baseClass = `rounded-xl p-1rem`;
@@ -15,23 +15,24 @@ const selectClass = (input: string): { class: string; selected: boolean } => {
 };
 
 const getRoute = (input: string) => {
-  if (input === "世界") return "world";
-  if (input === "众生") return "people";
-  if (input === "我们") return "selves";
+  if (input === "world") return "world";
+  if (input === "people") return "article?people=1";
+  if (input === "selves") return "selves";
 
   return input;
 };
 
-export function HeaderView() {
-  const [router] = useRouter();
-  const languageLabel = router.matches?.lang?.toUpperCase();
-
-  const [_, setPath] = useState(window.location.pathname);
+export function HeaderView({ routerInfo }: PageProps) {
+  const languageLabel = routerInfo.lang?.toUpperCase();
 
   const Options = (props: { en: string; zh: string }) => {
     const { en, zh } = props;
     return (
-      <Tab class={selectClass(en).class} selected={selectClass(en).selected}>
+      <Tab
+        value={en}
+        class={selectClass(en).class}
+        selected={selectClass(en).selected}
+      >
         <If condition={languageLabel}>
           <div slot="EN">{en.toUpperCase()}</div>
           <div slot="ZH">{zh}</div>
@@ -57,9 +58,10 @@ export function HeaderView() {
           <Tabs
             class="bg-#3F434C rounded-xl "
             onTabChange={(e) => {
-              const newRoute = `/${getRoute(e.detail.toLowerCase())}`;
+              const newRoute = `/${languageLabel?.toLocaleLowerCase()}/${getRoute(
+                e.detail.toLowerCase()
+              )}`;
               route(newRoute);
-              setPath(newRoute);
             }}
           >
             <Options en="world" zh="世界" />

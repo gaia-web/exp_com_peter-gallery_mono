@@ -3,11 +3,11 @@ import { GeoExplorer } from "../utils/fe-utils";
 import { PageProps } from "../utils/page-wrapper";
 import { UtilGeoExplorerElement } from "fe-utils";
 import { createRef } from "preact";
-import { useRouter } from "preact-router";
+import { route } from "preact-router";
 import { useEffect } from "preact/hooks";
 import { HeaderView } from "../views/header.view";
 
-export function WorldPage(_props: PageProps) {
+export function WorldPage({ routerInfo }: PageProps) {
   const geoExplorerRef = createRef<UtilGeoExplorerElement>();
 
   const areaNameDict = useSignal<Record<string, string>>({});
@@ -23,9 +23,8 @@ export function WorldPage(_props: PageProps) {
     "TZA",
   ]);
 
-  const [router, routeTo] = useRouter();
-  const languageLabel = router.matches?.lang?.toUpperCase();
-  const area = router.matches?.area;
+  const languageLabel = routerInfo.lang?.toUpperCase();
+  const area = routerInfo.area as string | undefined;
 
   useEffect(() => {
     (async () => {
@@ -36,11 +35,11 @@ export function WorldPage(_props: PageProps) {
         `https://gaia-web.github.io/lib_world-map-utils/countries/country-name-dict.${languageLabel?.toLowerCase()}.json`
       ).then((response) => response.json())) as Record<string, string>;
     })();
-  }, [router.url]);
+  }, [languageLabel]);
 
   return (
     <>
-      <HeaderView />
+      <HeaderView routerInfo={routerInfo} />
       {/* TODO investigate language refresh issue */}
       {/* TODO need to add an event of area selected in the lib */}
       <GeoExplorer
@@ -71,8 +70,8 @@ export function WorldPage(_props: PageProps) {
         }
         onCountrySelect={({ detail: feature }) => {
           const countryId = countryNameDict.value[feature?.properties?.ISO_A3];
-          routeTo(
-            `/${router.matches?.lang}/article?locationId=${encodeURIComponent(
+          route(
+            `/${languageLabel?.toLowerCase()}/article?locationId=${encodeURIComponent(
               countryId
             )}`
           );

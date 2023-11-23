@@ -6,13 +6,12 @@ import { Carousel, If } from "../utils/garage";
 import { route, useRouter } from "preact-router";
 import { PageProps } from "../utils/page-wrapper";
 
-export function PeopleDetailPage(_props: PageProps) {
+export function PeopleDetailPage({ routerInfo }: PageProps) {
   const toPage = (nextPage: string) => {
     return route(`/people/${nextPage}`, true);
   };
 
-  const [router] = useRouter();
-  const languageLabel = router.matches?.lang?.toUpperCase() ?? "";
+  const languageLabel = routerInfo.lang?.toUpperCase() ?? "";
 
   const markdown = useSignal("");
   const imgs = useSignal([]);
@@ -29,7 +28,7 @@ export function PeopleDetailPage(_props: PageProps) {
     }
 
     fetchArticle();
-  }, [router.url]);
+  }, [languageLabel]);
 
   if (!markdown.value) {
     return <></>;
