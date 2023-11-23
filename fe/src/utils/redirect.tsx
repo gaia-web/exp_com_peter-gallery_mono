@@ -3,14 +3,13 @@ import { FunctionComponent } from "preact";
 import { useEffect } from "preact/hooks";
 
 interface RedirectProps {
-  path: string;
   to: string;
 }
 
-const Redirect: FunctionComponent<RedirectProps> = ({ path, to }) => {
+const Redirect: FunctionComponent<RedirectProps> = ({ to }) => {
   useEffect(() => {
     route(to, true);
-  }, [path, to]);
+  }, [to]);
 
   return null;
 };
