@@ -4,8 +4,9 @@ import markdownStyleSheet from "../assets/markdown.css?inline";
 import { useSignal } from "@preact/signals";
 import { Carousel, If } from "../utils/garage";
 import { route, useRouter } from "preact-router";
+import { PageProps } from "../utils/page-wrapper";
 
-export function PeopleDetailPage() {
+export function PeopleDetailPage(_props: PageProps) {
   const toPage = (nextPage: string) => {
     return route(`/people/${nextPage}`, true);
   };

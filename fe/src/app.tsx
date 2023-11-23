@@ -6,6 +6,8 @@ import { FallbackPage } from "./pages/fallback.page";
 import Match from "preact-router/match";
 import { HomePage } from "./pages/home.page";
 import { WorldPage } from "./pages/world.page";
+import { ArticleListPage } from "./pages/article-list.page";
+import { PeopleDetailPage } from "./pages/people-detail.page";
 
 export function App() {
   return (
@@ -23,28 +25,10 @@ export function App() {
             {(props: PageProps) => <WorldPage {...props} />}
           </PageWrapper>
           <PageWrapper path="/:lang/article">
-            {({ routerInfo }: PageProps) => (
-              <>
-                <div>Article List - {routerInfo.lang}</div>
-                <div>LocationId: {routerInfo.locationId ?? "N/A"}</div>
-                <div>For People: {routerInfo.people ? "true" : "false"}</div>
-                <div>For Search: {routerInfo.search ? "true" : "false"}</div>
-                <div>Page Index: {routerInfo.page ?? "Not specified."}</div>
-              </>
-            )}
+            {(props: PageProps) => <ArticleListPage {...props} />}
           </PageWrapper>
           <PageWrapper path="/:lang/article/:locationId/:articleId">
-            {({ routerInfo }: PageProps) => (
-              <>
-                <div>
-                  Article - {routerInfo.locationId} - {routerInfo.articleId} -{" "}
-                  {routerInfo.lang}
-                </div>
-                <div>
-                  From People Page: {routerInfo.fromPeople ? "true" : "false"}
-                </div>
-              </>
-            )}
+            {(props: PageProps) => <PeopleDetailPage {...props} />}
           </PageWrapper>
           <PageWrapper path="/:lang/selves">
             {({ routerInfo }: PageProps) => <>Selves - {routerInfo.lang}</>}
