@@ -25,6 +25,7 @@ export function WorldPage(_props: PageProps) {
 
   const [router, routeTo] = useRouter();
   const languageLabel = router.matches?.lang?.toUpperCase();
+  const area = router.matches?.area;
 
   useEffect(() => {
     (async () => {
@@ -41,9 +42,11 @@ export function WorldPage(_props: PageProps) {
     <>
       <HeaderView />
       {/* TODO investigate language refresh issue */}
+      {/* TODO need to add an event of area selected in the lib */}
       <GeoExplorer
         ref={geoExplorerRef}
-        className="mt-6 h-[100vh] w-full"
+        className="mt-6 h-[100vh] w-full fixed"
+        area={area}
         areas="https://gaia-web.github.io/lib_world-map-utils/continents/continents.simplified.geojson"
         countries="https://gaia-web.github.io/lib_world-map-utils/countries/countries.simplified.geojson"
         obtainAreaLabelPositionCallback={(feature) =>

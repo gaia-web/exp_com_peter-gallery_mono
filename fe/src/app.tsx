@@ -20,11 +20,7 @@ export function App() {
             {(props: PageProps) => <WorldPage {...props} />}
           </PageWrapper>
           <PageWrapper path="/:lang/world/:area">
-            {({ routerInfo }: PageProps) => (
-              <>
-                World - {routerInfo.area} - {routerInfo.lang}
-              </>
-            )}
+            {(props: PageProps) => <WorldPage {...props} />}
           </PageWrapper>
           <PageWrapper path="/:lang/article">
             {({ routerInfo }: PageProps) => (
