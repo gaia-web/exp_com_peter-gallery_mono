@@ -1,4 +1,4 @@
-import { useSignal, useSignalEffect } from "@preact/signals";
+import { useSignal } from "@preact/signals";
 import { GeoExplorer } from "../utils/fe-utils";
 import { PageProps } from "../utils/page-wrapper";
 import { UtilGeoExplorerElement } from "fe-utils";
