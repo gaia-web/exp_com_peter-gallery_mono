@@ -8,6 +8,7 @@ import { HomePage } from "./pages/home.page";
 import { WorldPage } from "./pages/world.page";
 import { ArticleListPage } from "./pages/article-list.page";
 import { PeopleDetailPage } from "./pages/people-detail.page";
+import { SelvesPage } from "./pages/selves.page";
 
 export function App() {
   return (
@@ -31,7 +32,7 @@ export function App() {
             {(props: PageProps) => <PeopleDetailPage {...props} />}
           </PageWrapper>
           <PageWrapper path="/:lang/selves">
-            {({ routerInfo }: PageProps) => <>Selves - {routerInfo.lang}</>}
+            {(props: PageProps) => <SelvesPage {...props} />}
           </PageWrapper>
           <Match path="/404">
             {({ url }: RouterOnChangeArgs) => (

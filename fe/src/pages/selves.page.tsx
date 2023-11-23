@@ -1,13 +1,11 @@
-export function SelvesPage() {
+import { PageProps } from "../utils/page-wrapper";
 
-    return (
-      <>
-        <div>
-          <p>
-            Selves page
-          </p>
-        </div>
-      </>
-    );
-  }
-  
+export function SelvesPage(_props: PageProps) {
+  return (
+    <>
+      <div>
+        <p>Selves page</p>
+      </div>
+    </>
+  );
+}
