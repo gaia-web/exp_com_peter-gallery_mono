@@ -11,6 +11,9 @@ export const GeoExplorer = createComponent({
   tagName: "util-geo-explorer",
   elementClass: UtilGeoExplorerElement,
   react: React,
+  events: {
+    onCountrySelect: "countrySelect" as EventName<CustomEvent<GeoJSON.Feature>>,
+  },
 });
 
 export const Pagination = createComponent({

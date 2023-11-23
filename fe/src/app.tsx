@@ -5,6 +5,7 @@ import { PageWrapper, PageProps } from "./utils/page-wrapper";
 import { FallbackPage } from "./pages/fallback.page";
 import Match from "preact-router/match";
 import { HomePage } from "./pages/home.page";
+import { WorldPage } from "./pages/world.page";
 
 export function App() {
   return (
@@ -16,7 +17,7 @@ export function App() {
             {(props: PageProps) => <HomePage {...props} />}
           </PageWrapper>
           <PageWrapper path="/:lang/world">
-            {({ routerInfo }: PageProps) => <>World - {routerInfo.lang}</>}
+            {(props: PageProps) => <WorldPage {...props} />}
           </PageWrapper>
           <PageWrapper path="/:lang/world/:area">
             {({ routerInfo }: PageProps) => (
