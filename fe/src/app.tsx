@@ -1,54 +1,55 @@
-import Router, { RouterOnChangeArgs, route } from "preact-router";
-import Redirect from './utils/redirect'
-import Match from "preact-router/match";
+import Router, { RoutableProps } from "preact-router";
+import Redirect from "./utils/redirect";
 import "fe-utils";
-import { HomePage } from "./pages/home.page";
-import { HeaderView } from "./views/header.view";
-import { FallbackPage } from "./pages/fallback.page";
-import { PeoplePage } from "./pages/people.page";
-import { WorldPage } from "./pages/world.page";
-import { SelvesPage } from "./pages/selves.page";
-import { SearchPage } from "./pages/search.page";
+import { FunctionComponent } from "preact";
 
-export function App() {
-  type RouterType = {
-    matches: boolean;
-    url: string;
-  };
-
+const TestPage: FunctionComponent<
+  Record<string, unknown> &
+    RoutableProps & { name: string; lang?: string; alsoShow?: string[] }
+> = (props) => {
+  debugger;
   return (
     <>
+      <div>
+        {props.name} - {props.lang} - {props.path}
+      </div>
+      <div>
+        {props.alsoShow?.map((key) => (
+          <div>
+            {key}: {props[key]}
+          </div>
+        ))}
+      </div>
+    </>
+  );
+};
 
-      {(window.location.pathname !== "/" && window.location.pathname !== "/world") && <HeaderView />}
+export function App() {
+  return (
+    <>
       <div style={{ viewTransitionName: "page" }}>
         <Router>
           <Redirect path="/" to="/en" />
-          <Match path="/:lang">
-            {({ matches, url }: RouterType) =>
-              matches && <HomePage path={url} />
-            }
-          </Match>
-          <Match path="/:lang/world">
-            {({ matches, url }: RouterType) => matches && <WorldPage />}
-          </Match>
-          <Match path="/:lang/article">
-            {({ matches, url }: RouterType) => matches && <PeoplePage />}
-          </Match>
-          <Match path="/:lang/selves">
-            {({ matches, url }: RouterType) => matches && <SelvesPage />}
-          </Match>
-          <Match path="/:lang/search">
-            {({ matches, url }: RouterType) => matches && <SearchPage />}
-          </Match>
-
-          {/* //TODO */}
-          {/* <FallbackPage default /> */}
-
-
+          <TestPage path="/:lang" name="Home" />
+          <TestPage path="/:lang/world" name="World" />
+          <TestPage
+            path="/:lang/world/:area"
+            name="World Area"
+            alsoShow={["area"]}
+          />
+          <TestPage
+            path="/:lang/article"
+            name="Article List"
+            alsoShow={["location", "people", "search", "page"]}
+          />
+          <TestPage
+            path="/:lang/article/:locationId/:articleId"
+            name="Article"
+            alsoShow={["locationId", "articleId", "fromPeople"]}
+          />
+          <TestPage path="/:lang/selves" name="Selves" />
         </Router>
       </div>
     </>
   );
 }
-
-
