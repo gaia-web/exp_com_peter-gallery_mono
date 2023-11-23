@@ -1,28 +1,7 @@
-import Router, { RoutableProps } from "preact-router";
+import Router from "preact-router";
 import Redirect from "./utils/redirect";
 import "fe-utils";
-import { FunctionComponent } from "preact";
-
-const TestPage: FunctionComponent<
-  Record<string, unknown> &
-    RoutableProps & { name: string; lang?: string; alsoShow?: string[] }
-> = (props) => {
-  debugger;
-  return (
-    <>
-      <div>
-        {props.name} - {props.lang} - {props.path}
-      </div>
-      <div>
-        {props.alsoShow?.map((key) => (
-          <div>
-            {key}: {props[key]}
-          </div>
-        ))}
-      </div>
-    </>
-  );
-};
+import { PageWrapper, PageProps } from "./utils/page-wrapper";
 
 export function App() {
   return (
@@ -30,24 +9,49 @@ export function App() {
       <div style={{ viewTransitionName: "page" }}>
         <Router>
           <Redirect path="/" to="/en" />
-          <TestPage path="/:lang" name="Home" />
-          <TestPage path="/:lang/world" name="World" />
-          <TestPage
-            path="/:lang/world/:area"
-            name="World Area"
-            alsoShow={["area"]}
-          />
-          <TestPage
-            path="/:lang/article"
-            name="Article List"
-            alsoShow={["location", "people", "search", "page"]}
-          />
-          <TestPage
-            path="/:lang/article/:locationId/:articleId"
-            name="Article"
-            alsoShow={["locationId", "articleId", "fromPeople"]}
-          />
-          <TestPage path="/:lang/selves" name="Selves" />
+          <PageWrapper path="/:lang">
+            {({ routerInfo }: PageProps) => <>Home - {routerInfo.lang}</>}
+          </PageWrapper>
+          <PageWrapper path="/:lang/world">
+            {({ routerInfo }: PageProps) => <>World - {routerInfo.lang}</>}
+          </PageWrapper>
+          <PageWrapper path="/:lang/world/:area">
+            {({ routerInfo }: PageProps) => (
+              <>
+                World - {routerInfo.area} - {routerInfo.lang}
+              </>
+            )}
+          </PageWrapper>
+          <PageWrapper path="/:lang/article">
+            {({ routerInfo }: PageProps) => (
+              <>
+                <div>Article List - {routerInfo.lang}</div>
+                <div>LocationId: {routerInfo.locationId ?? "N/A"}</div>
+                <div>For People: {routerInfo.people ? "true" : "false"}</div>
+                <div>For Search: {routerInfo.search ? "true" : "false"}</div>
+                <div>Page Index: {routerInfo.page ?? "Not specified."}</div>
+              </>
+            )}
+          </PageWrapper>
+          <PageWrapper path="/:lang/article/:locationId/:articleId">
+            {({ routerInfo }: PageProps) => (
+              <>
+                <div>
+                  Article - {routerInfo.locationId} - {routerInfo.articleId} -{" "}
+                  {routerInfo.lang}
+                </div>
+                <div>
+                  From People Page: {routerInfo.fromPeople ? "true" : "false"}
+                </div>
+              </>
+            )}
+          </PageWrapper>
+          <PageWrapper path="/:lang/selves">
+            {({ routerInfo }: PageProps) => <>Selves - {routerInfo.lang}</>}
+          </PageWrapper>
+          <PageWrapper default>
+            {({ routerInfo }: PageProps) => <>404 - {routerInfo.url}</>}
+          </PageWrapper>
         </Router>
       </div>
     </>
