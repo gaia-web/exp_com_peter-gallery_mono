@@ -2,10 +2,10 @@ import { If } from "../utils/garage";
 import { LanguageOptions, activeLanguage } from "../utils/language";
 import { LanguageToggleView } from "../views/language-toggle.view";
 
-import "./home.css";
+import "./home.page.css";
 
 interface HomePageProps {
-  path: string
+  path: string;
 }
 
 export function HomePage({ path }: HomePageProps) {
@@ -13,7 +13,9 @@ export function HomePage({ path }: HomePageProps) {
     <>
       {console.log(path)}
       <div>
-        <div class="leading-3rem p-10px text-2xl text-center">PETER’S PORTFOLIO.</div>
+        <div class="leading-3rem p-10px text-2xl text-center">
+          PETER’S PORTFOLIO.
+        </div>
         <div class="absolute leading-3rem top-0 right-0">
           <LanguageToggleView />
         </div>
