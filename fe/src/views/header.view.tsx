@@ -1,7 +1,6 @@
 import { Header, If } from "../utils/garage";
-import { LanguageOptions, activeLanguage } from "../utils/language";
 import { LanguageToggleView } from "./language-toggle.view";
-import { route } from "preact-router";
+import { route, useRouter } from "preact-router";
 import { Tab, Tabs } from "../utils/fe-utils";
 import { useState } from "preact/hooks";
 
@@ -24,13 +23,16 @@ const getRoute = (input: string) => {
 };
 
 export function HeaderView() {
+  const [router] = useRouter();
+  const languageLabel = router.matches?.lang?.toUpperCase();
+
   const [_, setPath] = useState(window.location.pathname);
 
   const Options = (props: { en: string; zh: string }) => {
     const { en, zh } = props;
     return (
       <Tab class={selectClass(en).class} selected={selectClass(en).selected}>
-        <If condition={LanguageOptions[activeLanguage.value]}>
+        <If condition={languageLabel}>
           <div slot="EN">{en.toUpperCase()}</div>
           <div slot="ZH">{zh}</div>
         </If>

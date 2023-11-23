@@ -1,11 +1,14 @@
 import { useEffect } from "preact/compat";
 import { Markdown } from "../utils/markdown";
-import { LanguageOptions, activeLanguage } from "../utils/language";
 import markdownStyleSheet from "../assets/markdown.css?inline";
 import { useSignal } from "@preact/signals";
+import { useRouter } from "preact-router";
 
 export function PeoplePage() {
   const markdown = useSignal("");
+
+  const [router] = useRouter();
+  const languageLabel = router.matches?.lang?.toUpperCase() ?? "";
 
   useEffect(() => {
     async function fetchArticle() {
@@ -13,14 +16,12 @@ export function PeoplePage() {
         (response) => response.json()
       );
       markdown.value = await fetch(
-        articleDefinition.content[
-          LanguageOptions[activeLanguage.value].toLowerCase()
-        ]
+        articleDefinition.content[languageLabel.toLowerCase()]
       ).then((response) => response.text());
     }
 
     fetchArticle();
-  }, [activeLanguage.value]);
+  }, [router.url]);
 
   return (
     <>

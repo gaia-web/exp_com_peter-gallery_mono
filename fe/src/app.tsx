@@ -4,6 +4,7 @@ import "fe-utils";
 import { PageWrapper, PageProps } from "./utils/page-wrapper";
 import { FallbackPage } from "./pages/fallback.page";
 import Match from "preact-router/match";
+import { HomePage } from "./pages/home.page";
 
 export function App() {
   return (
@@ -12,7 +13,7 @@ export function App() {
         <Router>
           <Redirect path="/" to="/en" />
           <PageWrapper path="/:lang">
-            {({ routerInfo }: PageProps) => <>Home - {routerInfo.lang}</>}
+            {(props: PageProps) => <HomePage {...props} />}
           </PageWrapper>
           <PageWrapper path="/:lang/world">
             {({ routerInfo }: PageProps) => <>World - {routerInfo.lang}</>}

@@ -1,8 +1,7 @@
-import { signal } from "@preact/signals";
-
+// TODO improve this enum
 export enum LanguageOptions {
   EN,
   ZH,
 }
 
-export const activeLanguage = signal<LanguageOptions>(LanguageOptions.EN);
+// TODO bring back signals
