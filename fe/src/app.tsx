@@ -1,7 +1,9 @@
-import Router from "preact-router";
+import Router, { RouterOnChangeArgs } from "preact-router";
 import Redirect from "./utils/redirect";
 import "fe-utils";
 import { PageWrapper, PageProps } from "./utils/page-wrapper";
+import { FallbackPage } from "./pages/fallback.page";
+import Match from "preact-router/match";
 
 export function App() {
   return (
@@ -49,9 +51,16 @@ export function App() {
           <PageWrapper path="/:lang/selves">
             {({ routerInfo }: PageProps) => <>Selves - {routerInfo.lang}</>}
           </PageWrapper>
-          <PageWrapper default>
-            {({ routerInfo }: PageProps) => <>404 - {routerInfo.url}</>}
-          </PageWrapper>
+          <Match path="/404">
+            {({ url }: RouterOnChangeArgs) => (
+              <FallbackPage>{url}</FallbackPage>
+            )}
+          </Match>
+          <Match default>
+            {({ url }: RouterOnChangeArgs) => (
+              <FallbackPage>{url}</FallbackPage>
+            )}
+          </Match>
         </Router>
       </div>
     </>
