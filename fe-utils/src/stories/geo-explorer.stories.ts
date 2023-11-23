@@ -15,6 +15,7 @@ const validCountries = ["CHN", "JPN", "KOR", "FRA", "ESP", "AUS", "TZA"];
 
 // eslint-disable-next-line @typescript-eslint/ban-types
 type MyArgs = {
+  onAreaSelect: (event: CustomEvent<GeoJSON.Feature>) => void;
   onCountrySelect: (event: CustomEvent<GeoJSON.Feature>) => void;
 };
 
@@ -26,6 +27,7 @@ export default {
     layout: "fullscreen",
   },
   argTypes: {
+    onAreaSelect: { action: "areaSelect" },
     onCountrySelect: { action: "countrySelect" },
   },
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -58,6 +60,7 @@ export default {
         validAreas.includes(feature.properties?.name)}
       .validateCountryCallback=${(feature: GeoJSON.Feature) =>
         validCountries.includes(feature.properties?.ISO_A3)}
+      @areaSelect=${args.onAreaSelect}
       @countrySelect=${args.onCountrySelect}
     ></util-geo-explorer>
     <button
