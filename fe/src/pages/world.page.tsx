@@ -45,6 +45,7 @@ export function WorldPage({ routerInfo }: PageProps) {
       <GeoExplorer
         ref={geoExplorerRef}
         className="mt-6 h-[100vh] w-full fixed"
+        style="--base-background: hsl(0, 0%, 0%); --polygon-highlight-fill-color: hsl(240, 100%, 50%); --contrast-color: hsl(-10, 100%, 50%);"
         area={area}
         areas="https://gaia-web.github.io/lib_world-map-utils/continents/continents.simplified.geojson"
         countries="https://gaia-web.github.io/lib_world-map-utils/countries/countries.simplified.geojson"
