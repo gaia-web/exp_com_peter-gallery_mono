@@ -40,54 +40,64 @@ export function WorldPage({ routerInfo }: PageProps) {
   return (
     <>
       <HeaderView routerInfo={routerInfo} />
-      {/* TODO investigate language refresh issue */}
-      {/* TODO need to add an event of area selected in the lib */}
-      <GeoExplorer
-        ref={geoExplorerRef}
-        className="mt-6 h-[100vh] w-full fixed"
-        style="--base-background: hsl(0, 0%, 0%); --polygon-highlight-fill-color: hsl(240, 100%, 50%); --contrast-color: hsl(-10, 100%, 50%);"
-        area={area}
-        areas="https://gaia-web.github.io/lib_world-map-utils/continents/continents.simplified.geojson"
-        countries="https://gaia-web.github.io/lib_world-map-utils/countries/countries.simplified.geojson"
-        obtainAreaLabelPositionCallback={(feature) =>
-          feature?.properties?.labelPosition
-        }
-        obtainCountryLabelPositionCallback={(feature) =>
-          feature?.properties?.labelPosition
-        }
-        obtainAreaDisplayedLabelCallback={(feature) =>
-          areaNameDict.value[feature?.properties?.name]
-        }
-        obtainCountryDisplayedLabelCallback={(feature) =>
-          validCountries.value.includes(feature?.properties?.ISO_A3)
-            ? countryNameDict.value[feature?.properties?.ISO_A3]
-            : ""
-        }
-        validateAreaCallback={(feature) =>
-          validAreas.value.includes(feature?.properties?.name)
-        }
-        validateCountryCallback={(feature) =>
-          validCountries.value.includes(feature?.properties?.ISO_A3)
-        }
-        onAreaSelect={({ detail: feature }) => {
-          const areaId = feature?.properties?.name;
-          setTimeout(() => {
+      {areaNameDict.value && countryNameDict.value && (
+        <GeoExplorer
+          ref={geoExplorerRef}
+          className="mt-6 h-[100vh] w-full fixed top-0 left-0"
+          style="--base-background: hsl(0, 0%, 0%); --polygon-highlight-fill-color: hsl(240, 100%, 50%); --contrast-color: hsl(-10, 100%, 50%);"
+          area={area}
+          areas="https://gaia-web.github.io/lib_world-map-utils/continents/continents.simplified.geojson"
+          countries="https://gaia-web.github.io/lib_world-map-utils/countries/countries.simplified.geojson"
+          defaultZoom={document.documentElement.clientWidth / 750}
+          obtainAreaIdCallback={(feature) => feature?.properties?.name}
+          obtainCountryIdCallback={(feature) => feature?.properties?.ISO_A3}
+          obtainAreaZoomInBoundsCallback={(feature) =>
+            feature?.properties?.zoomInBounds
+          }
+          obtainCountryZoomInBoundsCallback={(feature) =>
+            feature?.properties?.zoomInBounds
+          }
+          obtainAreaLabelPositionCallback={(feature) =>
+            feature?.properties?.labelPosition
+          }
+          obtainCountryLabelPositionCallback={(feature) =>
+            feature?.properties?.labelPosition
+          }
+          obtainAreaDisplayedLabelCallback={(feature) =>
+            areaNameDict.value[feature?.properties?.name]
+          }
+          obtainCountryDisplayedLabelCallback={(feature) =>
+            validCountries.value.includes(feature?.properties?.ISO_A3)
+              ? countryNameDict.value[feature?.properties?.ISO_A3]
+              : ""
+          }
+          validateAreaCallback={(feature) =>
+            validAreas.value.includes(feature?.properties?.name)
+          }
+          validateCountryCallback={(feature) =>
+            validCountries.value.includes(feature?.properties?.ISO_A3)
+          }
+          obtainCountryImageCallback={() => "https://picsum.photos/500"}
+          onAreaSelect={({ detail: feature }) => {
+            const areaId = feature?.properties?.name;
+            setTimeout(() => {
+              route(
+                `/${languageLabel?.toLowerCase()}/world/${encodeURIComponent(
+                  areaId
+                )}`
+              );
+            });
+          }}
+          onCountrySelect={({ detail: feature }) => {
+            const countryId = feature?.properties?.ISO_A3;
             route(
-              `/${languageLabel?.toLowerCase()}/world/${encodeURIComponent(
-                areaId
+              `/${languageLabel?.toLowerCase()}/article?locationId=${encodeURIComponent(
+                countryId
               )}`
             );
-          });
-        }}
-        onCountrySelect={({ detail: feature }) => {
-          const countryId = feature?.properties?.ISO_A3;
-          route(
-            `/${languageLabel?.toLowerCase()}/article?locationId=${encodeURIComponent(
-              countryId
-            )}`
-          );
-        }}
-      ></GeoExplorer>
+          }}
+        ></GeoExplorer>
+      )}
       <button
         onClick={() => {
           geoExplorerRef.current && (geoExplorerRef.current.area = undefined);
