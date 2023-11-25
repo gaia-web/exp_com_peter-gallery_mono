@@ -1,5 +1,5 @@
-import { LitElement, css, html, unsafeCSS } from "lit";
-import { customElement, property } from "lit/decorators.js";
+import { LitElement, PropertyValueMap, css, html, unsafeCSS } from "lit";
+import { customElement, property, state } from "lit/decorators.js";
 import { createRef, ref, Ref } from "lit/directives/ref.js";
 import L from "leaflet";
 
@@ -27,14 +27,6 @@ export class UtilGeoExplorerElement extends LitElement {
   /**
    * @internal
    */
-  #areasGeoJSON?: GeoJSON.FeatureCollection;
-  /**
-   * @internal
-   */
-  #countriesGeoJSON?: GeoJSON.FeatureCollection;
-  /**
-   * @internal
-   */
   #areasLayer?: L.Layer;
   /**
    * @internal
@@ -46,28 +38,65 @@ export class UtilGeoExplorerElement extends LitElement {
   #mapContainerRef: Ref<HTMLDivElement> = createRef();
 
   /**
+   * @internal
+   */
+  @state()
+  areasGeoJSON?: GeoJSON.FeatureCollection;
+  /**
+   * @internal
+   */
+  @state()
+  countriesGeoJSON?: GeoJSON.FeatureCollection;
+
+  /**
    * The default center.
    */
-  @property({ reflect: true })
+  @property({ type: Array, reflect: true })
   defaultCenter: [number, number] = [0, 0];
 
   /**
    * The default zoom.
    */
-  @property({ reflect: true })
+  @property({ type: Number, reflect: true })
   defaultZoom: number = 2;
 
+  /**
+   * @internal
+   */
+  #areas: string = "";
   /**
    * The source of areas geojson.
    */
   @property({ reflect: true })
-  areas: string = "";
+  set areas(value: string) {
+    this.#areas = value;
+    (async () =>
+      (this.areasGeoJSON = await fetch(this.areas).then((response) =>
+        response.json()
+      )))();
+  }
+  get areas() {
+    return this.#areas;
+  }
 
+  /**
+   * @internal
+   */
+  #countries: string = "";
   /**
    * The source of countries geojson.
    */
   @property({ reflect: true })
-  countries: string = "";
+  set countries(value: string) {
+    this.#countries = value;
+    (async () =>
+      (this.countriesGeoJSON = await fetch(this.countries).then((response) =>
+        response.json()
+      )))();
+  }
+  get countries() {
+    return this.#countries;
+  }
 
   /**
    * @internal
@@ -136,18 +165,40 @@ export class UtilGeoExplorerElement extends LitElement {
   @property()
   validateCountryCallback: (feature?: GeoJSON.Feature) => boolean = () => true;
 
-  async firstUpdated() {
+  protected async firstUpdated() {
     this.#mapInstance = this.generateMapInstance();
     this.#disableUserZoom();
-    this.#areasGeoJSON = await fetch(this.areas).then((response) =>
-      response.json()
-    );
-    this.#countriesGeoJSON = await fetch(this.countries).then((response) =>
-      response.json()
-    );
-    this.#areasLayer = this.generateCoutinentsGeoJSONLayer();
-    this.#countriesLayer = this.generateCountriesGeoJSONLayer();
-    this.#updateArea();
+  }
+
+  protected willUpdate(
+    changedProperties: PropertyValueMap<unknown> | Map<PropertyKey, unknown>
+  ): void {
+    if (
+      [...changedProperties.keys()].filter((key) =>
+        [
+          "areas",
+          "obtainAreaLabelPositionCallback",
+          "obtainAreaDisplayedLabelCallback",
+          "validateAreaCallback",
+        ].includes(key.toString())
+      )
+    ) {
+      this.#areasLayer = this.generateAreasGeoJSONLayer();
+      this.#updateArea();
+    }
+    if (
+      [...changedProperties.keys()].filter((key) =>
+        [
+          "countries",
+          "obtainCountryLabelPositionCallback",
+          "obtainCountryDisplayedLabelCallback",
+          "validateCountryCallback",
+        ].includes(key.toString())
+      )
+    ) {
+      this.#countriesLayer = this.generateCountriesGeoJSONLayer();
+      this.#updateArea();
+    }
   }
 
   render() {
@@ -170,9 +221,10 @@ export class UtilGeoExplorerElement extends LitElement {
     }).setView(this.defaultCenter, this.defaultZoom);
   }
 
-  generateCoutinentsGeoJSONLayer() {
+  generateAreasGeoJSONLayer() {
+    this.#areasLayer?.remove();
     const layerGroup = L.layerGroup();
-    L.geoJSON(this.#areasGeoJSON, {
+    L.geoJSON(this.areasGeoJSON, {
       style: (feature) => ({
         color: "var(--color)",
         fillColor: this.validateAreaCallback(feature)
@@ -243,8 +295,9 @@ export class UtilGeoExplorerElement extends LitElement {
 
   // TODO refator
   generateCountriesGeoJSONLayer() {
+    this.#countriesLayer?.remove();
     const layerGroup = L.layerGroup();
-    L.geoJSON(this.#countriesGeoJSON, {
+    L.geoJSON(this.countriesGeoJSON, {
       style: (feature) => ({
         color: "var(--color)",
         fillColor: this.validateCountryCallback(feature)
@@ -331,7 +384,7 @@ export class UtilGeoExplorerElement extends LitElement {
       case "string": {
         this.#areasLayer?.remove();
         this.#countriesLayer?.addTo(this.#mapInstance);
-        const areaFeature = this.#areasGeoJSON?.features?.find(
+        const areaFeature = this.areasGeoJSON?.features?.find(
           ({ properties }) => properties?.name === this.area
         );
         const areaZoomInBoundsCoordinates =
