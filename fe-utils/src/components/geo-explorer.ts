@@ -131,12 +131,26 @@ export class UtilGeoExplorerElement extends LitElement {
   ) => [number, number] | undefined = () => undefined;
 
   /**
+   * Callback of getting the ID of an area.
+   */
+  @property()
+  obtainAreaIdCallback: (feature?: GeoJSON.Feature) => string = (feature) =>
+    feature?.id?.toString() ?? "";
+
+  /**
+   * Callback of getting the ID of a country.
+   */
+  @property()
+  obtainCountryIdCallback: (feature?: GeoJSON.Feature) => string = (feature) =>
+    feature?.id?.toString() ?? "";
+
+  /**
    * Callback of getting the displayed label of an area.
    */
   @property()
   obtainAreaDisplayedLabelCallback: (feature?: GeoJSON.Feature) => string = (
     feature
-  ) => feature?.id?.toString() ?? "";
+  ) => this.obtainAreaIdCallback(feature);
 
   /**
    * Callback of getting the displayed label of a country.
@@ -144,7 +158,23 @@ export class UtilGeoExplorerElement extends LitElement {
   @property()
   obtainCountryDisplayedLabelCallback: (feature?: GeoJSON.Feature) => string = (
     feature
-  ) => feature?.id?.toString() ?? "";
+  ) => this.obtainCountryIdCallback(feature);
+
+  /**
+   * Callback of getting the zoom-in bounds of an area.
+   */
+  @property()
+  obtainAreaZoomInBoundsCallback: (
+    feature?: GeoJSON.Feature
+  ) => number[][][] | undefined = () => undefined;
+
+  /**
+   * Callback of getting the zoom-in bounds of a country.
+   */
+  @property()
+  obtainCountryZoomInBoundsCallback: (
+    feature?: GeoJSON.Feature
+  ) => number[][][] | undefined = () => undefined;
 
   /**
    * Callback of getting the preview image of a country.
@@ -168,20 +198,24 @@ export class UtilGeoExplorerElement extends LitElement {
   protected async firstUpdated() {
     this.#mapInstance = this.generateMapInstance();
     this.#disableUserZoom();
+    this.#updateArea();
   }
 
   protected willUpdate(
     changedProperties: PropertyValueMap<unknown> | Map<PropertyKey, unknown>
   ): void {
+    if (!this.#mapInstance) return;
     if (
       [...changedProperties.keys()].filter((key) =>
         [
-          "areas",
+          "areasGeoJSON",
+          "obtainAreaIdCallback",
           "obtainAreaLabelPositionCallback",
           "obtainAreaDisplayedLabelCallback",
+          "obtainAreaZoomInBoundsCallback",
           "validateAreaCallback",
         ].includes(key.toString())
-      )
+      ).length > 0
     ) {
       this.#areasLayer = this.generateAreasGeoJSONLayer();
       this.#updateArea();
@@ -189,12 +223,14 @@ export class UtilGeoExplorerElement extends LitElement {
     if (
       [...changedProperties.keys()].filter((key) =>
         [
-          "countries",
+          "countriesGeoJSON",
+          "obtainCountryIdCallback",
           "obtainCountryLabelPositionCallback",
           "obtainCountryDisplayedLabelCallback",
+          "obtainCountryZoomInBoundsCallback",
           "validateCountryCallback",
         ].includes(key.toString())
-      )
+      ).length > 0
     ) {
       this.#countriesLayer = this.generateCountriesGeoJSONLayer();
       this.#updateArea();
@@ -247,11 +283,13 @@ export class UtilGeoExplorerElement extends LitElement {
         });
 
         // TODO in case the layer is not a polygon
-        const specicalBoundsCoordinates = feature.properties.zoomInBounds?.map(
-          (item: [][]) => item.map((coords) => coords.reverse())
-        );
+        const specicalBoundsCoordinates = this.obtainAreaZoomInBoundsCallback(
+          feature
+        )?.map((item) => item.map((coords) => coords.reverse()));
         const specicalBounds = specicalBoundsCoordinates
-          ? L.polygon([...specicalBoundsCoordinates]).getBounds()
+          ? L.polygon([
+              ...specicalBoundsCoordinates,
+            ] as unknown as L.LatLngExpression[][][]).getBounds()
           : undefined;
         const bounds = specicalBounds ?? (layer as L.Polygon).getBounds();
         const specialLabelPosition = this.obtainAreaLabelPositionCallback(
@@ -321,11 +359,14 @@ export class UtilGeoExplorerElement extends LitElement {
         });
 
         // TODO in case the layer is not a polygon
-        const specicalBoundsCoordinates = feature.properties.zoomInBounds?.map(
-          (item: [][]) => item.map((coords) => coords.reverse())
-        );
+        const specicalBoundsCoordinates =
+          this.obtainCountryZoomInBoundsCallback(feature)?.map((item) =>
+            item.map((coords) => coords.reverse())
+          );
         const specicalBounds = specicalBoundsCoordinates
-          ? L.polygon([...specicalBoundsCoordinates]).getBounds()
+          ? L.polygon([
+              ...specicalBoundsCoordinates,
+            ] as unknown as L.LatLngExpression[][][]).getBounds()
           : undefined;
         const bounds = specicalBounds ?? (layer as L.Polygon).getBounds();
         const specialLabelPosition = this.obtainCountryLabelPositionCallback(
@@ -380,12 +421,17 @@ export class UtilGeoExplorerElement extends LitElement {
 
   #updateArea() {
     if (!this.#mapInstance) return;
+    if (!this.areasGeoJSON || !this.countriesGeoJSON) {
+      this.#areasLayer?.remove();
+      this.#countriesLayer?.remove();
+      return;
+    }
     switch (typeof this.area) {
       case "string": {
         this.#areasLayer?.remove();
         this.#countriesLayer?.addTo(this.#mapInstance);
         const areaFeature = this.areasGeoJSON?.features?.find(
-          ({ properties }) => properties?.name === this.area
+          (feature) => this.obtainAreaIdCallback(feature) === this.area
         );
         const areaZoomInBoundsCoordinates =
           areaFeature?.properties?.zoomInBounds ??
