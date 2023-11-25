@@ -46,6 +46,14 @@ export default {
       id="map"
       areas="https://gaia-web.github.io/lib_world-map-utils/continents/continents.simplified.geojson"
       countries="https://gaia-web.github.io/lib_world-map-utils/countries/countries.simplified.geojson"
+      .obtainAreaIdCallback=${(feature: GeoJSON.Feature) =>
+        feature.properties?.name}
+      .obtainCountryIdCallback=${(feature: GeoJSON.Feature) =>
+        feature.properties?.ISO_A3}
+      .obtainAreaZoomInBoundsCallback=${(feature: GeoJSON.Feature) =>
+        feature.properties?.zoomInBounds}
+      .obtainCountryZoomInBoundsCallback=${(feature: GeoJSON.Feature) =>
+        feature.properties?.zoomInBounds}
       .obtainAreaLabelPositionCallback=${(feature: GeoJSON.Feature) =>
         feature.properties?.labelPosition}
       .obtainCountryLabelPositionCallback=${(feature: GeoJSON.Feature) =>
