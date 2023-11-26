@@ -26,6 +26,7 @@ const getRoute = (input: string) => {
 export function HeaderView({ routerInfo }: PageProps) {
 
   const [inputResearchValue, setInputResearchValue] = useState<string>('');
+  const [rightSideNavbarValue, setRightSideNavbarValue] = useState<boolean>(false);
 
   const languageLabel = routerInfo.lang?.toUpperCase();
 
@@ -57,17 +58,22 @@ export function HeaderView({ routerInfo }: PageProps) {
   };
 
   const checkHeaderInputVisibility = () => {
-    console.log(routerInfo)
-    console.log(routerInfo?.matches)
     if (routerInfo.path === '/:lang/world') {
       return true;
     }
-    else if (Object.keys(routerInfo.matches as {}).includes('people')) {
-      return true;
+    if (routerInfo?.matches != undefined) {
+      if (Object.keys(routerInfo.matches as {}).includes('people')) {
+        return true;
+      }
+      else if (Object.keys(routerInfo.matches as {}).includes('locationId')) {
+        return true;
+      }
+
+      // TODO  汪总research的routerInfo 多了一层 ， 这样感觉不太对因为别的都不一致
     }
-    else if (Object.keys(routerInfo.matches as {}).includes('locationId')) {
-      return true;
-    }
+
+
+
     else if (routerInfo.path === '/:lang/world/:area') {
       return false;
     }
@@ -115,7 +121,7 @@ export function HeaderView({ routerInfo }: PageProps) {
           <Breadcrumb path="[1,2,3,4]"></Breadcrumb>
         </div> */}
 
-        <div slot="extra">
+        <div slot="extra" style={{ display: rightSideNavbarValue ? 'none' : 'block' }}>
           <Tabs
             class="bg-#3F434C rounded-xl "
             onTabChange={(e) => {
