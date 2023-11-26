@@ -1,10 +1,15 @@
 import { PeoplePage } from "./people.page";
 import { SearchPage } from "./search.page";
 import { PageProps } from "../utils/page-wrapper";
+import { HeaderView } from "../views/header.view";
 
 export function ArticleListPage({ routerInfo }: PageProps) {
   if (routerInfo.locationId != null) {
-    return <div>Ariticle list page</div>;
+    return (
+      <>
+        <HeaderView routerInfo={routerInfo} />
+        <div>Ariticle list page</div>
+      </>)
   }
   if (routerInfo.people) {
     return <PeoplePage routerInfo={routerInfo} />;

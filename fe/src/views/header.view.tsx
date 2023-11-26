@@ -65,6 +65,9 @@ export function HeaderView({ routerInfo }: PageProps) {
     else if (Object.keys(routerInfo.matches as {}).includes('people')) {
       return true;
     }
+    else if (Object.keys(routerInfo.matches as {}).includes('locationId')) {
+      return true;
+    }
     else if (routerInfo.path === '/:lang/world/:area') {
       return false;
     }
