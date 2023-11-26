@@ -3,6 +3,7 @@ import { Markdown } from "../utils/markdown";
 import markdownStyleSheet from "../assets/markdown.css?inline";
 import { useSignal } from "@preact/signals";
 import { PageProps } from "../utils/page-wrapper";
+import { HeaderView } from "../views/header.view";
 
 export function PeoplePage({ routerInfo }: PageProps) {
   const markdown = useSignal("");
@@ -24,7 +25,9 @@ export function PeoplePage({ routerInfo }: PageProps) {
 
   return (
     <>
-      <Markdown markdown={markdown.value} styleSheets={[markdownStyleSheet]} />
+      <HeaderView routerInfo={routerInfo} />
+       {/* TODO 这其实是是一个article list (people) page */}
+      {/* <Markdown markdown={markdown.value} styleSheets={[markdownStyleSheet]} /> */}
     </>
   );
 }
