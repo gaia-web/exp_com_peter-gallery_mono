@@ -57,9 +57,15 @@ export function HeaderView({ routerInfo }: PageProps) {
   };
 
   const checkHeaderInputVisibility = () => {
-    if (routerInfo.path === '/:lang/world')
+    console.log(routerInfo)
+    console.log(routerInfo?.matches)
+    if (routerInfo.path === '/:lang/world') {
       return true;
-    else {
+    }
+    else if (Object.keys(routerInfo.matches as {}).includes('people')) {
+      return true;
+    }
+    else if (routerInfo.path === '/:lang/world/:area') {
       return false;
     }
   }
@@ -68,7 +74,7 @@ export function HeaderView({ routerInfo }: PageProps) {
     if (window.history.length > 1) {
       window.history.back();
     } else {
-      route('/'); 
+      route('/');
     }
   };
 
