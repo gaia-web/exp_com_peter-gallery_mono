@@ -58,9 +58,13 @@ export function HeaderView({ routerInfo }: PageProps) {
   };
 
   const checkHeaderInputVisibility = () => {
+    console.log(routerInfo)
     if (routerInfo.path === '/:lang/world') {
       return true;
+    } else if (routerInfo.path === '/:lang/selves') {
+      return true;
     }
+
     if (routerInfo?.matches != undefined) {
       if (Object.keys(routerInfo.matches as {}).includes('people')) {
         return true;
@@ -68,15 +72,16 @@ export function HeaderView({ routerInfo }: PageProps) {
       else if (Object.keys(routerInfo.matches as {}).includes('locationId')) {
         return true;
       }
-
-      // TODO  汪总research的routerInfo 多了一层 ， 这样感觉不太对因为别的都不一致
+      else if (Object.keys(routerInfo.matches as {}).includes('search')) {
+        setRightSideNavbarValue(true)
+      }
     }
-
-
 
     else if (routerInfo.path === '/:lang/world/:area') {
       return false;
     }
+
+
   }
 
   const goBack = () => {
