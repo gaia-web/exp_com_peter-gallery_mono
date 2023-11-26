@@ -9,6 +9,7 @@ import { WorldPage } from "./pages/world.page";
 import { SelvesPage } from "./pages/selves.page";
 import { SearchPage } from "./pages/search.page";
 import { PeopleDetailPage } from "./pages/people-detail.page";
+import { ArticleListPage } from "./pages/article-list.page";
 
 export function App() {
   return (
@@ -17,6 +18,7 @@ export function App() {
       <div style={{ viewTransitionName: "page" }}>
         <Router>
           <Match path="/">{() => <HomePage />}</Match>
+          <Match path="/article-list">{() => <ArticleListPage />}</Match>
           <Match path="/people">{() => <PeoplePage />}</Match>
           <Match path="/people/:id">{() => <PeopleDetailPage />}</Match>
           <Match path="/world">{() => <WorldPage />}</Match>
