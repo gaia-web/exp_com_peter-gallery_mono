@@ -4,6 +4,7 @@ import {
   UtilPaginationElement,
   UtilTabElement,
   UtilTabsElement,
+  UtilBreadcrumbElement
 } from "fe-utils";
 import React from "react";
 
@@ -39,4 +40,10 @@ export const Tabs = createComponent({
   events: {
     onTabChange: "tabChange" as EventName<CustomEvent<string>>,
   },
+});
+
+export const Breadcrumb = createComponent({
+  tagName: "util-breadcrumb",
+  elementClass: UtilBreadcrumbElement,
+  react: React,
 });
