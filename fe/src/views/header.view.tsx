@@ -1,7 +1,7 @@
 import { Header, If } from "../utils/garage";
 import { LanguageToggleView } from "./language-toggle.view";
 import { route } from "preact-router";
-import { Tab, Tabs } from "../utils/fe-utils";
+import { Tab, Tabs, Breadcrumb } from "../utils/fe-utils";
 import { PageProps } from "../utils/page-wrapper";
 import { useState } from "preact/hooks";
 
@@ -57,13 +57,21 @@ export function HeaderView({ routerInfo }: PageProps) {
   };
 
   const checkHeaderInputVisibility = () => {
-    console.log(routerInfo.path)
     if (routerInfo.path === '/:lang/world')
       return true;
     else {
       return false;
     }
   }
+
+  const goBack = () => {
+    if (window.history.length > 1) {
+      window.history.back();
+    } else {
+      route('/'); 
+    }
+  };
+
 
   return (
     <div>
@@ -84,6 +92,20 @@ export function HeaderView({ routerInfo }: PageProps) {
           onKeyDown={handleEnterPress}
         ></input>
 
+
+        <button
+          style={{ display: checkHeaderInputVisibility() ? 'none' : 'block' }}
+          onClick={goBack}
+        >{routerInfo.lang?.toUpperCase() == 'EN' ? 'back' : '返回'}</button>
+
+
+        {/* TODO breadcrumb doesn't work */}
+        {/* <div
+          style={{ display: checkHeaderInputVisibility() ? 'none' : 'block' }}
+          slot="collapsible">
+          <Breadcrumb path="[1,2,3,4]"></Breadcrumb>
+        </div> */}
+
         <div slot="extra">
           <Tabs
             class="bg-#3F434C rounded-xl "
@@ -100,6 +122,6 @@ export function HeaderView({ routerInfo }: PageProps) {
           </Tabs>
         </div>
       </Header>
-    </div>
+    </div >
   );
 }
