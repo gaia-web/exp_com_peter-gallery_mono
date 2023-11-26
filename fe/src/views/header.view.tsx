@@ -3,6 +3,7 @@ import { LanguageToggleView } from "./language-toggle.view";
 import { route } from "preact-router";
 import { Tab, Tabs } from "../utils/fe-utils";
 import { PageProps } from "../utils/page-wrapper";
+import { useState } from "preact/hooks";
 
 const selectClass = (input: string): { class: string; selected: boolean } => {
   const baseClass = `rounded-xl p-1rem`;
@@ -23,6 +24,9 @@ const getRoute = (input: string) => {
 };
 
 export function HeaderView({ routerInfo }: PageProps) {
+
+  const [inputResearchValue, setInputResearchValue] = useState<string>('');
+
   const languageLabel = routerInfo.lang?.toUpperCase();
 
   const Options = (props: { en: string; zh: string }) => {
@@ -41,18 +45,44 @@ export function HeaderView({ routerInfo }: PageProps) {
     );
   };
 
+  const handleInputChange = (e: Event) => {
+    const target = e.target as HTMLInputElement;
+    setInputResearchValue(target.value);
+  };
+
+  const handleEnterPress = (e: KeyboardEvent) => {
+    if (e.key === 'Enter') {
+      route(`/${routerInfo.lang}/article?search=${encodeURIComponent(inputResearchValue)}`);
+    }
+  };
+
+  const checkHeaderInputVisibility = () => {
+    console.log(routerInfo.path)
+    if (routerInfo.path === '/:lang/world')
+      return true;
+    else {
+      return false;
+    }
+  }
+
   return (
     <div>
       <Header sticky>
         <span>PETER'S PORTFOLIO</span>
-
         <div slot="extra">
           <LanguageToggleView />
         </div>
       </Header>
 
-      <Header sticky>
-        <span>Search Bar Place holder</span>
+      <Header sticky >
+        <input
+          placeholder={routerInfo.lang?.toUpperCase() == 'EN' ? 'search' : '搜索'}
+          style={{ display: checkHeaderInputVisibility() ? 'block' : 'none' }}
+          type="text"
+          value={inputResearchValue}
+          onChange={handleInputChange}
+          onKeyDown={handleEnterPress}
+        ></input>
 
         <div slot="extra">
           <Tabs
