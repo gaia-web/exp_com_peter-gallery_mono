@@ -1,4 +1,4 @@
-import { useEffect } from "preact/compat";
+import { useEffect, useState } from "preact/compat";
 import { Markdown } from "../utils/markdown";
 import { LanguageOptions, activeLanguage } from "../utils/language";
 import markdownStyleSheet from "../assets/markdown.css?inline";
@@ -7,34 +7,57 @@ import { Carousel, If } from "../utils/garage";
 import { route } from "preact-router";
 
 export function PeopleDetailPage() {
-  const toPage = (nextPage: string) => {
-    return route(`/people/${nextPage}`, true);
-  };
+  // const markdown = useSignal("");
+  // const imgs = useSignal([]);
+  const [markdown, setMarkDown] = useState("");
+  const [imgs, setImgs] = useState([]);
 
-  const markdown = useSignal("");
-  const imgs = useSignal([]);
+  const toPage = (nextPage: string) => {
+    // TODO replace this with better logic, to check id index
+  
+    console.log(
+      "next page",
+      `/people/${
+        // 1
+        nextPage === "last" ? Number(path[1]) - 1 : Number(path[1]) + 1
+      }`
+    );
+  
+    return route(
+      `/people/${
+        // 1
+        nextPage === "last" ? Number(path[1]) - 1 : Number(path[1]) + 1
+      }`
+    );
+  };
 
   useEffect(() => {
     async function fetchArticle() {
       const articleDefinition = await fetch("/mock/article.json").then(
         (response) => response.json()
       );
-      markdown.value = await fetch(
+      const d = await fetch(
+      // markdown.value = await fetch(
         articleDefinition.content[
           LanguageOptions[activeLanguage.value].toLowerCase()
         ]
       ).then((response) => response.text());
-      imgs.value = articleDefinition.imgLinks;
+
+      setMarkDown(d)
+      setImgs(articleDefinition.imgLinks)
+      // imgs.value = articleDefinition.imgLinks;
     }
 
     fetchArticle();
   }, [activeLanguage.value]);
 
-  if (!markdown.value) {
+  if (!markdown) {
+  // if (!markdown.value) {
     return <></>;
   }
 
   const path = window.location.pathname.split("/").filter((p) => !!p);
+  console.log("loaded", path);
 
   return (
     <>
@@ -52,13 +75,19 @@ export function PeopleDetailPage() {
           </div>
         </div>
         <Carousel>
-          {imgs.value.map((img, index) => (
-            <img src={img} alt={`${index}`} style="object-fit: contain" />
+          {imgs.map((img, index) => (
+          // {imgs.value.map((img, index) => (
+            <img
+              src={`${img}{index}/1200/800`}
+              alt={`${index}`}
+              style="object-fit: contain"
+            />
           ))}
         </Carousel>
         <Markdown
           class="p-y-0"
-          markdown={markdown.value}
+          markdown={markdown}
+          // markdown={markdown.value}
           styleSheets={[markdownStyleSheet]}
         />
         <div class="m-1rem h-1px bg-#FFFFFF" />
