@@ -1,9 +1,31 @@
-import { route } from 'preact-router';
+import { route, useRouter } from 'preact-router';
+import { If } from '../utils/garage';
 
-export default function ReturnButtonView({ isShowing }: any) {
+// export default function ReturnButtonView({ isShowing }: any) {
+
+//   const goBack = () => {
+//     if (window.history.length > 1) {
+//       window.history.back();
+//     } else {
+//       route('/');
+//     }
+//   };
+
+//   return (
+//     <button
+//       style={{ display: isShowing ? 'none' : 'block' }}
+//       onClick={goBack}
+//     >
+//       back
+//     </button>
+//   )
+// }
+
+
+export default function ReturnButtonView(props: { en: string; zh: string }) {
+  const { en, zh } = props;
 
   const goBack = () => {
-    console.log(window.history.length)
     if (window.history.length > 1) {
       window.history.back();
     } else {
@@ -11,14 +33,20 @@ export default function ReturnButtonView({ isShowing }: any) {
     }
   };
 
+  const [router] = useRouter();
+  const languageLabel = router.matches?.lang?.toUpperCase();
+
+  const styleClass = "w-6rem text-center bg-#3F434D rounded-lg p-1rem";
+
   return (
-    <button
-      style={{ display: isShowing ? 'none' : 'block' }}
-      onClick={goBack}
-    >
-      {console.log(isShowing)}
-      back
-    </button>
-  )
+    <If condition={languageLabel} onClick={goBack} style={{ cursor: 'pointer' }}>
+      <div slot="EN" class={styleClass}  >
+        {en}
+      </div>
+      <div slot="ZH" class={styleClass}>
+        {zh}
+      </div>
+    </If>
+  );
 }
 

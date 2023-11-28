@@ -58,7 +58,6 @@ export function WorldHeaderView({ routerInfo }: PageProps) {
   };
 
   const checkHeaderInputVisibility = () => {
-    console.log(routerInfo)
     if (routerInfo.path === '/:lang/world') {
       return true;
     } else {
@@ -85,8 +84,9 @@ export function WorldHeaderView({ routerInfo }: PageProps) {
           onKeyDown={handleEnterPress}
         ></input>
 
-
-        <ReturnButtonView isShowing={checkHeaderInputVisibility()} />
+        <div style={{ display: checkHeaderInputVisibility() ? 'none' : 'block' }}>
+          <ReturnButtonView en="BACK" zh="返回" />
+        </div>
 
 
         <div slot="extra">
