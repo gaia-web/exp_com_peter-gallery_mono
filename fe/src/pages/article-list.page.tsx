@@ -15,7 +15,7 @@ export function ArticleListPage({ routerInfo }: PageProps) {
         {console.log(routerInfo?.locationId)}
         <div>Ariticle list page</div>
         <br />
-        <Link activeClassName="active" href={`/en/article/${routerInfo?.locationId}/1`}>
+        <Link href={`/en/article/${routerInfo?.locationId}/1`}>
           <div>this is the article 1</div>
         </Link>
       </>)
