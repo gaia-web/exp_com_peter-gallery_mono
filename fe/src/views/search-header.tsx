@@ -35,7 +35,7 @@ export function SearchHeaderView() {
       </Header>
 
       <Header sticky >
-        <ReturnButtonView/>
+        <ReturnButtonView en="BACK" zh="返回" />
       </Header>
     </div >
   );

@@ -5,6 +5,7 @@ import { useSignal } from "@preact/signals";
 import { Carousel, If } from "../utils/garage";
 import { route, useRouter } from "preact-router";
 import { PageProps } from "../utils/page-wrapper";
+import {ArticleDetailHeaderView} from '../views/article-detail-header.view'
 
 export function PeopleDetailPage({ routerInfo }: PageProps) {
   const toPage = (nextPage: string) => {
@@ -39,7 +40,7 @@ export function PeopleDetailPage({ routerInfo }: PageProps) {
   return (
     <>
       <div class="m-x-10%">
-        <div class="flex h-3rem leading-3rem mb-2rem">
+        {/* <div class="flex h-3rem leading-3rem mb-2rem">
           <div class="absolute">
             <BackButton en="BACK" zh="返回" />
           </div>
@@ -50,7 +51,9 @@ export function PeopleDetailPage({ routerInfo }: PageProps) {
               </span>
             ))}
           </div>
-        </div>
+        </div> */}
+
+        <ArticleDetailHeaderView routerInfo={routerInfo}/>
         <Carousel>
           {imgs.value.map((img, index) => (
             <img src={img} alt={`${index}`} style="object-fit: contain" />
