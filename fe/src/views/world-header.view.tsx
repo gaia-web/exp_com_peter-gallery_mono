@@ -4,6 +4,7 @@ import { route } from "preact-router";
 import { Tab, Tabs } from "../utils/fe-utils";
 import { PageProps } from "../utils/page-wrapper";
 import { useState } from "preact/hooks";
+import ReturnButtonView from './return-button.view'
 
 const selectClass = (input: string): { class: string; selected: boolean } => {
   const baseClass = `rounded-xl p-1rem`;
@@ -23,10 +24,9 @@ const getRoute = (input: string) => {
   return input;
 };
 
-export function HeaderView({ routerInfo }: PageProps) {
+export function WorldHeaderView({ routerInfo }: PageProps) {
 
   const [inputResearchValue, setInputResearchValue] = useState<string>('');
-  const [rightSideNavbarValue, setRightSideNavbarValue] = useState<boolean>(false);
 
   const languageLabel = routerInfo.lang?.toUpperCase();
 
@@ -61,29 +61,10 @@ export function HeaderView({ routerInfo }: PageProps) {
     console.log(routerInfo)
     if (routerInfo.path === '/:lang/world') {
       return true;
-    } else if (routerInfo.path === '/:lang/selves') {
-      return true;
-    }
-
-    if (routerInfo?.matches != undefined) {
-      if (Object.keys(routerInfo.matches as {}).includes('people')) {
-        return true;
-      }
-      else if (Object.keys(routerInfo.matches as {}).includes('locationId')) {
-        return true;
-      }
-      else if (Object.keys(routerInfo.matches as {}).includes('search')) {
-        setRightSideNavbarValue(true)
-      }
-    }
-
-    else if (routerInfo.path === '/:lang/world/:area') {
+    } else {
       return false;
     }
-
-
   }
-
 
   return (
     <div>
@@ -105,14 +86,10 @@ export function HeaderView({ routerInfo }: PageProps) {
         ></input>
 
 
-        {/* TODO breadcrumb doesn't work */}
-        {/* <div
-          style={{ display: checkHeaderInputVisibility() ? 'none' : 'block' }}
-          slot="collapsible">
-          <Breadcrumb path="[1,2,3,4]"></Breadcrumb>
-        </div> */}
+        <ReturnButtonView isShowing={checkHeaderInputVisibility()} />
 
-        <div slot="extra" style={{ display: rightSideNavbarValue ? 'none' : 'block' }}>
+
+        <div slot="extra">
           <Tabs
             class="bg-#3F434C rounded-xl "
             onTabChange={(e) => {

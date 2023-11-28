@@ -5,7 +5,7 @@ import { UtilGeoExplorerElement } from "fe-utils";
 import { createRef } from "preact";
 import { route } from "preact-router";
 import { useEffect } from "preact/hooks";
-import { HeaderView } from "../views/header.view";
+import { WorldHeaderView } from '../views/world-header.view'
 
 export function WorldPage({ routerInfo }: PageProps) {
   const geoExplorerRef = createRef<UtilGeoExplorerElement>();
@@ -39,7 +39,7 @@ export function WorldPage({ routerInfo }: PageProps) {
 
   return (
     <>
-      <HeaderView routerInfo={routerInfo} />
+      <WorldHeaderView routerInfo={routerInfo} />
       {areaNameDict.value && countryNameDict.value && (
         <GeoExplorer
           ref={geoExplorerRef}
