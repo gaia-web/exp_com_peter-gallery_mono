@@ -26,7 +26,6 @@ const getRoute = (input: string) => {
 export function PeopleHeaderView({ routerInfo }: PageProps) {
 
   const [inputResearchValue, setInputResearchValue] = useState<string>('');
-  const [rightSideNavbarValue, setRightSideNavbarValue] = useState<boolean>(false);
 
   const languageLabel = routerInfo.lang?.toUpperCase();
 
@@ -57,34 +56,6 @@ export function PeopleHeaderView({ routerInfo }: PageProps) {
     }
   };
 
-  const checkHeaderInputVisibility = () => {
-    console.log(routerInfo)
-    if (routerInfo.path === '/:lang/world') {
-      return true;
-    } else if (routerInfo.path === '/:lang/selves') {
-      return true;
-    }
-
-    if (routerInfo?.matches != undefined) {
-      if (Object.keys(routerInfo.matches as {}).includes('people')) {
-        return true;
-      }
-      else if (Object.keys(routerInfo.matches as {}).includes('locationId')) {
-        return true;
-      }
-      else if (Object.keys(routerInfo.matches as {}).includes('search')) {
-        setRightSideNavbarValue(true)
-      }
-    }
-
-    else if (routerInfo.path === '/:lang/world/:area') {
-      return false;
-    }
-
-
-  }
-
-
   return (
     <div>
       <Header sticky>
@@ -97,22 +68,12 @@ export function PeopleHeaderView({ routerInfo }: PageProps) {
       <Header sticky >
         <input
           placeholder="search"
-          style={{ display: checkHeaderInputVisibility() ? 'block' : 'none' }}
           type="text"
           value={inputResearchValue}
           onChange={handleInputChange}
           onKeyDown={handleEnterPress}
         ></input>
-
-
-        {/* TODO breadcrumb doesn't work */}
-        {/* <div
-          style={{ display: checkHeaderInputVisibility() ? 'none' : 'block' }}
-          slot="collapsible">
-          <Breadcrumb path="[1,2,3,4]"></Breadcrumb>
-        </div> */}
-
-        <div slot="extra" style={{ display: rightSideNavbarValue ? 'none' : 'block' }}>
+        <div slot="extra">
           <Tabs
             class="bg-#3F434C rounded-xl "
             onTabChange={(e) => {
