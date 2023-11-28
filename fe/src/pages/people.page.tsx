@@ -27,6 +27,7 @@ export function PeoplePage({ routerInfo }: PageProps) {
     <>
       <HeaderView routerInfo={routerInfo} />
        {/* TODO 这其实是是一个article list (people) page */}
+       <div> this is a article list </div>
       {/* <Markdown markdown={markdown.value} styleSheets={[markdownStyleSheet]} /> */}
     </>
   );

@@ -4,6 +4,7 @@ import { route } from "preact-router";
 import { Tab, Tabs } from "../utils/fe-utils";
 import { PageProps } from "../utils/page-wrapper";
 import { useState } from "preact/hooks";
+import ReturnButtonView from './return-button.view'
 
 const selectClass = (input: string): { class: string; selected: boolean } => {
   const baseClass = `rounded-xl p-1rem`;
@@ -23,7 +24,7 @@ const getRoute = (input: string) => {
   return input;
 };
 
-export function HeaderView({ routerInfo }: PageProps) {
+export function SecondaryHeaderView({ routerInfo }: PageProps) {
 
   const [inputResearchValue, setInputResearchValue] = useState<string>('');
   const [rightSideNavbarValue, setRightSideNavbarValue] = useState<boolean>(false);
@@ -111,6 +112,8 @@ export function HeaderView({ routerInfo }: PageProps) {
           slot="collapsible">
           <Breadcrumb path="[1,2,3,4]"></Breadcrumb>
         </div> */}
+
+        <ReturnButtonView/>
 
         <div slot="extra" style={{ display: rightSideNavbarValue ? 'none' : 'block' }}>
           <Tabs
