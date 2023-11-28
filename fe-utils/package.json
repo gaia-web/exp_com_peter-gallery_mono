@@ -28,6 +28,7 @@
   },
   "dependencies": {
     "@gaia/garage": "github:gaia-web/exp_garage#08714f45494addb87703170aafe6c171b9af6b2f",
+    "@lit/context": "^1.1.0",
     "leaflet": "^1.9.4",
     "lit": "^3.0.0"
   },
