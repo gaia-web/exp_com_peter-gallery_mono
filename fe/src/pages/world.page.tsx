@@ -1,5 +1,5 @@
 import { PropsWithChildren } from "preact/compat";
-import { Map } from "../utils/fe-utils";
+import { GeoExplorer } from "../utils/fe-utils";
 
 export function WorldPage(props: PropsWithChildren) {
   return (
@@ -7,7 +7,7 @@ export function WorldPage(props: PropsWithChildren) {
       <h1>Map Page</h1>
       URL: {props.children}
       <div class="h-xl">
-      <Map id="map" className="mt-6 h-[600px] w-full"></Map>
+      <GeoExplorer id="map" className="mt-6 h-[600px] w-full"></GeoExplorer>
       </div>
     </>
   );
