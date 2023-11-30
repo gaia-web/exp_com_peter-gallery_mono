@@ -6,7 +6,6 @@ import { WorldHeaderView } from "../views/world-header.view";
 
 export function GeneralArticleList({ routerInfo }: PageProps) {
     const markdown = useSignal("");
-
     const languageLabel = routerInfo.lang?.toUpperCase() ?? "";
 
     useEffect(() => {
@@ -18,14 +17,12 @@ export function GeneralArticleList({ routerInfo }: PageProps) {
                 articleDefinition.content[languageLabel.toLowerCase()]
             ).then((response) => response.text());
         }
-
         fetchArticle();
     }, [languageLabel]);
 
     return (
         <>
             <WorldHeaderView routerInfo={routerInfo} />
-
             {console.log(routerInfo)}
             {console.log(routerInfo?.locationId)}
             <div>Ariticle list page</div>

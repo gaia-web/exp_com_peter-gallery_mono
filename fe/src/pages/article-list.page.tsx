@@ -11,11 +11,10 @@ export function ArticleListPage({ routerInfo }: PageProps) {
       </>)
   }
   if (routerInfo.people) {
-    // people article list 
     return <PeopleArticleList routerInfo={routerInfo} />;
   }
   if (routerInfo.search != null) {
-    return <SearchArticleList routerInfo={routerInfo} />;
+    return <SearchArticleList/>;
   }
 
   return <div>Something went worong.</div>;

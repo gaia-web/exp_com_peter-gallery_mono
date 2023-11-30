@@ -8,28 +8,22 @@ import { startViewTransition } from "../utils/start-view-transition";
 
 const selectClass = (input: string): { class: string; selected: boolean } => {
   const baseClass = `rounded-xl p-1rem`;
-
   if (window.location.pathname.includes(input)) {
     return { class: `bg-#0046FF font-normal ${baseClass}`, selected: true };
   } else {
     return { class: baseClass, selected: false };
   }
 };
-
 const getRoute = (input: string) => {
   if (input === "world") return "world";
   if (input === "people") return "article?people=1";
   if (input === "selves") return "selves";
-
   return input;
 };
 
 export function PeopleHeaderView({ routerInfo }: PageProps) {
-
   const [inputResearchValue, setInputResearchValue] = useState<string>('');
-
   const languageLabel = routerInfo.lang?.toUpperCase();
-
   const Options = (props: { en: string; zh: string }) => {
     const { en, zh } = props;
     return (
@@ -65,7 +59,6 @@ export function PeopleHeaderView({ routerInfo }: PageProps) {
           <LanguageToggleView />
         </div>
       </Header>
-
       <Header sticky >
         <input
           placeholder="search"
