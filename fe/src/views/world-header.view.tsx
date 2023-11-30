@@ -1,7 +1,7 @@
 import { Header, If } from "../utils/garage";
 import { LanguageToggleView } from "./language-toggle.view";
 import { route } from "preact-router";
-import { Tab, Tabs } from "../utils/fe-utils";
+import { Breadcrumb, Tab, Tabs } from "../utils/fe-utils";
 import { PageProps } from "../utils/page-wrapper";
 import { useState } from "preact/hooks";
 import ReturnButtonView from './return-button.view'
@@ -60,7 +60,10 @@ export function WorldHeaderView({ routerInfo }: PageProps) {
   const checkHeaderInputVisibility = () => {
     if (routerInfo.path === '/:lang/world') {
       return true;
-    } else {
+    } else if(routerInfo.path === '/:lang/article') {
+      return true;
+    }
+     else {
       return false;
     }
   }
@@ -87,7 +90,17 @@ export function WorldHeaderView({ routerInfo }: PageProps) {
         <div style={{ display: checkHeaderInputVisibility() ? 'none' : 'block' }}>
           <ReturnButtonView en="BACK" zh="返回" />
         </div>
+        <div style={{ display: checkHeaderInputVisibility() ? 'none' : 'block' }} class="w-fit mx-auto" slot="collapsible">
+          <Breadcrumb  path={["world", routerInfo.area] as unknown as ((string | number)[] & string)}
+            onItemSelect={({ detail }) => {
+              // TODO  logic need to improve
+              route(`/${routerInfo.lang}/${detail.at(-1)}`);
+            }}
+            delimiter=">"
+          >
 
+          </Breadcrumb>
+        </div>
 
         <div slot="extra">
           <Tabs

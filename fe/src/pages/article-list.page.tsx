@@ -1,31 +1,21 @@
-import { PeoplePage } from "./people.page";
-import { SearchPage } from "./search.page";
+import { SearchArticleList } from "./search.article-list.page";
 import { PageProps } from "../utils/page-wrapper";
-import { WorldHeaderView } from "../views/world-header.view";
-import { Link } from 'preact-router/match';
+import { GeneralArticleList } from "./general.article-list.page";
+import { PeopleArticleList } from "./people.article-list.page";
 
 export function ArticleListPage({ routerInfo }: PageProps) {
   if (routerInfo.locationId != null) {
     return (
       <>
-        {/* general article list  */}
-        <WorldHeaderView routerInfo={routerInfo} />
-
-        {console.log(routerInfo)}
-        {console.log(routerInfo?.locationId)}
-        <div>Ariticle list page</div>
-        <br />
-        <Link href={`/en/article/${routerInfo?.locationId}/1`}>
-          <div>this is the article 1</div>
-        </Link>
+        <GeneralArticleList routerInfo={routerInfo}></GeneralArticleList>
       </>)
   }
   if (routerInfo.people) {
     // people article list 
-    return <PeoplePage routerInfo={routerInfo} />;
+    return <PeopleArticleList routerInfo={routerInfo} />;
   }
   if (routerInfo.search != null) {
-    return <SearchPage routerInfo={routerInfo} />;
+    return <SearchArticleList routerInfo={routerInfo} />;
   }
 
   return <div>Something went worong.</div>;
