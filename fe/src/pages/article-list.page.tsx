@@ -5,17 +5,13 @@ import { PeopleArticleList } from "./people.article-list.page";
 
 export function ArticleListPage({ routerInfo }: PageProps) {
   if (routerInfo.locationId != null) {
-    return (
-      <>
-        <GeneralArticleList routerInfo={routerInfo}></GeneralArticleList>
-      </>)
+    return <GeneralArticleList routerInfo={routerInfo}></GeneralArticleList>;
   }
   if (routerInfo.people) {
     return <PeopleArticleList routerInfo={routerInfo} />;
   }
-  if (routerInfo.search != null) {
+  if (routerInfo.search) {
     return <SearchArticleList />;
   }
-
   return <div>Something went worong.</div>;
 }
