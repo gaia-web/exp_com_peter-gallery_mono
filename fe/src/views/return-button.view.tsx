@@ -1,5 +1,5 @@
-import { route, useRouter } from 'preact-router';
-import { If } from '../utils/garage';
+import { route, useRouter } from "preact-router";
+import { If } from "../utils/garage";
 
 export default function ReturnButtonView(props: { en: string; zh: string }) {
   const { en, zh } = props;
@@ -7,7 +7,7 @@ export default function ReturnButtonView(props: { en: string; zh: string }) {
     if (window.history.length > 1) {
       window.history.back();
     } else {
-      route('/');
+      route("/");
     }
   };
   const [router] = useRouter();
@@ -15,8 +15,12 @@ export default function ReturnButtonView(props: { en: string; zh: string }) {
   const styleClass = "w-6rem text-center bg-#3F434D rounded-lg p-1rem";
 
   return (
-    <If condition={languageLabel} onClick={goBack} style={{ cursor: 'pointer' }}>
-      <div slot="EN" class={styleClass}  >
+    <If
+      condition={languageLabel}
+      onClick={goBack}
+      style={{ cursor: "pointer" }}
+    >
+      <div slot="EN" class={styleClass}>
         {en}
       </div>
       <div slot="ZH" class={styleClass}>
@@ -25,4 +29,3 @@ export default function ReturnButtonView(props: { en: string; zh: string }) {
     </If>
   );
 }
-

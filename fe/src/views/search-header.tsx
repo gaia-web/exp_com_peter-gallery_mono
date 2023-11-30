@@ -1,6 +1,6 @@
-import { Header} from "../utils/garage";
+import { Header } from "../utils/garage";
 import { LanguageToggleView } from "./language-toggle.view";
-import ReturnButtonView from './return-button.view'
+import ReturnButtonView from "./return-button.view";
 
 export function SearchHeaderView() {
   return (
@@ -11,9 +11,9 @@ export function SearchHeaderView() {
           <LanguageToggleView />
         </div>
       </Header>
-      <Header sticky >
+      <Header sticky>
         <ReturnButtonView en="BACK" zh="返回" />
       </Header>
-    </div >
+    </div>
   );
 }

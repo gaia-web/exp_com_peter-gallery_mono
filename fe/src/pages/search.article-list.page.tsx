@@ -3,7 +3,7 @@ import { SearchHeaderView } from "../views/search-header";
 export function SearchArticleList() {
   return (
     <>
-      <SearchHeaderView/>
+      <SearchHeaderView />
       <div>
         <p>Search page</p>
       </div>

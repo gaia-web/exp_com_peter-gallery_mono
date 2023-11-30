@@ -5,7 +5,7 @@ import { useSignal } from "@preact/signals";
 import { Carousel, If } from "../utils/garage";
 import { route } from "preact-router";
 import { PageProps } from "../utils/page-wrapper";
-import { ArticleDetailHeaderView } from '../views/article-detail-header.view'
+import { ArticleDetailHeaderView } from "../views/article-detail-header.view";
 
 export function PeopleDetailPage({ routerInfo }: PageProps) {
   const toPage = (nextPage: string) => {

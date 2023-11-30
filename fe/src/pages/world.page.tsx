@@ -5,7 +5,7 @@ import { UtilGeoExplorerElement } from "fe-utils";
 import { createRef } from "preact";
 import { route } from "preact-router";
 import { useEffect } from "preact/hooks";
-import { WorldHeaderView } from '../views/world-header.view'
+import { WorldHeaderView } from "../views/world-header.view";
 
 export function WorldPage({ routerInfo }: PageProps) {
   const geoExplorerRef = createRef<UtilGeoExplorerElement>();

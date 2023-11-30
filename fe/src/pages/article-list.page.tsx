@@ -14,7 +14,7 @@ export function ArticleListPage({ routerInfo }: PageProps) {
     return <PeopleArticleList routerInfo={routerInfo} />;
   }
   if (routerInfo.search != null) {
-    return <SearchArticleList/>;
+    return <SearchArticleList />;
   }
 
   return <div>Something went worong.</div>;
