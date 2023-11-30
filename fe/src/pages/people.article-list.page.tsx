@@ -6,7 +6,7 @@ import { PageProps } from "../utils/page-wrapper";
 import { PeopleHeaderView } from "../views/people-header.view";
 import { Link } from "preact-router";
 
-export function PeoplePage({ routerInfo }: PageProps) {
+export function PeopleArticleList({ routerInfo }: PageProps) {
   const markdown = useSignal("");
 
   const languageLabel = routerInfo.lang?.toUpperCase() ?? "";
