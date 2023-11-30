@@ -22,7 +22,7 @@ const getRoute = (input: string) => {
 };
 
 export function PeopleHeaderView({ routerInfo }: PageProps) {
-  const [inputResearchValue, setInputResearchValue] = useState<string>('');
+  const [inputResearchValue, setInputResearchValue] = useState<string>("");
   const languageLabel = routerInfo.lang?.toUpperCase();
   const Options = (props: { en: string; zh: string }) => {
     const { en, zh } = props;
@@ -46,8 +46,12 @@ export function PeopleHeaderView({ routerInfo }: PageProps) {
   };
 
   const handleEnterPress = (e: KeyboardEvent) => {
-    if (e.key === 'Enter') {
-      route(`/${routerInfo.lang}/article?search=${encodeURIComponent(inputResearchValue)}`);
+    if (e.key === "Enter") {
+      route(
+        `/${routerInfo.lang}/article?search=${encodeURIComponent(
+          inputResearchValue
+        )}`
+      );
     }
   };
 
@@ -59,7 +63,7 @@ export function PeopleHeaderView({ routerInfo }: PageProps) {
           <LanguageToggleView />
         </div>
       </Header>
-      <Header sticky >
+      <Header sticky>
         <input
           placeholder="search"
           type="text"
@@ -76,7 +80,7 @@ export function PeopleHeaderView({ routerInfo }: PageProps) {
               )}`;
               startViewTransition(() => {
                 route(newRoute);
-              })
+              });
             }}
           >
             <Options en="world" zh="世界" />
@@ -85,6 +89,6 @@ export function PeopleHeaderView({ routerInfo }: PageProps) {
           </Tabs>
         </div>
       </Header>
-    </div >
+    </div>
   );
 }

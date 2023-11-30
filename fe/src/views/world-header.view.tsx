@@ -4,7 +4,7 @@ import { route } from "preact-router";
 import { Breadcrumb, Tab, Tabs } from "../utils/fe-utils";
 import { PageProps } from "../utils/page-wrapper";
 import { useState } from "preact/hooks";
-import ReturnButtonView from './return-button.view'
+import ReturnButtonView from "./return-button.view";
 
 const selectClass = (input: string): { class: string; selected: boolean } => {
   const baseClass = `rounded-xl p-1rem`;
@@ -23,7 +23,7 @@ const getRoute = (input: string) => {
 };
 
 export function WorldHeaderView({ routerInfo }: PageProps) {
-  const [inputResearchValue, setInputResearchValue] = useState<string>('');
+  const [inputResearchValue, setInputResearchValue] = useState<string>("");
   const languageLabel = routerInfo.lang?.toUpperCase();
   const Options = (props: { en: string; zh: string }) => {
     const { en, zh } = props;
@@ -47,21 +47,24 @@ export function WorldHeaderView({ routerInfo }: PageProps) {
   };
 
   const handleEnterPress = (e: KeyboardEvent) => {
-    if (e.key === 'Enter') {
-      route(`/${routerInfo.lang}/article?search=${encodeURIComponent(inputResearchValue)}`);
+    if (e.key === "Enter") {
+      route(
+        `/${routerInfo.lang}/article?search=${encodeURIComponent(
+          inputResearchValue
+        )}`
+      );
     }
   };
 
   const checkHeaderInputVisibility = () => {
-    if (routerInfo.path === '/:lang/world') {
+    if (routerInfo.path === "/:lang/world") {
       return true;
-    } else if (routerInfo.path === '/:lang/article') {
+    } else if (routerInfo.path === "/:lang/article") {
       return true;
-    }
-    else {
+    } else {
       return false;
     }
-  }
+  };
 
   return (
     <div>
@@ -71,27 +74,36 @@ export function WorldHeaderView({ routerInfo }: PageProps) {
           <LanguageToggleView />
         </div>
       </Header>
-      <Header sticky >
+      <Header sticky>
         <input
           placeholder="search"
-          style={{ display: checkHeaderInputVisibility() ? 'block' : 'none' }}
+          style={{ display: checkHeaderInputVisibility() ? "block" : "none" }}
           type="text"
           value={inputResearchValue}
           onChange={handleInputChange}
           onKeyDown={handleEnterPress}
         ></input>
-        <div style={{ display: checkHeaderInputVisibility() ? 'none' : 'block' }}>
+        <div
+          style={{ display: checkHeaderInputVisibility() ? "none" : "block" }}
+        >
           <ReturnButtonView en="BACK" zh="返回" />
         </div>
-        <div style={{ display: checkHeaderInputVisibility() ? 'none' : 'block' }} class="w-fit mx-auto" slot="collapsible">
-          <Breadcrumb path={["world", routerInfo.area] as unknown as ((string | number)[] & string)}
+        <div
+          style={{ display: checkHeaderInputVisibility() ? "none" : "block" }}
+          class="w-fit mx-auto"
+          slot="collapsible"
+        >
+          <Breadcrumb
+            path={
+              ["world", routerInfo.area] as unknown as (string | number)[] &
+                string
+            }
             onItemSelect={({ detail }) => {
               // TODO  logic need to improve
               route(`/${routerInfo.lang}/${detail.at(-1)}`);
             }}
             delimiter=">"
-          >
-          </Breadcrumb>
+          ></Breadcrumb>
         </div>
         <div slot="extra">
           <Tabs
@@ -109,6 +121,6 @@ export function WorldHeaderView({ routerInfo }: PageProps) {
           </Tabs>
         </div>
       </Header>
-    </div >
+    </div>
   );
 }

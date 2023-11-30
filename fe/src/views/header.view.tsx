@@ -21,8 +21,9 @@ const getRoute = (input: string) => {
 };
 
 export function HeaderView({ routerInfo }: PageProps) {
-  const [inputResearchValue, setInputResearchValue] = useState<string>('');
-  const [rightSideNavbarValue, setRightSideNavbarValue] = useState<boolean>(false);
+  const [inputResearchValue, setInputResearchValue] = useState<string>("");
+  const [rightSideNavbarValue, setRightSideNavbarValue] =
+    useState<boolean>(false);
   const languageLabel = routerInfo.lang?.toUpperCase();
   const Options = (props: { en: string; zh: string }) => {
     const { en, zh } = props;
@@ -46,34 +47,35 @@ export function HeaderView({ routerInfo }: PageProps) {
   };
 
   const handleEnterPress = (e: KeyboardEvent) => {
-    if (e.key === 'Enter') {
-      route(`/${routerInfo.lang}/article?search=${encodeURIComponent(inputResearchValue)}`);
+    if (e.key === "Enter") {
+      route(
+        `/${routerInfo.lang}/article?search=${encodeURIComponent(
+          inputResearchValue
+        )}`
+      );
     }
   };
 
   const checkHeaderInputVisibility = () => {
-    console.log(routerInfo)
-    if (routerInfo.path === '/:lang/world') {
+    console.log(routerInfo);
+    if (routerInfo.path === "/:lang/world") {
       return true;
-    } else if (routerInfo.path === '/:lang/selves') {
+    } else if (routerInfo.path === "/:lang/selves") {
       return true;
     }
 
     if (routerInfo?.matches != undefined) {
-      if (Object.keys(routerInfo.matches as {}).includes('people')) {
+      if (Object.keys(routerInfo.matches as {}).includes("people")) {
         return true;
-      }
-      else if (Object.keys(routerInfo.matches as {}).includes('locationId')) {
+      } else if (Object.keys(routerInfo.matches as {}).includes("locationId")) {
         return true;
+      } else if (Object.keys(routerInfo.matches as {}).includes("search")) {
+        setRightSideNavbarValue(true);
       }
-      else if (Object.keys(routerInfo.matches as {}).includes('search')) {
-        setRightSideNavbarValue(true)
-      }
-    }
-    else if (routerInfo.path === '/:lang/world/:area') {
+    } else if (routerInfo.path === "/:lang/world/:area") {
       return false;
     }
-  }
+  };
 
   return (
     <div>
@@ -83,16 +85,19 @@ export function HeaderView({ routerInfo }: PageProps) {
           <LanguageToggleView />
         </div>
       </Header>
-      <Header sticky >
+      <Header sticky>
         <input
           placeholder="search"
-          style={{ display: checkHeaderInputVisibility() ? 'block' : 'none' }}
+          style={{ display: checkHeaderInputVisibility() ? "block" : "none" }}
           type="text"
           value={inputResearchValue}
           onChange={handleInputChange}
           onKeyDown={handleEnterPress}
         ></input>
-        <div slot="extra" style={{ display: rightSideNavbarValue ? 'none' : 'block' }}>
+        <div
+          slot="extra"
+          style={{ display: rightSideNavbarValue ? "none" : "block" }}
+        >
           <Tabs
             class="bg-#3F434C rounded-xl "
             onTabChange={(e) => {
@@ -108,6 +113,6 @@ export function HeaderView({ routerInfo }: PageProps) {
           </Tabs>
         </div>
       </Header>
-    </div >
+    </div>
   );
 }
