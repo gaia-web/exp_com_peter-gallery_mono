@@ -46,4 +46,7 @@ export const Breadcrumb = createComponent({
   tagName: "util-breadcrumb",
   elementClass: UtilBreadcrumbElement,
   react: React,
+  events:{
+    onItemSelect: "itemSelect" as EventName<CustomEvent<string[]>>,
+  }
 });

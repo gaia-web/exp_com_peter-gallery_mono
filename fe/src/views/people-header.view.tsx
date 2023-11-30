@@ -4,6 +4,7 @@ import { route } from "preact-router";
 import { Tab, Tabs } from "../utils/fe-utils";
 import { PageProps } from "../utils/page-wrapper";
 import { useState } from "preact/hooks";
+import { startViewTransition } from "../utils/start-view-transition";
 
 const selectClass = (input: string): { class: string; selected: boolean } => {
   const baseClass = `rounded-xl p-1rem`;
@@ -75,12 +76,14 @@ export function PeopleHeaderView({ routerInfo }: PageProps) {
         ></input>
         <div slot="extra">
           <Tabs
-            class="bg-#3F434C rounded-xl "
+            class="bg-#3F434C rounded-xl"
             onTabChange={(e) => {
               const newRoute = `/${languageLabel?.toLocaleLowerCase()}/${getRoute(
                 e.detail.toLowerCase()
               )}`;
-              route(newRoute);
+              startViewTransition(() => {
+                route(newRoute);
+              })
             }}
           >
             <Options en="world" zh="世界" />
