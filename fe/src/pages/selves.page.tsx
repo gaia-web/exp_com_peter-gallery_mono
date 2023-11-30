@@ -1,7 +1,7 @@
 import { PageProps } from "../utils/page-wrapper";
 import { SelvesHeaderView } from "../views/selves-header.view";
 
-export function SelvesPage({routerInfo}: PageProps) {
+export function SelvesPage({ routerInfo }: PageProps) {
   return (
     <>
       <SelvesHeaderView routerInfo={routerInfo} />

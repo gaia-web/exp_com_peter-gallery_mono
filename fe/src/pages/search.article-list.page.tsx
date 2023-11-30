@@ -1,7 +1,6 @@
-import { PageProps } from "../utils/page-wrapper";
 import { SearchHeaderView } from "../views/search-header";
 
-export function SearchArticleList({routerInfo}: PageProps) {
+export function SearchArticleList() {
   return (
     <>
       <SearchHeaderView/>

@@ -9,7 +9,6 @@ import { WorldHeaderView } from '../views/world-header.view'
 
 export function WorldPage({ routerInfo }: PageProps) {
   const geoExplorerRef = createRef<UtilGeoExplorerElement>();
-
   const areaNameDict = useSignal<Record<string, string>>({});
   const countryNameDict = useSignal<Record<string, string>>({});
   const validAreas = useSignal<string[]>(["AS", "EU", "AF", "OC"]);
@@ -22,7 +21,6 @@ export function WorldPage({ routerInfo }: PageProps) {
     "AUS",
     "TZA",
   ]);
-
   const languageLabel = routerInfo.lang?.toUpperCase();
   const area = routerInfo.area as string | undefined;
 

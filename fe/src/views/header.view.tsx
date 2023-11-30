@@ -7,29 +7,23 @@ import { useState } from "preact/hooks";
 
 const selectClass = (input: string): { class: string; selected: boolean } => {
   const baseClass = `rounded-xl p-1rem`;
-
   if (window.location.pathname.includes(input)) {
     return { class: `bg-#0046FF font-normal ${baseClass}`, selected: true };
   } else {
     return { class: baseClass, selected: false };
   }
 };
-
 const getRoute = (input: string) => {
   if (input === "world") return "world";
   if (input === "people") return "article?people=1";
   if (input === "selves") return "selves";
-
   return input;
 };
 
 export function HeaderView({ routerInfo }: PageProps) {
-
   const [inputResearchValue, setInputResearchValue] = useState<string>('');
   const [rightSideNavbarValue, setRightSideNavbarValue] = useState<boolean>(false);
-
   const languageLabel = routerInfo.lang?.toUpperCase();
-
   const Options = (props: { en: string; zh: string }) => {
     const { en, zh } = props;
     return (
@@ -76,14 +70,10 @@ export function HeaderView({ routerInfo }: PageProps) {
         setRightSideNavbarValue(true)
       }
     }
-
     else if (routerInfo.path === '/:lang/world/:area') {
       return false;
     }
-
-
   }
-
 
   return (
     <div>
@@ -93,7 +83,6 @@ export function HeaderView({ routerInfo }: PageProps) {
           <LanguageToggleView />
         </div>
       </Header>
-
       <Header sticky >
         <input
           placeholder="search"
@@ -103,15 +92,6 @@ export function HeaderView({ routerInfo }: PageProps) {
           onChange={handleInputChange}
           onKeyDown={handleEnterPress}
         ></input>
-
-
-        {/* TODO breadcrumb doesn't work */}
-        {/* <div
-          style={{ display: checkHeaderInputVisibility() ? 'none' : 'block' }}
-          slot="collapsible">
-          <Breadcrumb path="[1,2,3,4]"></Breadcrumb>
-        </div> */}
-
         <div slot="extra" style={{ display: rightSideNavbarValue ? 'none' : 'block' }}>
           <Tabs
             class="bg-#3F434C rounded-xl "

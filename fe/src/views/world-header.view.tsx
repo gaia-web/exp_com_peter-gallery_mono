@@ -8,7 +8,6 @@ import ReturnButtonView from './return-button.view'
 
 const selectClass = (input: string): { class: string; selected: boolean } => {
   const baseClass = `rounded-xl p-1rem`;
-
   if (window.location.pathname.includes(input)) {
     return { class: `bg-#0046FF font-normal ${baseClass}`, selected: true };
   } else {
@@ -20,16 +19,12 @@ const getRoute = (input: string) => {
   if (input === "world") return "world";
   if (input === "people") return "article?people=1";
   if (input === "selves") return "selves";
-
   return input;
 };
 
 export function WorldHeaderView({ routerInfo }: PageProps) {
-
   const [inputResearchValue, setInputResearchValue] = useState<string>('');
-
   const languageLabel = routerInfo.lang?.toUpperCase();
-
   const Options = (props: { en: string; zh: string }) => {
     const { en, zh } = props;
     return (
@@ -60,10 +55,10 @@ export function WorldHeaderView({ routerInfo }: PageProps) {
   const checkHeaderInputVisibility = () => {
     if (routerInfo.path === '/:lang/world') {
       return true;
-    } else if(routerInfo.path === '/:lang/article') {
+    } else if (routerInfo.path === '/:lang/article') {
       return true;
     }
-     else {
+    else {
       return false;
     }
   }
@@ -76,7 +71,6 @@ export function WorldHeaderView({ routerInfo }: PageProps) {
           <LanguageToggleView />
         </div>
       </Header>
-
       <Header sticky >
         <input
           placeholder="search"
@@ -86,22 +80,19 @@ export function WorldHeaderView({ routerInfo }: PageProps) {
           onChange={handleInputChange}
           onKeyDown={handleEnterPress}
         ></input>
-
         <div style={{ display: checkHeaderInputVisibility() ? 'none' : 'block' }}>
           <ReturnButtonView en="BACK" zh="返回" />
         </div>
         <div style={{ display: checkHeaderInputVisibility() ? 'none' : 'block' }} class="w-fit mx-auto" slot="collapsible">
-          <Breadcrumb  path={["world", routerInfo.area] as unknown as ((string | number)[] & string)}
+          <Breadcrumb path={["world", routerInfo.area] as unknown as ((string | number)[] & string)}
             onItemSelect={({ detail }) => {
               // TODO  logic need to improve
               route(`/${routerInfo.lang}/${detail.at(-1)}`);
             }}
             delimiter=">"
           >
-
           </Breadcrumb>
         </div>
-
         <div slot="extra">
           <Tabs
             class="bg-#3F434C rounded-xl "

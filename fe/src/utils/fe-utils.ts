@@ -4,7 +4,7 @@ import {
   UtilPaginationElement,
   UtilTabElement,
   UtilTabsElement,
-  UtilBreadcrumbElement
+  UtilBreadcrumbElement,
 } from "fe-utils";
 import React from "react";
 
@@ -46,7 +46,7 @@ export const Breadcrumb = createComponent({
   tagName: "util-breadcrumb",
   elementClass: UtilBreadcrumbElement,
   react: React,
-  events:{
+  events: {
     onItemSelect: "itemSelect" as EventName<CustomEvent<string[]>>,
-  }
+  },
 });
