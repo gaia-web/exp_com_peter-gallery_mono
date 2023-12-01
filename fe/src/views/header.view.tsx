@@ -57,7 +57,6 @@ export function HeaderView({ routerInfo }: PageProps) {
   };
 
   const checkHeaderInputVisibility = () => {
-    console.log(routerInfo);
     if (routerInfo.path === "/:lang/world") {
       return true;
     } else if (routerInfo.path === "/:lang/selves") {

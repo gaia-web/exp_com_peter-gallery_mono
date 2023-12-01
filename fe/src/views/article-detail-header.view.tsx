@@ -16,7 +16,6 @@ export function ArticleDetailHeaderView({ routerInfo }: PageProps) {
       </Header>
       <Header sticky>
         <ReturnButtonView en="BACK" zh="返回" />
-        {console.log(routerInfo)}
         <Breadcrumb
           path={
             [routerInfo.locationId, routerInfo.articleId] as unknown as (

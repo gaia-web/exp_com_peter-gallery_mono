@@ -23,8 +23,6 @@ export function GeneralArticleList({ routerInfo }: PageProps) {
   return (
     <>
       <WorldHeaderView routerInfo={routerInfo} />
-      {console.log(routerInfo)}
-      {console.log(routerInfo?.locationId)}
       <div>Ariticle list page</div>
       <br />
       <Link href={`/en/article/${routerInfo?.locationId}/1`}>
