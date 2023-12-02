@@ -13,5 +13,6 @@ export function ArticleListPage({ routerInfo }: PageProps) {
   if (routerInfo.search) {
     return <SearchArticleList routerInfo={routerInfo} />;
   }
+  // TODO better to fall back to to the fallback or 404 page
   return <div>Something went worong.</div>;
 }
