@@ -13,30 +13,34 @@
     opacity: 100%;
     transition: var(--transition-time);
 
+    & > .link {
+      & > img {
+        transition: var(--transition-time);
+        scale: var(--up-scale);
+      }
+
+      & > div {
+        transition: var(--transition-time);
+        scale: var(--up-scale);
+      }
+    }
+  }
+
+  & > .link {
     & > img {
       transition: var(--transition-time);
-      scale: var(--up-scale);
     }
 
-    & > div {
+    & > gaia-if {
+      rotate: 90deg;
+      transform-origin: top left;
+
+      top: 5%;
+      left: 25%;
+
+      position: absolute;
       transition: var(--transition-time);
-      scale: var(--up-scale);
     }
-  }
-
-  & > img {
-    transition: var(--transition-time);
-  }
-
-  & > gaia-if {
-    rotate: 90deg;
-    transform-origin: top left;
-
-    top: 5%;
-    left: 25%;
-
-    position: absolute;
-    transition: var(--transition-time);
   }
 }
 

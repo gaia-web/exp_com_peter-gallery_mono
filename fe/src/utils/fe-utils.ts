@@ -4,6 +4,7 @@ import {
   UtilPaginationElement,
   UtilTabElement,
   UtilTabsElement,
+  UtilBreadcrumbElement,
 } from "fe-utils";
 import React from "react";
 
@@ -11,6 +12,10 @@ export const GeoExplorer = createComponent({
   tagName: "util-geo-explorer",
   elementClass: UtilGeoExplorerElement,
   react: React,
+  events: {
+    onAreaSelect: "areaSelect" as EventName<CustomEvent<GeoJSON.Feature>>,
+    onCountrySelect: "countrySelect" as EventName<CustomEvent<GeoJSON.Feature>>,
+  },
 });
 
 export const Pagination = createComponent({
@@ -34,5 +39,14 @@ export const Tabs = createComponent({
   react: React,
   events: {
     onTabChange: "tabChange" as EventName<CustomEvent<string>>,
+  },
+});
+
+export const Breadcrumb = createComponent({
+  tagName: "util-breadcrumb",
+  elementClass: UtilBreadcrumbElement,
+  react: React,
+  events: {
+    onItemSelect: "itemSelect" as EventName<CustomEvent<string[]>>,
   },
 });

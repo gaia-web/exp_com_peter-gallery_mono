@@ -1,13 +1,13 @@
-export function SelvesPage() {
+import { PageProps } from "../utils/page-wrapper";
+import { SelvesHeaderView } from "../views/selves-header.view";
 
-    return (
-      <>
-        <div>
-          <p>
-            Selves page
-          </p>
-        </div>
-      </>
-    );
-  }
-  
+export function SelvesPage({ routerInfo }: PageProps) {
+  return (
+    <>
+      <SelvesHeaderView routerInfo={routerInfo} />
+      <div>
+        <p>Selves page</p>
+      </div>
+    </>
+  );
+}

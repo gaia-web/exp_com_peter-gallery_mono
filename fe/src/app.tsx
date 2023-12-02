@@ -1,27 +1,44 @@
 import Router, { RouterOnChangeArgs } from "preact-router";
-import { HomePage } from "./pages/home.page";
+import Redirect from "./utils/redirect";
+import "fe-utils";
+import { PageWrapper, PageProps } from "./utils/page-wrapper";
 import { FallbackPage } from "./pages/fallback.page";
 import Match from "preact-router/match";
-import "fe-utils";
-import { HeaderView } from "./views/header.view";
-import { PeoplePage } from "./pages/people.page";
+import { HomePage } from "./pages/home.page";
 import { WorldPage } from "./pages/world.page";
-import { SelvesPage } from "./pages/selves.page";
-import { SearchPage } from "./pages/search.page";
+import { ArticleListPage } from "./pages/article-list.page";
 import { PeopleDetailPage } from "./pages/people-detail.page";
+import { SelvesPage } from "./pages/selves.page";
 
 export function App() {
   return (
     <>
-      {window.location.pathname !== "/" && <HeaderView />}
       <div style={{ viewTransitionName: "page" }}>
         <Router>
-          <Match path="/">{() => <HomePage />}</Match>
-          <Match path="/people">{() => <PeoplePage />}</Match>
-          <Match path="/people/:id">{() => <PeopleDetailPage />}</Match>
-          <Match path="/world">{() => <WorldPage />}</Match>
-          <Match path="/about-us">{() => <SelvesPage />}</Match>
-          <Match path="/search">{() => <SearchPage />}</Match>
+          <Redirect path="/" to="/en" />
+          <PageWrapper path="/:lang">
+            {(props: PageProps) => <HomePage {...props} />}
+          </PageWrapper>
+          <PageWrapper path="/:lang/world">
+            {(props: PageProps) => <WorldPage {...props} />}
+          </PageWrapper>
+          <PageWrapper path="/:lang/world/:area">
+            {(props: PageProps) => <WorldPage {...props} />}
+          </PageWrapper>
+          <PageWrapper path="/:lang/article">
+            {(props: PageProps) => <ArticleListPage {...props} />}
+          </PageWrapper>
+          <PageWrapper path="/:lang/article/:locationId/:articleId">
+            {(props: PageProps) => <PeopleDetailPage {...props} />}
+          </PageWrapper>
+          <PageWrapper path="/:lang/selves">
+            {(props: PageProps) => <SelvesPage {...props} />}
+          </PageWrapper>
+          <Match path="/404">
+            {({ url }: RouterOnChangeArgs) => (
+              <FallbackPage>{url}</FallbackPage>
+            )}
+          </Match>
           <Match default>
             {({ url }: RouterOnChangeArgs) => (
               <FallbackPage>{url}</FallbackPage>
