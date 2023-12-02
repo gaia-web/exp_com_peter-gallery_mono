@@ -57,13 +57,9 @@ export function WorldHeaderView({ routerInfo }: PageProps) {
   };
 
   const checkHeaderInputVisibility = () => {
-    switch (routerInfo.path) {
-      case "/:lang/world":
-      case "/:lang/article":
-        return true;
-      default:
-        return false;
-    }
+    if (routerInfo.path == "/:lang/world") return true;
+    if (routerInfo.path == "/:lang/article") return true;
+    return false;
   };
 
   return (
