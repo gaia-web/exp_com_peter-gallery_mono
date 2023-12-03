@@ -7,7 +7,7 @@ import { route } from "preact-router";
 import { PageProps } from "../utils/page-wrapper";
 import { ArticleDetailHeaderView } from "../views/article-detail-header.view";
 
-export function PeopleDetailPage({ routerInfo }: PageProps) {
+export function ArticleDetailPage({ routerInfo }: PageProps) {
   const toPage = (nextPage: string) => {
     return route(`/people/${nextPage}`, true);
   };
@@ -38,6 +38,7 @@ export function PeopleDetailPage({ routerInfo }: PageProps) {
   return (
     <>
       <div class="m-x-10%">
+        {/* TODO: change this use data instead of router info */}
         <ArticleDetailHeaderView routerInfo={routerInfo} />
         <Carousel>
           {imgs.value.map((img, index) => (
