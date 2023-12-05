@@ -1,12 +1,12 @@
 import { Link } from "preact-router";
 import { If } from "../utils/garage";
-import { PageProps } from "../utils/page-wrapper";
+import { PageProps, PageWrapperChildProps } from "../utils/page-wrapper";
 import { LanguageToggleView } from "../views/language-toggle.view";
 
 import "./home.page.css";
 
-export function HomePage({ routerInfo }: PageProps) {
-  const languageLabel = routerInfo.lang?.toUpperCase();
+export function HomePage({ routerInfo }: PageWrapperChildProps) {
+  const languageLabel = routerInfo.lang?.value?.toUpperCase();
 
   return (
     <>

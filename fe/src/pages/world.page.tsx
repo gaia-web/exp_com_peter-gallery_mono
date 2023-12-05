@@ -1,13 +1,13 @@
-import { useSignal } from "@preact/signals";
+import { Signal, useSignal } from "@preact/signals";
 import { GeoExplorer } from "../utils/fe-utils";
-import { PageProps } from "../utils/page-wrapper";
+import { PageProps, PageWrapperChildProps, RouterInfoSignalsProxy } from "../utils/page-wrapper";
 import { UtilGeoExplorerElement } from "fe-utils";
 import { createRef } from "preact";
 import { route } from "preact-router";
 import { useEffect } from "preact/hooks";
 import { WorldHeaderView } from "../views/world-header.view";
 
-export function WorldPage({ routerInfo }: PageProps) {
+export function WorldPage({ routerInfo }: PageWrapperChildProps) {
   const geoExplorerRef = createRef<UtilGeoExplorerElement>();
   const areaNameDict = useSignal<Record<string, string>>({});
   const countryNameDict = useSignal<Record<string, string>>({});
@@ -21,8 +21,8 @@ export function WorldPage({ routerInfo }: PageProps) {
     "AUS",
     "TZA",
   ]);
-  const languageLabel = routerInfo.lang?.toUpperCase();
-  const area = routerInfo.area as string | undefined;
+  const languageLabel = routerInfo.lang?.value?.toUpperCase();
+  const area = routerInfo.area as Signal<string> | undefined;
 
   useEffect(() => {
     (async () => {
@@ -37,7 +37,7 @@ export function WorldPage({ routerInfo }: PageProps) {
 
   return (
     <>
-      <WorldHeaderView routerInfo={routerInfo} />
+      <WorldHeaderView routerInfo={routerInfo as any} />
       {areaNameDict.value && countryNameDict.value && (
         <GeoExplorer
           ref={geoExplorerRef}
