@@ -1,10 +1,9 @@
 import { useEffect } from "preact/compat";
 import { useSignal } from "@preact/signals";
 import { PageProps } from "../utils/page-wrapper";
-import { Link } from "preact-router";
+import { route } from "preact-router";
 import { WorldHeaderView } from "../views/world-header.view";
-import { ArticleListHeaderView } from "../views/article-list-header.view";
-import { GeoCard } from "./article-list.page";
+import { If } from "../utils/garage";
 
 export function GeoArticleList({ routerInfo }: PageProps) {
   const cards = useSignal([]);
@@ -31,7 +30,6 @@ export function GeoArticleList({ routerInfo }: PageProps) {
   return (
     <>
       <WorldHeaderView routerInfo={routerInfo} />
-      {/* <ArticleListHeaderView routerInfo={routerInfo} /> */}
       <div class="grid grid-cols-2 gap-1 pl-10vw pr-10vw">
         {cards.value.map(({ id, pic, area, country, date }) => (
           <GeoCard
@@ -45,5 +43,35 @@ export function GeoArticleList({ routerInfo }: PageProps) {
         ))}
       </div>
     </>
+  );
+}
+
+export function GeoCard(props: {
+  id: string;
+  pic: string;
+  area: { en: string; zh: string };
+  country: { en: string; zh: string };
+  date: string;
+  languageLabel: string;
+}) {
+  const { id, pic, area, country, date, languageLabel } = props;
+
+  return (
+    <div>
+      <img
+        class="w-100% h-42rem p-1rem hover:cursor-pointer"
+        src={pic}
+        onClick={() => route(`/${languageLabel}/article/${id}`, true)}
+      />
+      <If condition={languageLabel}>
+        <div class="pl-1rem" slot="EN">
+          {area.en}, {country.en}
+        </div>
+        <div class="pl-1rem" slot="ZH">
+          {area.zh}, {country.zh}
+        </div>
+      </If>
+      <div class="pl-1rem">{date}</div>
+    </div>
   );
 }

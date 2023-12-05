@@ -25,7 +25,7 @@ export function App() {
           <PageWrapper path="/:lang/world/:area">
             {(props: PageProps) => <WorldPage {...props} />}
           </PageWrapper>
-          <PageWrapper path="/:lang/articles">
+          <PageWrapper path="/:lang/article">
             {(props: PageProps) => <ArticleListPage {...props} />}
           </PageWrapper>
           <PageWrapper path="/:lang/article/:articleId">
