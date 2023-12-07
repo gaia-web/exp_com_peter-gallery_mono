@@ -9,7 +9,7 @@ import { ArticleDetailHeaderView } from "../views/article-detail-header.view";
 
 export function ArticleDetailPage({ routerInfo }: PageProps) {
   const toPage = (nextPage: string) => {
-    return route(`/people/${nextPage}`, true);
+    return route(`/people/${nextPage}`);
   };
 
   const languageLabel = routerInfo.lang?.toUpperCase() ?? "";

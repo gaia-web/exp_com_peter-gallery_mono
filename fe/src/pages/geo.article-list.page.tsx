@@ -9,6 +9,7 @@ export function GeoArticleList({ routerInfo }: PageProps) {
   const cards = useSignal([]);
   const loading = useSignal(true);
   const languageLabel = routerInfo.lang?.toUpperCase() ?? "";
+  const locationId = (routerInfo.locationId as string) ?? "";
 
   useEffect(() => {
     async function fetchArticle() {
@@ -39,6 +40,7 @@ export function GeoArticleList({ routerInfo }: PageProps) {
             country={country}
             date={date}
             languageLabel={languageLabel}
+            locationId={locationId}
           />
         ))}
       </div>
@@ -53,15 +55,18 @@ export function GeoCard(props: {
   country: { en: string; zh: string };
   date: string;
   languageLabel: string;
+  locationId: string;
 }) {
-  const { id, pic, area, country, date, languageLabel } = props;
+  const { id, pic, area, country, date, languageLabel, locationId } = props;
 
   return (
     <div>
       <img
         class="w-100% h-42rem p-1rem hover:cursor-pointer"
         src={pic}
-        onClick={() => route(`/${languageLabel}/article/${id}`, true)}
+        onClick={() =>
+          route(`/${languageLabel}/article/${locationId}/${id}`)
+        }
       />
       <If condition={languageLabel}>
         <div class="pl-1rem" slot="EN">

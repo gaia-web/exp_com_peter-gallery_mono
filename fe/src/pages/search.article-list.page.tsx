@@ -80,7 +80,7 @@ function SearchCard(props: {
       <img
         class="col-span-3 w-100% hover:cursor-pointer"
         src={pic}
-        onClick={() => route(`/${languageLabel}/article/${id}`, true)}
+        onClick={() => route(`/${languageLabel}/article/${id}`)}
       />
       <div class="col-span-3 w-100% text-center">
         <If condition={languageLabel}>
