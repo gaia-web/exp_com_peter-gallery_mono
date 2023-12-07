@@ -4,6 +4,7 @@ import { PageProps } from "../utils/page-wrapper";
 import { route } from "preact-router";
 import { WorldHeaderView } from "../views/world-header.view";
 import { If } from "../utils/garage";
+import { Item } from "../utils/fe-utils";
 
 export function GeoArticleList({ routerInfo }: PageProps) {
   const cards = useSignal([]);
@@ -60,23 +61,21 @@ export function GeoCard(props: {
   const { id, pic, area, country, date, languageLabel, locationId } = props;
 
   return (
-    <div>
-      <img
-        class="w-100% h-42rem p-1rem hover:cursor-pointer"
-        src={pic}
-        onClick={() =>
-          route(`/${languageLabel}/article/${locationId}/${id}`)
-        }
-      />
+    <Item
+      class="cursor-pointer gap-3 m-3"
+      orientation="vertical"
+      onClick={() => route(`/${languageLabel}/article/${locationId}/${id}`)}
+    >
+      <img slot="start" class="w-full aspect-ratio-[3/2]" src={pic} />
       <If condition={languageLabel}>
-        <div class="pl-1rem" slot="EN">
+        <div slot="EN">
           {area.en}, {country.en}
         </div>
-        <div class="pl-1rem" slot="ZH">
+        <div slot="ZH">
           {area.zh}, {country.zh}
         </div>
       </If>
-      <div class="pl-1rem">{date}</div>
-    </div>
+      <div slot="end">{date}</div>
+    </Item>
   );
 }
