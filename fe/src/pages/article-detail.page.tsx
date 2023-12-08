@@ -7,9 +7,9 @@ import { route } from "preact-router";
 import { PageProps } from "../utils/page-wrapper";
 import { ArticleDetailHeaderView } from "../views/article-detail-header.view";
 
-export function PeopleDetailPage({ routerInfo }: PageProps) {
+export function ArticleDetailPage({ routerInfo }: PageProps) {
   const toPage = (nextPage: string) => {
-    return route(`/people/${nextPage}`, true);
+    return route(`/people/${nextPage}`);
   };
 
   const languageLabel = routerInfo.lang?.toUpperCase() ?? "";
@@ -24,6 +24,7 @@ export function PeopleDetailPage({ routerInfo }: PageProps) {
       markdown.value = await fetch(
         articleDefinition.content[languageLabel.toLowerCase()]
       ).then((response) => response.text());
+
       imgs.value = articleDefinition.imgLinks;
     }
 
@@ -37,10 +38,15 @@ export function PeopleDetailPage({ routerInfo }: PageProps) {
   return (
     <>
       <div class="m-x-10%">
+        {/* TODO: change this use data instead of router info */}
         <ArticleDetailHeaderView routerInfo={routerInfo} />
         <Carousel>
           {imgs.value.map((img, index) => (
-            <img src={img} alt={`${index}`} style="object-fit: contain" />
+            <img
+              src={`${img}{index}/1200/800`}
+              alt={`${index}`}
+              style="object-fit: contain"
+            />
           ))}
         </Carousel>
         <Markdown

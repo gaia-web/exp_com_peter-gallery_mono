@@ -5,6 +5,7 @@ import {
   UtilTabElement,
   UtilTabsElement,
   UtilBreadcrumbElement,
+  UtilItemElement
 } from "fe-utils";
 import React from "react";
 
@@ -49,4 +50,10 @@ export const Breadcrumb = createComponent({
   events: {
     onItemSelect: "itemSelect" as EventName<CustomEvent<string[]>>,
   },
+});
+
+export const Item = createComponent({
+  tagName: "util-item",
+  elementClass: UtilItemElement,
+  react: React,
 });

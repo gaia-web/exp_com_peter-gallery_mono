@@ -1,18 +1,16 @@
-import { SearchArticleList } from "./search.article-list.page";
 import { PageProps } from "../utils/page-wrapper";
-import { GeneralArticleList } from "./general.article-list.page";
+import { GeoArticleList } from "./geo.article-list.page";
 import { PeopleArticleList } from "./people.article-list.page";
+import { SearchArticleList } from "./search.article-list.page";
 
 export function ArticleListPage({ routerInfo }: PageProps) {
   if (routerInfo.locationId != null) {
-    return <GeneralArticleList routerInfo={routerInfo}></GeneralArticleList>;
+    return <GeoArticleList routerInfo={routerInfo}></GeoArticleList>;
   }
-  if (routerInfo.people) {
-    return <PeopleArticleList routerInfo={routerInfo} />;
-  }
-  if (routerInfo.search) {
+
+  if (routerInfo.search || routerInfo.search === "") {
     return <SearchArticleList routerInfo={routerInfo} />;
   }
-  // TODO better to fall back to to the fallback or 404 page
-  return <div>Something went worong.</div>;
+
+  return <PeopleArticleList routerInfo={routerInfo} />;
 }

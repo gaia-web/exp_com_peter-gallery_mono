@@ -7,7 +7,7 @@ import Match from "preact-router/match";
 import { HomePage } from "./pages/home.page";
 import { WorldPage } from "./pages/world.page";
 import { ArticleListPage } from "./pages/article-list.page";
-import { PeopleDetailPage } from "./pages/people-detail.page";
+import { ArticleDetailPage } from "./pages/article-detail.page";
 import { SelvesPage } from "./pages/selves.page";
 
 export function App() {
@@ -29,7 +29,7 @@ export function App() {
             {(props: PageProps) => <ArticleListPage {...props} />}
           </PageWrapper>
           <PageWrapper path="/:lang/article/:locationId/:articleId">
-            {(props: PageProps) => <PeopleDetailPage {...props} />}
+            {(props: PageProps) => <ArticleDetailPage {...props} />}
           </PageWrapper>
           <PageWrapper path="/:lang/selves">
             {(props: PageProps) => <SelvesPage {...props} />}
