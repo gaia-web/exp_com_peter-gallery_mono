@@ -1,0 +1,20 @@
+{
+  "collectionName": "components_link_info_link_infos",
+  "info": {
+    "displayName": "linkInfo",
+    "icon": "file"
+  },
+  "options": {},
+  "attributes": {
+    "title": {
+      "type": "string"
+    },
+    "cover": {
+      "allowedTypes": [
+        "images"
+      ],
+      "type": "media",
+      "multiple": false
+    }
+  }
+}
