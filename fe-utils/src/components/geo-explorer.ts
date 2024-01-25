@@ -27,6 +27,10 @@ export class UtilGeoExplorerElement extends LitElement {
   /**
    * @internal
    */
+  #timezoneOverlay?: L.ImageOverlay;
+  /**
+   * @internal
+   */
   #areasLayer?: L.Layer;
   /**
    * @internal
@@ -59,6 +63,12 @@ export class UtilGeoExplorerElement extends LitElement {
    */
   @property({ type: Number, reflect: true })
   defaultZoom: number = 2;
+
+  /**
+   * The image source of timezone overlay.
+   */
+  @property({ attribute: "timezone-overlay-image-src", reflect: true })
+  timezoneOverlayImageSrc: string = "";
 
   /**
    * @internal
@@ -199,6 +209,7 @@ export class UtilGeoExplorerElement extends LitElement {
     this.#mapInstance = this.generateMapInstance();
     this.#disableUserZoom();
     this.#updateArea();
+    this.#setupTimezoneOverlay();
   }
 
   protected willUpdate(
@@ -234,6 +245,9 @@ export class UtilGeoExplorerElement extends LitElement {
     ) {
       this.#countriesLayer = this.generateCountriesGeoJSONLayer();
       this.#updateArea();
+    }
+    if (changedProperties.has("timezoneOverlayImageSrc" as never)) {
+      this.#setupTimezoneOverlay();
     }
   }
 
@@ -458,6 +472,35 @@ export class UtilGeoExplorerElement extends LitElement {
     this.#mapInstance?.doubleClickZoom.disable();
     this.#mapInstance?.scrollWheelZoom.disable();
     this.#mapInstance?.boxZoom.disable();
+  }
+
+  #setupTimezoneOverlay() {
+    this.#timezoneOverlay?.remove();
+    const bounds = this.#mapInstance?.getBounds();
+    const north = bounds?.getNorth() ?? 0;
+    const south = bounds?.getSouth() ?? 0;
+    const height = (north - south) / 5;
+    this.#timezoneOverlay = L.imageOverlay(
+      this.timezoneOverlayImageSrc,
+      L.latLngBounds([
+        [south + height, -180],
+        [south, 180],
+      ])
+    );
+    this.#mapInstance?.on("move", () => {
+      const bounds = this.#mapInstance?.getBounds();
+      const north = bounds?.getNorth() ?? 0;
+      const south = bounds?.getSouth() ?? 0;
+      const height = (north - south) / 5;
+      this.#timezoneOverlay?.setBounds(
+        L.latLngBounds([
+          [south + height, -180],
+          [south, 180],
+        ])
+      );
+    });
+    this.#mapInstance?.addLayer(this.#timezoneOverlay);
+    this.#timezoneOverlay?.bringToFront();
   }
 
   static styles = [

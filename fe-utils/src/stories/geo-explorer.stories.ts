@@ -46,6 +46,7 @@ export default {
       id="map"
       areas="https://gaia-web.github.io/lib_world-map-utils/continents/continents.simplified.geojson"
       countries="https://gaia-web.github.io/lib_world-map-utils/countries/countries.simplified.geojson"
+      timezone-overlay-image-src="/timezone-overlay.svg"
       .obtainAreaIdCallback=${(feature: GeoJSON.Feature) =>
         feature.properties?.name}
       .obtainCountryIdCallback=${(feature: GeoJSON.Feature) =>
