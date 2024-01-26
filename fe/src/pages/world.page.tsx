@@ -46,6 +46,7 @@ export function WorldPage({ routerInfo }: PageProps) {
           area={area}
           areas="https://gaia-web.github.io/lib_world-map-utils/continents/continents.simplified.geojson"
           countries="https://gaia-web.github.io/lib_world-map-utils/countries/countries.simplified.geojson"
+          timezoneOverlayImageSrc="/timezone-overlay.svg"
           defaultZoom={document.documentElement.clientWidth / 750}
           obtainAreaIdCallback={(feature) => feature?.properties?.name}
           obtainCountryIdCallback={(feature) => feature?.properties?.ISO_A3}
