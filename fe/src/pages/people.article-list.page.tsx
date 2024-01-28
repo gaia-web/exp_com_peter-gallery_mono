@@ -4,19 +4,31 @@ import { PageProps } from "../utils/page-wrapper";
 import { PeopleHeaderView } from "../views/people-header.view";
 import { route } from "preact-router";
 import { If } from "../utils/garage";
+import { getLocale } from "../utils/language";
 
 export function PeopleArticleList({ routerInfo }: PageProps) {
   const cards = useSignal([]);
+  const slogan = useSignal("");
   const loading = useSignal(true);
   const languageLabel = routerInfo.lang?.toUpperCase() ?? "";
+  const locale = getLocale();
 
   useEffect(() => {
     async function fetchArticle() {
-      const data = await fetch("/mock/articles-people.json").then((response) =>
-        response.json()
+      const sloganData = await fetch(
+        `https://gaia.web.mooo.com/api/article-list-page-slogans?locale=${locale.toLowerCase()}`
+      ).then((response) => {
+        return response.json();
+      });
+
+      const data = await fetch("/mock/articles-people.json").then(
+        (response) => {
+          return response.json();
+        }
       );
 
       cards.value = data.cards;
+      slogan.value = sloganData.data[0].attributes.slogan;
       loading.value = false;
     }
 
@@ -27,11 +39,13 @@ export function PeopleArticleList({ routerInfo }: PageProps) {
     return <></>;
   }
 
+  console.log({slogan})
+
   return (
     <>
       <PeopleHeaderView routerInfo={routerInfo} />
       <div class="w-100% text-center text-5xl pl-15vw pr-15vw text-left mt-5rem mb-5rem">
-        重要的是你能否从这个充满不确定性的世界中, 选择你想要相信, 并坚持的一切。
+        {slogan}
       </div>
       <div class="w-100% text-center mt-5rem mb-5rem">
         2012.12.12 ｜ 城市 国家
