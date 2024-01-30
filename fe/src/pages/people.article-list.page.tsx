@@ -4,31 +4,41 @@ import { PageProps } from "../utils/page-wrapper";
 import { PeopleHeaderView } from "../views/people-header.view";
 import { route } from "preact-router";
 import { If } from "../utils/garage";
-import { getLocale } from "../utils/language";
 
 export function PeopleArticleList({ routerInfo }: PageProps) {
   const cards = useSignal([]);
   const slogan = useSignal("");
+  const city = useSignal("");
+  const country = useSignal("");
+  const date = useSignal("");
   const loading = useSignal(true);
   const languageLabel = routerInfo.lang?.toUpperCase() ?? "";
-  const locale = getLocale();
 
   useEffect(() => {
     async function fetchArticle() {
       const sloganData = await fetch(
-        `https://gaia.web.mooo.com/api/article-list-page-slogans?locale=${locale.toLowerCase()}`
+        `https://gaia.web.mooo.com/api/article-list-page-slogans?locale=${languageLabel.toLowerCase()}`
       ).then((response) => {
         return response.json();
       });
 
-      const data = await fetch("/mock/articles-people.json").then(
+      const data = await fetch(
+        `https://gaia.web.mooo.com/api/articles?locale=${languageLabel.toLowerCase()}&filters[article_type][name][$eq]=people&populate[imageList][cover]=* `
+      ).then(
+        // const data = await fetch("/mock/articles-people.json").then(
         (response) => {
           return response.json();
         }
       );
 
-      cards.value = data.cards;
+      console.log({ data });
+      console.log({ languageLabel });
+
+      cards.value = data.data;
       slogan.value = sloganData.data[0].attributes.slogan;
+      city.value = sloganData.data[0].attributes.city;
+      country.value = sloganData.data[0].attributes.country;
+      date.value = sloganData.data[0].attributes.date;
       loading.value = false;
     }
 
@@ -39,7 +49,8 @@ export function PeopleArticleList({ routerInfo }: PageProps) {
     return <></>;
   }
 
-  console.log({slogan})
+  console.log({ slogan });
+  console.log(cards.value);
 
   return (
     <>
@@ -48,24 +59,22 @@ export function PeopleArticleList({ routerInfo }: PageProps) {
         {slogan}
       </div>
       <div class="w-100% text-center mt-5rem mb-5rem">
-        2012.12.12 ｜ 城市 国家
+        {date} ｜ {city} {country}
       </div>
       <div class="grid grid-cols-2 gap-1 pl-10vw pr-10vw">
-        {cards.value.map(
-          ({ id, pic, area, country, city, content, date, location }) => (
+        {cards.value.map(({ attributes }: any) => {
+          console.log({ attributes });
+          return (
             <PeopleCard
-              id={id}
-              pic={pic}
-              area={area}
-              country={country}
-              date={date}
+              id={attributes.id}
+              pic={`https://gaia.web.mooo.com${attributes.imageList.data[0].attributes.formats.thumbnail.url}`}
+              area={attributes.title}
               languageLabel={languageLabel}
-              city={city}
-              content={content}
-              location={(location as any).en}
+              content={attributes.content}
+              // location={}
             />
-          )
-        )}
+          );
+        })}
       </div>
     </>
   );
@@ -74,48 +83,26 @@ export function PeopleArticleList({ routerInfo }: PageProps) {
 function PeopleCard(props: {
   id: string;
   pic: string;
-  area: { en: string; zh: string };
-  country: { en: string; zh: string };
-  date: string;
+  area: string;
   languageLabel: string;
-  city: { en: string; zh: string };
-  content: { en: string; zh: string };
-  location: string;
+  content: string;
+  // location:string;
 }) {
   const {
     id,
     pic,
     area,
-    country,
-    date,
     languageLabel,
-    city,
     content,
-    location,
+    // location,
   } = props;
 
   return (
     <div>
       <div class="relative">
-        <div class="absolute p-1rem text-center w-100%">
-          <If condition={languageLabel}>
-            <div class="pl-1rem" slot="EN">
-              {content.en}
-            </div>
-            <div class="pl-1rem" slot="ZH">
-              {content.zh}
-            </div>
-          </If>
-        </div>
+        <div class="absolute p-1rem text-center w-100%">{contentLimiter(content)}</div>
         <div class="absolute p-1rem bottom-0 text-center w-100%">
-          <If condition={languageLabel}>
-            <div class="pl-1rem" slot="EN">
-              {country.en},{city.en}
-            </div>
-            <div class="pl-1rem" slot="ZH">
-              {country.zh},{city.zh}
-            </div>
-          </If>
+          {area}
         </div>
         <img
           class="w-100% h-42rem p-1rem hover:cursor-pointer"
@@ -128,15 +115,10 @@ function PeopleCard(props: {
           }
         />
       </div>
-      <If condition={languageLabel}>
-        <div class="pl-1rem" slot="EN">
-          {area.en}, {country.en}
-        </div>
-        <div class="pl-1rem" slot="ZH">
-          {area.zh}, {country.zh}
-        </div>
-      </If>
-      <div class="pl-1rem">{date}</div>
     </div>
   );
+}
+
+function contentLimiter(content: string) {
+  return `${content.substring(0, 60)}...`
 }
