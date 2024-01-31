@@ -4,9 +4,32 @@ import { PageProps } from "../utils/page-wrapper";
 import { LanguageToggleView } from "../views/language-toggle.view";
 
 import "./home.page.css";
+import { useEffect, useState } from "preact/hooks";
+
+
 
 export function HomePage({ routerInfo }: PageProps) {
   const languageLabel = routerInfo.lang?.toUpperCase();
+
+
+  useEffect(() => {
+    fetch('https://gaia.web.mooo.com/api/home?locale=zh&populate[linkInfo][populate][cover]=*')
+      .then(response => {
+        if (!response.ok) {
+          throw new Error('Network response was not ok');
+        }
+        return response.json();
+      })
+      .then(data => {
+        console.log(data.data)
+      })
+      .catch(error => {
+        console.log(error)
+      });
+  }, []);
+
+
+  
 
   return (
     <>
@@ -59,7 +82,7 @@ export function HomePage({ routerInfo }: PageProps) {
             style="--inital-animation-delay: 1s; --index: 0;"
           >
             <If condition={languageLabel}>
-              <div slot="EN">Human of</div>
+              <div slot="EN">Human of </div>
               <div slot="ZH">那颗我们所钟爱的</div>
             </If>
           </div>
