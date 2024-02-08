@@ -23,7 +23,7 @@ export function PeopleArticleList({ routerInfo }: PageProps) {
       });
 
       const data = await fetch(
-        `https://gaia.web.mooo.com/api/articles?locale=${languageLabel.toLowerCase()}&filters[article_type][name][$eq]=people&populate[imageList][cover]=* `
+        `https://gaia.web.mooo.com/api/articles?locale=${languageLabel.toLowerCase()}&filters[article_type][name][$eq]=people&populate[imageList][cover]=*&populate[country]=* `
       ).then(
         // const data = await fetch("/mock/articles-people.json").then(
         (response) => {
@@ -31,8 +31,8 @@ export function PeopleArticleList({ routerInfo }: PageProps) {
         }
       );
 
-      console.log({ data });
-      console.log({ languageLabel });
+      // console.log({ data });
+      // console.log({ languageLabel });
 
       cards.value = data.data;
       slogan.value = sloganData.data[0].attributes.slogan;
@@ -49,7 +49,7 @@ export function PeopleArticleList({ routerInfo }: PageProps) {
     return <></>;
   }
 
-  console.log({ slogan });
+  // console.log({ slogan });
   console.log(cards.value);
 
   return (
@@ -62,13 +62,16 @@ export function PeopleArticleList({ routerInfo }: PageProps) {
         {date} ｜ {city} {country}
       </div>
       <div class="grid grid-cols-2 gap-1 pl-10vw pr-10vw">
-        {cards.value.map(({ attributes }: any) => {
-          console.log({ attributes });
+        {cards.value.map((card: any)  => {
+          const { id, attributes } = card; 
+          // console.log({ attributes });
+          // console.log({area})
           return (
             <PeopleCard
-              id={attributes.id}
+              id={id}
               pic={`https://gaia.web.mooo.com${attributes.imageList.data[0].attributes.formats.thumbnail.url}`}
               area={attributes.title}
+              countryId={attributes.country.data.id}
               languageLabel={languageLabel}
               content={attributes.content}
               // location={}
@@ -86,6 +89,7 @@ function PeopleCard(props: {
   area: string;
   languageLabel: string;
   content: string;
+  countryId:string
   // location:string;
 }) {
   const {
@@ -94,6 +98,7 @@ function PeopleCard(props: {
     area,
     languageLabel,
     content,
+    countryId
     // location,
   } = props;
 
@@ -108,10 +113,7 @@ function PeopleCard(props: {
           class="w-100% h-42rem p-1rem hover:cursor-pointer"
           src={pic}
           onClick={() =>
-            route(
-              `/${languageLabel}/article/${location}/${id}?fromPeople=1`,
-              true
-            )
+            route(`/${languageLabel}/article/${countryId}/${id}?fromPeople=true`, true)
           }
         />
       </div>

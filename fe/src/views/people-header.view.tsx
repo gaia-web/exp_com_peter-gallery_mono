@@ -16,7 +16,7 @@ const selectClass = (input: string): { class: string; selected: boolean } => {
 };
 const getRoute = (input: string) => {
   if (input === "world") return "world";
-  if (input === "people") return "article?people=1";
+  if (input === "people") return "article";
   if (input === "selves") return "selves";
   return input;
 };

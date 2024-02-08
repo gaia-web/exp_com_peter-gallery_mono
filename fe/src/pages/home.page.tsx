@@ -7,7 +7,7 @@ import "./home.page.css";
 
 export function HomePage({ routerInfo }: PageProps) {
   const languageLabel = routerInfo.lang?.toUpperCase();
-
+  
   return (
     <>
       <div>
@@ -29,9 +29,9 @@ export function HomePage({ routerInfo }: PageProps) {
                 <div slot="ZH">WORLD 世界</div>
               </If>
             </Link>
-          </div>
+          </div>``
           <div class="parent text-5xl">
-            <Link href={`${routerInfo.lang}/article?people=1`} className="link">
+            <Link href={`${routerInfo.lang}/article?people`} className="link">
               <img src="//picsum.photos/1200/800"></img>
               <If condition={languageLabel}>
                 <div slot="EN">PEOPLE</div>
