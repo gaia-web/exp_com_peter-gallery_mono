@@ -1,0 +1,76 @@
+
+.svg-flip {
+  transform: rotate(180deg);
+  transform-origin: center;
+}
+
+.articleTopContainer::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.4);
+  z-index: 1;
+}
+
+.articleTopContainer {
+  position: relative;
+  cursor: pointer;
+  width: 100%;
+  margin:0 auto;
+  height: 500px;
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center;
+
+}
+
+.content {
+  text-align: center;
+  width: 80%;
+  margin: 0 auto;
+  padding-top: 2rem;
+}
+.arrowContainer{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #1B1B1C;
+  width: 56px;
+  height: 56px;
+  border-radius: 100%;
+  margin:0 auto
+}
+.content-title{
+  text-align: center;
+}
+
+
+.divider{
+  height: 1px;
+  border-top: .5px solid #ccc;
+  margin-top: 4rem;
+  margin-bottom: 4rem;
+}
+
+.peopleRegularContainer{
+  cursor: pointer;
+
+}
+
+.peopleRegularImg{
+  width:100%;
+  height: auto;
+  min-height:360px;
+  object-fit: cover;
+}
+
+.peopleRegularHeader{    margin-bottom:.4rem;}
+
+.peopleRegularDate{
+  margin:0;
+  font-size:16px;
+  color:#ccc;
+}
