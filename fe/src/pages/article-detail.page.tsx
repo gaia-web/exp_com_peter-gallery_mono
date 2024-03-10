@@ -14,6 +14,8 @@ import "swiper/css/pagination";
 import "./article-detail.page.css";
 // import required modules
 import { Pagination } from "swiper/modules";
+// import base url 
+import { BASE_URL } from '../utils/api-config'; 
 
 export function ArticleDetailPage({ routerInfo }: PageProps) {
   const toPage = (nextPage: string) => {
@@ -33,7 +35,7 @@ export function ArticleDetailPage({ routerInfo }: PageProps) {
   useEffect(() => {
     async function fetchArticle() {
       const articleData = await fetch(
-        `http://127.0.0.1:1337/api/articles/${articleId}?populate[imageList][cover]=*&populate[country]=*&populate[localizations]=*`
+        `${BASE_URL}/api/articles/${articleId}?populate[imageList][cover]=*&populate[country]=*&populate[localizations]=*`
       ).then((response) => {
         return response.json();
       });
@@ -168,7 +170,6 @@ export function ArticleDetailPage({ routerInfo }: PageProps) {
                 </div>
               </If>
               {/* // TODO: replace with right arrow SVG */}
-
               <div class="rotate-180">
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
@@ -203,8 +204,6 @@ export function ArticleDetailPage({ routerInfo }: PageProps) {
 }
 
 function MySwiper({ imgs }: any) {
-  const baseUrl = "http://127.0.0.1:1337";
-
   // 检查是否只有一个img元素
   const singleSlideStyle = imgs.length === 1 ? { width: "100%" } : {};
 
@@ -222,7 +221,7 @@ function MySwiper({ imgs }: any) {
         {imgs.map((img: any) => (
           <SwiperSlide key={img.id} style={singleSlideStyle}>
             <img
-              src={`${baseUrl}${img.attributes.url}`}
+              src={`${BASE_URL}${img.attributes.url}`}
               alt={img.attributes.name}
               style={{ width: "100%", height: "100%", objectFit: "cover" }}
             />

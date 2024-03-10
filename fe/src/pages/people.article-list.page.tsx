@@ -7,6 +7,8 @@ import { If } from "../utils/garage";
 
 import "./people.article-list.page.css";
 import rightArrow from "../assets/right-arrow.svg";
+// import base url 
+import { BASE_URL } from '../utils/api-config'; 
 
 export function PeopleArticleList({ routerInfo }: PageProps) {
   const toparticleList = useSignal([]);
@@ -21,13 +23,13 @@ export function PeopleArticleList({ routerInfo }: PageProps) {
   useEffect(() => {
     async function fetchArticle() {
       const sloganData = await fetch(
-        `http://127.0.0.1:1337/api/article-list-page-slogans?locale=${languageLabel.toLowerCase()}`
+        `${BASE_URL}/api/article-list-page-slogans?locale=${languageLabel.toLowerCase()}`
       ).then((response) => {
         return response.json();
       });
 
       const data = await fetch(
-        `http://127.0.0.1:1337/api/articles?locale=${languageLabel.toLowerCase()}&filters[article_type][name][$eq]=people&populate[imageList][cover]=*&populate[country]=* `
+        `${BASE_URL}/api/articles?locale=${languageLabel.toLowerCase()}&filters[article_type][name][$eq]=people&populate[imageList][cover]=*&populate[country]=* `
       ).then(
         // const data = await fetch("/mock/articles-people.json").then(
         (response) => {
