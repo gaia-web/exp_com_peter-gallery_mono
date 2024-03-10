@@ -29,7 +29,7 @@ export function HomePage({ routerInfo }: PageProps) {
                 <div slot="ZH">WORLD 世界</div>
               </If>
             </Link>
-          </div>``
+          </div>
           <div class="parent text-5xl">
             <Link href={`${routerInfo.lang}/article?people`} className="link">
               <img src="//picsum.photos/1200/800"></img>
@@ -51,7 +51,7 @@ export function HomePage({ routerInfo }: PageProps) {
         </div>
 
         <div
-          class="fixed bottom-0 left-0 text-center translate-x-[var(--initial-translate-x)] translate-y-[var(--initial-translate-y)] scale-[var(--initial-scale)] slogan"
+          class="fixed bottom-0 left-0 translate-x-[var(--initial-translate-x)] translate-y-[var(--initial-translate-y)] scale-[var(--initial-scale)] slogan"
           style="--animation-delay: 6s; --initial-translate-x: calc(50vw - 50%); --initial-translate-y: calc(50% - 50vh); --initial-scale: 1.5; --left-offset: 50px; --bottom-offset: 50px;"
         >
           <div
@@ -59,7 +59,8 @@ export function HomePage({ routerInfo }: PageProps) {
             style="--inital-animation-delay: 1s; --index: 0;"
           >
             <If condition={languageLabel}>
-              <div slot="EN">Human of</div>
+              <div slot="EN" >Human</div>
+              <div slot="EN">Of</div>
               <div slot="ZH">那颗我们所钟爱的</div>
             </If>
           </div>
@@ -68,7 +69,8 @@ export function HomePage({ routerInfo }: PageProps) {
             style="--inital-animation-delay: 1s; --index: 1;"
           >
             <If condition={languageLabel}>
-              <div slot="EN">Planet Earth</div>
+              <div slot="EN">Planet</div>
+              <div slot="EN">Earth</div>
               <div slot="ZH">蔚蓝星球</div>
             </If>
           </div>
