@@ -6,27 +6,29 @@
   "scripts": {
     "develop": "strapi develop",
     "start": "strapi start",
-    "build": "strapi build & npm run sql:dump",
-    "strapi": "strapi",
-    "postinstall": "npm run sql:recover",
-    "sql:dump":"sqlite3 ./data.db .dump > ./database/strapi-dump.sql",
-    "sql:recover":"rm -f ./data.db && sqlite3 ./data.db < ./database/strapi-dump.sql"
+    "build": "strapi build",
+    "strapi": "strapi"
   },
   "devDependencies": {},
   "dependencies": {
-    "@strapi/strapi": "4.14.4",
-    "@strapi/plugin-users-permissions": "4.14.4",
-    "@strapi/plugin-i18n": "4.14.4",
-    "better-sqlite3": "8.6.0"
+    "@strapi/strapi": "4.17.1",
+    "@strapi/plugin-users-permissions": "4.17.1",
+    "@strapi/plugin-i18n": "4.17.1",
+    "@strapi/plugin-cloud": "4.17.1",
+    "better-sqlite3": "8.6.0",
+    "react": "^18.0.0",
+    "react-dom": "^18.0.0",
+    "react-router-dom": "5.3.4",
+    "styled-components": "5.3.3"
   },
   "author": {
     "name": "A Strapi developer"
   },
   "strapi": {
-    "uuid": "31895957-336e-47a5-bdad-ad15dfdf7f62"
+    "uuid": "f702368a-676c-42a7-9ee9-3613515df2d7"
   },
   "engines": {
-    "node": ">=16.0.0 <=20.x.x",
+    "node": ">=18.0.0 <=20.x.x",
     "npm": ">=6.0.0"
   },
   "license": "MIT"

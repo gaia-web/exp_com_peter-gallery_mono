@@ -482,6 +482,97 @@ export interface PluginUploadFolder extends Schema.CollectionType {
   };
 }
 
+export interface PluginContentReleasesRelease extends Schema.CollectionType {
+  collectionName: 'strapi_releases';
+  info: {
+    singularName: 'release';
+    pluralName: 'releases';
+    displayName: 'Release';
+  };
+  options: {
+    draftAndPublish: false;
+  };
+  pluginOptions: {
+    'content-manager': {
+      visible: false;
+    };
+    'content-type-builder': {
+      visible: false;
+    };
+  };
+  attributes: {
+    name: Attribute.String & Attribute.Required;
+    releasedAt: Attribute.DateTime;
+    actions: Attribute.Relation<
+      'plugin::content-releases.release',
+      'oneToMany',
+      'plugin::content-releases.release-action'
+    >;
+    createdAt: Attribute.DateTime;
+    updatedAt: Attribute.DateTime;
+    createdBy: Attribute.Relation<
+      'plugin::content-releases.release',
+      'oneToOne',
+      'admin::user'
+    > &
+      Attribute.Private;
+    updatedBy: Attribute.Relation<
+      'plugin::content-releases.release',
+      'oneToOne',
+      'admin::user'
+    > &
+      Attribute.Private;
+  };
+}
+
+export interface PluginContentReleasesReleaseAction
+  extends Schema.CollectionType {
+  collectionName: 'strapi_release_actions';
+  info: {
+    singularName: 'release-action';
+    pluralName: 'release-actions';
+    displayName: 'Release Action';
+  };
+  options: {
+    draftAndPublish: false;
+  };
+  pluginOptions: {
+    'content-manager': {
+      visible: false;
+    };
+    'content-type-builder': {
+      visible: false;
+    };
+  };
+  attributes: {
+    type: Attribute.Enumeration<['publish', 'unpublish']> & Attribute.Required;
+    entry: Attribute.Relation<
+      'plugin::content-releases.release-action',
+      'morphToOne'
+    >;
+    contentType: Attribute.String & Attribute.Required;
+    release: Attribute.Relation<
+      'plugin::content-releases.release-action',
+      'manyToOne',
+      'plugin::content-releases.release'
+    >;
+    createdAt: Attribute.DateTime;
+    updatedAt: Attribute.DateTime;
+    createdBy: Attribute.Relation<
+      'plugin::content-releases.release-action',
+      'oneToOne',
+      'admin::user'
+    > &
+      Attribute.Private;
+    updatedBy: Attribute.Relation<
+      'plugin::content-releases.release-action',
+      'oneToOne',
+      'admin::user'
+    > &
+      Attribute.Private;
+  };
+}
+
 export interface PluginUsersPermissionsPermission
   extends Schema.CollectionType {
   collectionName: 'up_permissions';
@@ -677,12 +768,12 @@ export interface PluginI18NLocale extends Schema.CollectionType {
   };
 }
 
-export interface ApiArticlesArticles extends Schema.CollectionType {
-  collectionName: 'article';
+export interface ApiArticleArticle extends Schema.CollectionType {
+  collectionName: 'articles';
   info: {
-    singularName: 'articles';
-    pluralName: 'article';
-    displayName: 'Articles';
+    singularName: 'article';
+    pluralName: 'articles';
+    displayName: 'articles';
     description: '';
   };
   options: {
@@ -701,206 +792,74 @@ export interface ApiArticlesArticles extends Schema.CollectionType {
           localized: true;
         };
       }>;
-    date: Attribute.Date &
-      Attribute.Required &
-      Attribute.SetPluginOptions<{
-        i18n: {
-          localized: true;
-        };
-      }>;
     content: Attribute.RichText &
       Attribute.SetPluginOptions<{
         i18n: {
           localized: true;
         };
       }>;
+    date: Attribute.Date &
+      Attribute.Required &
+      Attribute.SetPluginOptions<{
+        i18n: {
+          localized: false;
+        };
+      }>;
     country: Attribute.Relation<
-      'api::articles.articles',
+      'api::article.article',
       'manyToOne',
-      'api::country.country'
+      'api::countrie.countrie'
     >;
-    covers: Attribute.Media &
-      Attribute.SetPluginOptions<{
-        i18n: {
-          localized: true;
-        };
-      }>;
     article_type: Attribute.Relation<
-      'api::articles.articles',
-      'manyToOne',
-      'api::type.type'
-    >;
-    createdAt: Attribute.DateTime;
-    updatedAt: Attribute.DateTime;
-    publishedAt: Attribute.DateTime;
-    createdBy: Attribute.Relation<
-      'api::articles.articles',
+      'api::article.article',
       'oneToOne',
-      'admin::user'
-    > &
-      Attribute.Private;
-    updatedBy: Attribute.Relation<
-      'api::articles.articles',
-      'oneToOne',
-      'admin::user'
-    > &
-      Attribute.Private;
-    localizations: Attribute.Relation<
-      'api::articles.articles',
-      'oneToMany',
-      'api::articles.articles'
+      'api::article-type.article-type'
     >;
-    locale: Attribute.String;
-  };
-}
-
-export interface ApiContinentContinent extends Schema.CollectionType {
-  collectionName: 'continents';
-  info: {
-    singularName: 'continent';
-    pluralName: 'continents';
-    displayName: 'Continent';
-  };
-  options: {
-    draftAndPublish: true;
-  };
-  pluginOptions: {
-    i18n: {
-      localized: true;
-    };
-  };
-  attributes: {
-    name: Attribute.String &
-      Attribute.Required &
-      Attribute.Unique &
+    imageList: Attribute.Media &
       Attribute.SetPluginOptions<{
         i18n: {
-          localized: true;
+          localized: false;
         };
       }>;
-    countries: Attribute.Relation<
-      'api::continent.continent',
-      'oneToMany',
-      'api::country.country'
-    >;
-    createdAt: Attribute.DateTime;
-    updatedAt: Attribute.DateTime;
-    publishedAt: Attribute.DateTime;
-    createdBy: Attribute.Relation<
-      'api::continent.continent',
-      'oneToOne',
-      'admin::user'
-    > &
-      Attribute.Private;
-    updatedBy: Attribute.Relation<
-      'api::continent.continent',
-      'oneToOne',
-      'admin::user'
-    > &
-      Attribute.Private;
-    localizations: Attribute.Relation<
-      'api::continent.continent',
-      'oneToMany',
-      'api::continent.continent'
-    >;
-    locale: Attribute.String;
-  };
-}
-
-export interface ApiCountryCountry extends Schema.CollectionType {
-  collectionName: 'countries';
-  info: {
-    singularName: 'country';
-    pluralName: 'countries';
-    displayName: 'Country';
-    description: '';
-  };
-  options: {
-    draftAndPublish: true;
-  };
-  pluginOptions: {
-    i18n: {
-      localized: true;
-    };
-  };
-  attributes: {
-    name: Attribute.String &
+    top: Attribute.Boolean &
       Attribute.Required &
-      Attribute.Unique &
       Attribute.SetPluginOptions<{
         i18n: {
-          localized: true;
+          localized: false;
         };
-      }>;
-    continent: Attribute.Relation<
-      'api::country.country',
-      'manyToOne',
-      'api::continent.continent'
-    >;
-    articles: Attribute.Relation<
-      'api::country.country',
-      'oneToMany',
-      'api::articles.articles'
-    >;
+      }> &
+      Attribute.DefaultTo<false>;
     createdAt: Attribute.DateTime;
     updatedAt: Attribute.DateTime;
     publishedAt: Attribute.DateTime;
     createdBy: Attribute.Relation<
-      'api::country.country',
+      'api::article.article',
       'oneToOne',
       'admin::user'
     > &
       Attribute.Private;
     updatedBy: Attribute.Relation<
-      'api::country.country',
+      'api::article.article',
       'oneToOne',
       'admin::user'
     > &
       Attribute.Private;
     localizations: Attribute.Relation<
-      'api::country.country',
+      'api::article.article',
       'oneToMany',
-      'api::country.country'
+      'api::article.article'
     >;
     locale: Attribute.String;
   };
 }
 
-export interface ApiTypeType extends Schema.CollectionType {
-  collectionName: 'types';
+export interface ApiArticleListPageSloganArticleListPageSlogan
+  extends Schema.CollectionType {
+  collectionName: 'article_list_page_slogans';
   info: {
-    singularName: 'type';
-    pluralName: 'types';
-    displayName: 'article_type';
-    description: '';
-  };
-  options: {
-    draftAndPublish: true;
-  };
-  attributes: {
-    article_type: Attribute.String & Attribute.Required & Attribute.Unique;
-    articles: Attribute.Relation<
-      'api::type.type',
-      'oneToMany',
-      'api::articles.articles'
-    >;
-    createdAt: Attribute.DateTime;
-    updatedAt: Attribute.DateTime;
-    publishedAt: Attribute.DateTime;
-    createdBy: Attribute.Relation<'api::type.type', 'oneToOne', 'admin::user'> &
-      Attribute.Private;
-    updatedBy: Attribute.Relation<'api::type.type', 'oneToOne', 'admin::user'> &
-      Attribute.Private;
-  };
-}
-
-export interface ApiUniversalquotesUniversalquotes extends Schema.SingleType {
-  collectionName: 'universal_quotes';
-  info: {
-    singularName: 'universalquotes';
-    pluralName: 'universal-quotes';
-    displayName: 'universal_quotes';
-    description: '';
+    singularName: 'article-list-page-slogan';
+    pluralName: 'article-list-page-slogans';
+    displayName: 'article list page slogan';
   };
   options: {
     draftAndPublish: true;
@@ -911,22 +870,19 @@ export interface ApiUniversalquotesUniversalquotes extends Schema.SingleType {
     };
   };
   attributes: {
-    sentence: Attribute.Text &
-      Attribute.Required &
+    slogan: Attribute.Text &
       Attribute.SetPluginOptions<{
         i18n: {
           localized: true;
         };
       }>;
     date: Attribute.Date &
-      Attribute.Required &
       Attribute.SetPluginOptions<{
         i18n: {
           localized: true;
         };
       }>;
     country: Attribute.String &
-      Attribute.Required &
       Attribute.SetPluginOptions<{
         i18n: {
           localized: true;
@@ -942,21 +898,212 @@ export interface ApiUniversalquotesUniversalquotes extends Schema.SingleType {
     updatedAt: Attribute.DateTime;
     publishedAt: Attribute.DateTime;
     createdBy: Attribute.Relation<
-      'api::universalquotes.universalquotes',
+      'api::article-list-page-slogan.article-list-page-slogan',
       'oneToOne',
       'admin::user'
     > &
       Attribute.Private;
     updatedBy: Attribute.Relation<
-      'api::universalquotes.universalquotes',
+      'api::article-list-page-slogan.article-list-page-slogan',
       'oneToOne',
       'admin::user'
     > &
       Attribute.Private;
     localizations: Attribute.Relation<
-      'api::universalquotes.universalquotes',
+      'api::article-list-page-slogan.article-list-page-slogan',
       'oneToMany',
-      'api::universalquotes.universalquotes'
+      'api::article-list-page-slogan.article-list-page-slogan'
+    >;
+    locale: Attribute.String;
+  };
+}
+
+export interface ApiArticleTypeArticleType extends Schema.CollectionType {
+  collectionName: 'article_types';
+  info: {
+    singularName: 'article-type';
+    pluralName: 'article-types';
+    displayName: 'article type';
+  };
+  options: {
+    draftAndPublish: true;
+  };
+  attributes: {
+    name: Attribute.String;
+    createdAt: Attribute.DateTime;
+    updatedAt: Attribute.DateTime;
+    publishedAt: Attribute.DateTime;
+    createdBy: Attribute.Relation<
+      'api::article-type.article-type',
+      'oneToOne',
+      'admin::user'
+    > &
+      Attribute.Private;
+    updatedBy: Attribute.Relation<
+      'api::article-type.article-type',
+      'oneToOne',
+      'admin::user'
+    > &
+      Attribute.Private;
+  };
+}
+
+export interface ApiContinentContinent extends Schema.CollectionType {
+  collectionName: 'continents';
+  info: {
+    singularName: 'continent';
+    pluralName: 'continents';
+    displayName: 'continents';
+    description: '';
+  };
+  options: {
+    draftAndPublish: true;
+  };
+  pluginOptions: {
+    i18n: {
+      localized: true;
+    };
+  };
+  attributes: {
+    continentName: Attribute.String &
+      Attribute.Unique &
+      Attribute.SetPluginOptions<{
+        i18n: {
+          localized: true;
+        };
+      }>;
+    countries: Attribute.Relation<
+      'api::continent.continent',
+      'oneToMany',
+      'api::countrie.countrie'
+    >;
+    createdAt: Attribute.DateTime;
+    updatedAt: Attribute.DateTime;
+    publishedAt: Attribute.DateTime;
+    createdBy: Attribute.Relation<
+      'api::continent.continent',
+      'oneToOne',
+      'admin::user'
+    > &
+      Attribute.Private;
+    updatedBy: Attribute.Relation<
+      'api::continent.continent',
+      'oneToOne',
+      'admin::user'
+    > &
+      Attribute.Private;
+    localizations: Attribute.Relation<
+      'api::continent.continent',
+      'oneToMany',
+      'api::continent.continent'
+    >;
+    locale: Attribute.String;
+  };
+}
+
+export interface ApiCountrieCountrie extends Schema.CollectionType {
+  collectionName: 'countries';
+  info: {
+    singularName: 'countrie';
+    pluralName: 'countries';
+    displayName: 'countries';
+  };
+  options: {
+    draftAndPublish: true;
+  };
+  pluginOptions: {
+    i18n: {
+      localized: true;
+    };
+  };
+  attributes: {
+    countryName: Attribute.String &
+      Attribute.Unique &
+      Attribute.SetPluginOptions<{
+        i18n: {
+          localized: true;
+        };
+      }>;
+    continent: Attribute.Relation<
+      'api::countrie.countrie',
+      'manyToOne',
+      'api::continent.continent'
+    >;
+    articles: Attribute.Relation<
+      'api::countrie.countrie',
+      'oneToMany',
+      'api::article.article'
+    >;
+    createdAt: Attribute.DateTime;
+    updatedAt: Attribute.DateTime;
+    publishedAt: Attribute.DateTime;
+    createdBy: Attribute.Relation<
+      'api::countrie.countrie',
+      'oneToOne',
+      'admin::user'
+    > &
+      Attribute.Private;
+    updatedBy: Attribute.Relation<
+      'api::countrie.countrie',
+      'oneToOne',
+      'admin::user'
+    > &
+      Attribute.Private;
+    localizations: Attribute.Relation<
+      'api::countrie.countrie',
+      'oneToMany',
+      'api::countrie.countrie'
+    >;
+    locale: Attribute.String;
+  };
+}
+
+export interface ApiHomeHome extends Schema.SingleType {
+  collectionName: 'homes';
+  info: {
+    singularName: 'home';
+    pluralName: 'homes';
+    displayName: 'home';
+    description: '';
+  };
+  options: {
+    draftAndPublish: true;
+  };
+  pluginOptions: {
+    i18n: {
+      localized: true;
+    };
+  };
+  attributes: {
+    slogan: Attribute.String &
+      Attribute.SetPluginOptions<{
+        i18n: {
+          localized: true;
+        };
+      }>;
+    subSlogan: Attribute.String &
+      Attribute.SetPluginOptions<{
+        i18n: {
+          localized: true;
+        };
+      }>;
+    linkInfo: Attribute.Component<'link-info.link-info', true> &
+      Attribute.SetPluginOptions<{
+        i18n: {
+          localized: true;
+        };
+      }>;
+    createdAt: Attribute.DateTime;
+    updatedAt: Attribute.DateTime;
+    publishedAt: Attribute.DateTime;
+    createdBy: Attribute.Relation<'api::home.home', 'oneToOne', 'admin::user'> &
+      Attribute.Private;
+    updatedBy: Attribute.Relation<'api::home.home', 'oneToOne', 'admin::user'> &
+      Attribute.Private;
+    localizations: Attribute.Relation<
+      'api::home.home',
+      'oneToMany',
+      'api::home.home'
     >;
     locale: Attribute.String;
   };
@@ -974,15 +1121,18 @@ declare module '@strapi/types' {
       'admin::transfer-token-permission': AdminTransferTokenPermission;
       'plugin::upload.file': PluginUploadFile;
       'plugin::upload.folder': PluginUploadFolder;
+      'plugin::content-releases.release': PluginContentReleasesRelease;
+      'plugin::content-releases.release-action': PluginContentReleasesReleaseAction;
       'plugin::users-permissions.permission': PluginUsersPermissionsPermission;
       'plugin::users-permissions.role': PluginUsersPermissionsRole;
       'plugin::users-permissions.user': PluginUsersPermissionsUser;
       'plugin::i18n.locale': PluginI18NLocale;
-      'api::articles.articles': ApiArticlesArticles;
+      'api::article.article': ApiArticleArticle;
+      'api::article-list-page-slogan.article-list-page-slogan': ApiArticleListPageSloganArticleListPageSlogan;
+      'api::article-type.article-type': ApiArticleTypeArticleType;
       'api::continent.continent': ApiContinentContinent;
-      'api::country.country': ApiCountryCountry;
-      'api::type.type': ApiTypeType;
-      'api::universalquotes.universalquotes': ApiUniversalquotesUniversalquotes;
+      'api::countrie.countrie': ApiCountrieCountrie;
+      'api::home.home': ApiHomeHome;
     }
   }
 }

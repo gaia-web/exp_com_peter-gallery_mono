@@ -67,6 +67,7 @@ $RECYCLE.BIN/
 
 .tmp
 *.log
+*.sql
 *.sqlite
 *.sqlite3
 
@@ -104,11 +105,10 @@ coverage
 # Strapi
 ############################
 
-# .env
-/data.db
+.env
 license.txt
 exports
-*.cache
+.strapi
 dist
 build
 .strapi-updater.json
